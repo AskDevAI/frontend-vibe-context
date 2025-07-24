@@ -3,8 +3,37 @@
 import { Button, Card, CardBody } from '@heroui/react';
 import { Code, Zap, Target, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { createSupabaseClient } from '@/lib/supabase';
+import type { User } from '@supabase/supabase-js';
 
 export default function HeroSection() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const supabase = createSupabaseClient();
+    
+    // Get initial session
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setLoading(false);
+    };
+
+    getSession();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Background decoration */}
@@ -36,16 +65,31 @@ export default function HeroSection() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button 
-              as={Link} 
-              href="/auth/signup" 
-              color="primary" 
-              size="lg" 
-              className="font-semibold"
-            >
-              Start Free Trial
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
+            {loading ? (
+              <div className="w-40 h-12 bg-gray-200 animate-pulse rounded"></div>
+            ) : user ? (
+              <Button 
+                as={Link} 
+                href="/dashboard" 
+                color="primary" 
+                size="lg" 
+                className="font-semibold"
+              >
+                Go to Dashboard
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            ) : (
+              <Button 
+                as={Link} 
+                href="/auth/signup" 
+                color="primary" 
+                size="lg" 
+                className="font-semibold"
+              >
+                Start for Free
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            )}
             <Button 
               as={Link} 
               href="/docs" 

@@ -11,10 +11,14 @@ import {
   Button,
   Link,
 } from '@heroui/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createSupabaseClient } from '@/lib/supabase';
+import type { User } from '@supabase/supabase-js';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const menuItems = [
     'Documentation',
@@ -22,6 +26,29 @@ export default function Navbar() {
     'About',
     'Contact',
   ];
+
+  useEffect(() => {
+    const supabase = createSupabaseClient();
+    
+    // Get initial session
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      setLoading(false);
+    };
+
+    getSession();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   return (
     <HeroNavbar onMenuOpenChange={setIsMenuOpen} className="bg-white/95 backdrop-blur-md border-b border-divider">
@@ -56,21 +83,43 @@ export default function Navbar() {
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="/auth/login" color="foreground">
-            Login
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Button 
-            as={Link} 
-            color="primary" 
-            href="/auth/signup" 
-            variant="flat"
-          >
-            Sign Up
-          </Button>
-        </NavbarItem>
+        {loading ? (
+          // Show loading state
+          <NavbarItem>
+            <div className="w-20 h-8 bg-gray-200 animate-pulse rounded"></div>
+          </NavbarItem>
+        ) : user ? (
+          // Show Dashboard button when logged in
+          <NavbarItem>
+            <Button 
+              as={Link} 
+              color="primary" 
+              href="/dashboard" 
+              variant="flat"
+            >
+              Dashboard
+            </Button>
+          </NavbarItem>
+        ) : (
+          // Show Login/Signup when not logged in
+          <>
+            <NavbarItem className="hidden lg:flex">
+              <Link href="/auth/login" color="foreground">
+                Login
+              </Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Button 
+                as={Link} 
+                color="primary" 
+                href="/auth/signup" 
+                variant="flat"
+              >
+                Sign Up
+              </Button>
+            </NavbarItem>
+          </>
+        )}
       </NavbarContent>
 
       <NavbarMenu>
@@ -88,16 +137,26 @@ export default function Navbar() {
             </Link>
           </NavbarMenuItem>
         ))}
-        <NavbarMenuItem>
-          <Link color="foreground" href="/auth/login" size="lg">
-            Login
-          </Link>
-        </NavbarMenuItem>
-        <NavbarMenuItem>
-          <Link color="primary" href="/auth/signup" size="lg">
-            Sign Up
-          </Link>
-        </NavbarMenuItem>
+        {user ? (
+          <NavbarMenuItem>
+            <Link color="primary" href="/dashboard" size="lg">
+              Dashboard
+            </Link>
+          </NavbarMenuItem>
+        ) : (
+          <>
+            <NavbarMenuItem>
+              <Link color="foreground" href="/auth/login" size="lg">
+                Login
+              </Link>
+            </NavbarMenuItem>
+            <NavbarMenuItem>
+              <Link color="primary" href="/auth/signup" size="lg">
+                Sign Up
+              </Link>
+            </NavbarMenuItem>
+          </>
+        )}
       </NavbarMenu>
     </HeroNavbar>
   );
