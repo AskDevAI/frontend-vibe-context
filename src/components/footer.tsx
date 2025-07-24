@@ -110,7 +110,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <Link href="/" className="text-2xl font-bold text-primary">
-              VibeContext
+              AskBudi
             </Link>
             <p className="text-gray-400 text-sm mt-2">
               Latest documentation for modern AI development
@@ -119,7 +119,7 @@ export default function Footer() {
 
           <div className="flex space-x-6">
             <Link
-              href="https://twitter.com/vibecontext"
+              href="https://twitter.com/askbudi"
               className="text-gray-400 hover:text-white transition-colors"
             >
               <span className="sr-only">Twitter</span>
@@ -129,7 +129,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="https://github.com/vibecontext"
+              href="https://github.com/askbudi"
               className="text-gray-400 hover:text-white transition-colors"
             >
               <span className="sr-only">GitHub</span>
@@ -143,7 +143,7 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="https://linkedin.com/company/vibecontext"
+              href="https://linkedin.com/company/askbudi"
               className="text-gray-400 hover:text-white transition-colors"
             >
               <span className="sr-only">LinkedIn</span>
@@ -160,7 +160,7 @@ export default function Footer() {
 
         <div className="mt-8 pt-8 border-t border-gray-800 text-center">
           <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} Juno AI Company. All rights reserved.
+            © {new Date().getFullYear()} Juno AI INC. All rights reserved.
           </p>
         </div>
       </div>

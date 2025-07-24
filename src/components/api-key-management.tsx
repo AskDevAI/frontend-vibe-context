@@ -32,7 +32,10 @@ export default function ApiKeyManagement() {
   const [keyName, setKeyName] = useState('');
   const [showNewKey, setShowNewKey] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [usageStats, setUsageStats] = useState<any>(null);
+  const [usageStats, setUsageStats] = useState<{
+    monthly_quota?: number;
+    requests_this_month?: number;
+  } | null>(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: isNewKeyModalOpen, onOpen: onNewKeyModalOpen, onClose: onNewKeyModalClose } = useDisclosure();
@@ -116,7 +119,7 @@ export default function ApiKeyManagement() {
         <div>
           <h2 className="text-2xl font-bold text-gray-900">API Keys</h2>
           <p className="text-gray-600 mt-1">
-            Manage your API keys to access the VibeContext API
+            Manage your API keys to access the AskBudi API
           </p>
         </div>
         <Button
@@ -193,7 +196,7 @@ export default function ApiKeyManagement() {
             <div className="text-center py-8 text-gray-500">
               <Key className="w-12 h-12 mx-auto mb-4 text-gray-300" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">No API keys yet</h3>
-              <p>Create your first API key to start using the VibeContext API</p>
+              <p>Create your first API key to start using the AskBudi API</p>
               <Button
                 color="primary"
                 onPress={onOpen}

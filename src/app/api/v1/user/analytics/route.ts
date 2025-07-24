@@ -1,15 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { requireAuth, successResponse, errorResponse, supabaseAdmin } from '@/lib/server-auth';
 
 // GET /api/v1/user/analytics - Get detailed user analytics
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const user = await requireAuth();
     
     // Get current 30-day rolling window
     const now = new Date();
     const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
-    const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
 
     // Get user profile for quota information
     const { data: profile } = await supabaseAdmin
@@ -81,7 +80,7 @@ export async function GET(request: NextRequest) {
     const libraryCount: Record<string, number> = {};
     libraryUsageData?.forEach(entry => {
       if (entry.request_data && typeof entry.request_data === 'object') {
-        const requestData = entry.request_data as any;
+        const requestData = entry.request_data as Record<string, unknown>;
         
         // Try to extract library name from various fields
         let libraryName = null;

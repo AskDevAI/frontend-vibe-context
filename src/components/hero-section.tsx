@@ -51,7 +51,7 @@ export default function HeroSection() {
           
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              VibeContext
+              AskBudi
             </span>
             <br />
             <span className="text-4xl md:text-6xl">
@@ -150,7 +150,7 @@ export default function HeroSection() {
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                   <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span className="ml-2 text-gray-400 text-sm">VibeContext MCP Server</span>
+                  <span className="ml-2 text-gray-400 text-sm">AskBudi MCP Server</span>
                 </div>
                 <code className="text-sm">
                   <div className="text-green-400"># Search for library documentation</div>

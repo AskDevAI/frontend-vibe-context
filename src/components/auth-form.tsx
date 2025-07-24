@@ -75,7 +75,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
           <p className="mt-2 text-gray-600">
             {mode === 'login' 
               ? 'Welcome back! Please sign in to continue.' 
-              : 'Join thousands of developers using VibeContext.'
+              : 'Join thousands of developers using AskBudi.'
             }
           </p>
         </div>

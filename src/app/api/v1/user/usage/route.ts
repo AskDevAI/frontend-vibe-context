@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { requireAuth, successResponse, errorResponse, supabaseAdmin } from '@/lib/server-auth';
 
 // GET /api/v1/user/usage - Get user usage statistics
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const user = await requireAuth();
     
@@ -42,7 +42,6 @@ export async function GET(request: NextRequest) {
       console.error('Error fetching token usage:', tokenError);
     }
 
-    const tokensUsed = tokenData?.reduce((sum, entry) => sum + (entry.tokens_used || 0), 0) || 0;
 
     // Get user profile for quota information
     const { data: profile, error: profileError } = await supabaseAdmin

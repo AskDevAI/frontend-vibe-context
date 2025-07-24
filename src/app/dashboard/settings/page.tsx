@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import DashboardLayout from '@/components/dashboard-layout';
 import {
   Card,
@@ -34,7 +34,10 @@ import { createSupabaseClient } from '@/lib/supabase';
 
 export default function SettingsPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [usageStats, setUsageStats] = useState<any>(null);
+  const [usageStats, setUsageStats] = useState<{
+    monthly_quota?: number;
+    requests_this_month?: number;
+  } | null>(null);
   const [userEmail, setUserEmail] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -45,11 +48,7 @@ export default function SettingsPage() {
 
   const supabase = createSupabaseClient();
 
-  useEffect(() => {
-    loadProfileData();
-  }, []);
-
-  const loadProfileData = async () => {
+  const loadProfileData = useCallback(async () => {
     try {
       setLoading(true);
       
@@ -72,7 +71,11 @@ export default function SettingsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase.auth]);
+
+  useEffect(() => {
+    loadProfileData();
+  }, [loadProfileData]);
 
   const handleSaveProfile = async () => {
     if (!profile) return;
@@ -396,7 +399,7 @@ export default function SettingsPage() {
                         redirectTo: `${window.location.origin}/auth/reset-password`,
                       });
                       setSuccess('Password reset email sent! Check your inbox.');
-                    } catch (error) {
+                    } catch (_error) {
                       setError('Failed to send password reset email');
                     }
                   }}

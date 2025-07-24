@@ -13,23 +13,23 @@ const installationSteps = [
     code: 'node --version\n# Should return v18.0.0 or higher'
   },
   {
-    title: 'Install VibeContext MCP Server',
+    title: 'Install AskBudi MCP Server',
     description: 'Install the MCP server globally using npm',
-    code: 'npm install -g @vibecontext/mcp-server'
+    code: 'npm install -g @askbudi/mcp-server'
   },
   {
     title: 'Set Your API Key',
-    description: 'Configure your VibeContext API key as an environment variable',
-    code: 'export VIBECONTEXT_API_KEY="your-api-key-here"\n# On Windows:\n# set VIBECONTEXT_API_KEY=your-api-key-here'
+    description: 'Configure your AskBudi API key as an environment variable',
+    code: 'export ASKBUDI_API_KEY="your-api-key-here"\n# On Windows:\n# set ASKBUDI_API_KEY=your-api-key-here'
   }
 ];
 
 const claudeCodeConfig = `{
   "mcpServers": {
-    "vibecontext": {
-      "command": "vibecontext-mcp-server",
+    "askbudi": {
+      "command": "askbudi-mcp-server",
       "env": {
-        "VIBECONTEXT_API_KEY": "your-api-key-here"
+        "ASKBUDI_API_KEY": "your-api-key-here"
       }
     }
   }
@@ -38,11 +38,11 @@ const claudeCodeConfig = `{
 const cursorConfig = `{
   "mcp": {
     "servers": {
-      "vibecontext": {
-        "command": "vibecontext-mcp-server",
+      "askbudi": {
+        "command": "askbudi-mcp-server",
         "args": [],
         "env": {
-          "VIBECONTEXT_API_KEY": "your-api-key-here"
+          "ASKBUDI_API_KEY": "your-api-key-here"
         }
       }
     }
@@ -52,10 +52,10 @@ const cursorConfig = `{
 const windsurfConfig = `# Add to your Windsurf settings.json
 {
   "mcp.servers": {
-    "vibecontext": {
-      "command": "vibecontext-mcp-server",
+    "askbudi": {
+      "command": "askbudi-mcp-server",
       "env": {
-        "VIBECONTEXT_API_KEY": "your-api-key-here"
+        "ASKBUDI_API_KEY": "your-api-key-here"
       }
     }
   }
@@ -65,7 +65,7 @@ const usageExamples = [
   {
     tool: 'Claude Code',
     example: 'How do I set up authentication with NextAuth.js?',
-    result: 'VibeContext will automatically fetch the latest NextAuth.js documentation and provide you with current authentication setup examples.'
+    result: 'AskBudi will automatically fetch the latest NextAuth.js documentation and provide you with current authentication setup examples.'
   },
   {
     tool: 'Cursor',
@@ -101,7 +101,7 @@ export default function McpServerDocsPage() {
           <div className="mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">MCP Server Setup</h1>
             <p className="text-xl text-gray-600">
-              Connect VibeContext to Claude Code, Cursor, Windsurf, and other AI tools using the Model Context Protocol (MCP).
+              Connect AskBudi to Claude Code, Cursor, Windsurf, and other AI tools using the Model Context Protocol (MCP).
             </p>
           </div>
 
@@ -113,7 +113,7 @@ export default function McpServerDocsPage() {
             <CardBody>
               <p className="text-gray-600 mb-4">
                 The Model Context Protocol (MCP) is an open standard that allows AI tools to securely access external data sources and tools. 
-                By installing the VibeContext MCP server, your AI assistant can automatically fetch the latest documentation for any library 
+                By installing the AskBudi MCP server, your AI assistant can automatically fetch the latest documentation for any library 
                 when you ask questions about it.
               </p>
               <div className="flex items-center space-x-2">
@@ -192,7 +192,7 @@ export default function McpServerDocsPage() {
                 }>
                   <div className="space-y-4">
                     <p className="text-gray-600">
-                      Configure Cursor to use the VibeContext MCP server:
+                      Configure Cursor to use the AskBudi MCP server:
                     </p>
                     <div className="bg-gray-900 text-white p-4 rounded-lg">
                       <pre className="text-sm overflow-x-auto"><code>{cursorConfig}</code></pre>
@@ -213,7 +213,7 @@ export default function McpServerDocsPage() {
                 }>
                   <div className="space-y-4">
                     <p className="text-gray-600">
-                      Add VibeContext to your Windsurf configuration:
+                      Add AskBudi to your Windsurf configuration:
                     </p>
                     <div className="bg-gray-900 text-white p-4 rounded-lg">
                       <pre className="text-sm overflow-x-auto"><code>{windsurfConfig}</code></pre>
@@ -267,19 +267,19 @@ export default function McpServerDocsPage() {
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Server not found</h3>
                   <p className="text-gray-600 mb-2">Make sure the MCP server is installed globally:</p>
-                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">npm list -g @vibecontext/mcp-server</code>
+                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">npm list -g @askbudi/mcp-server</code>
                 </div>
                 
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">API key errors</h3>
                   <p className="text-gray-600 mb-2">Verify your API key is set correctly:</p>
-                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">echo $VIBECONTEXT_API_KEY</code>
+                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">echo $ASKBUDI_API_KEY</code>
                 </div>
                 
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Permission issues</h3>
                   <p className="text-gray-600">On macOS/Linux, you might need to use sudo for global installation:</p>
-                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">sudo npm install -g @vibecontext/mcp-server</code>
+                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">sudo npm install -g @askbudi/mcp-server</code>
                 </div>
               </div>
             </CardBody>
@@ -290,7 +290,7 @@ export default function McpServerDocsPage() {
             <CardBody className="p-8 text-center">
               <h3 className="text-xl font-semibold text-green-900 mb-4">Ready to Go!</h3>
               <p className="text-green-800 mb-6">
-                Once configured, your AI tool will automatically use VibeContext to fetch the latest 
+                Once configured, your AI tool will automatically use AskBudi to fetch the latest 
                 documentation when you ask about libraries and frameworks.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -304,7 +304,7 @@ export default function McpServerDocsPage() {
                 <Button 
                   variant="bordered"
                   as="a"
-                  href="https://github.com/vibecontext/mcp-server"
+                  href="https://github.com/askbudi/mcp-server"
                   target="_blank"
                   endContent={<ExternalLink className="w-4 h-4" />}
                 >

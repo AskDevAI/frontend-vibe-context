@@ -9,7 +9,7 @@ const plans = [
   {
     name: 'Free',
     price: '$0',
-    description: 'Perfect for trying out VibeContext',
+    description: 'Perfect for trying out AskBudi',
     features: [
       '100 API requests/month',
       'Access to all libraries',
@@ -276,7 +276,7 @@ export default function PricingPage() {
               Ready to get started?
             </h2>
             <p className="text-xl text-gray-600 mb-8">
-              Join thousands of developers already using VibeContext
+              Join thousands of developers already using AskBudi
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button

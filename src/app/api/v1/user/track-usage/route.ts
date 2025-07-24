@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { requireAuth, successResponse, errorResponse } from '@/lib/server-auth';
 
 // POST /api/v1/user/track-usage - Track API usage with Autumn
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       value = 1,
       event_name,
       properties = {},
-      idempotency_key
+      idempotency_key: _idempotencyKey
     } = body;
 
     // This endpoint is now handled by Autumn's frontend hooks
@@ -98,7 +98,7 @@ export async function GET(request: NextRequest) {
           feature_id: 'api_requests',
           fallback: true,
         });
-      } catch (fallbackError) {
+      } catch (_fallbackError) {
         return errorResponse('Failed to check entitlement', 500);
       }
     }

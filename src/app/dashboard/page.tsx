@@ -59,7 +59,7 @@ export default function DashboardPage() {
       <div className="space-y-6">
         {/* Welcome Section */}
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-white">
-          <h1 className="text-3xl font-bold mb-2">Welcome to VibeContext</h1>
+          <h1 className="text-3xl font-bold mb-2">Welcome to AskBudi</h1>
           <p className="text-blue-100 mb-4">
             Get the latest documentation for any library, reduce tokens, and improve your AI&apos;s code quality.
           </p>
@@ -179,7 +179,7 @@ export default function DashboardPage() {
                 className="block p-4 border border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-md transition-all"
               >
                 <h4 className="font-medium mb-2">📚 Documentation</h4>
-                <p className="text-gray-600 text-sm">Learn how to integrate VibeContext with your AI tools</p>
+                <p className="text-gray-600 text-sm">Learn how to integrate AskBudi with your AI tools</p>
               </a>
               <a 
                 href="/docs/mcp" 

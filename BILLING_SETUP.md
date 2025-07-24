@@ -1,12 +1,12 @@
 # Billing Integration with Autumn
 
-This document explains how to set up and configure the Autumn billing integration for VibeContext.
+This document explains how to set up and configure the Autumn billing integration for AskBudi.
 
 **Status**: ✅ **FULLY IMPLEMENTED** - Autumn integration is now complete and functional using the official Next.js API handler pattern.
 
 ## Overview
 
-VibeContext uses [Autumn](https://useautumn.com) as the billing infrastructure layer between Stripe and the application. Autumn handles:
+AskBudi uses [Autumn](https://useautumn.com) as the billing infrastructure layer between Stripe and the application. Autumn handles:
 
 - Subscription management
 - Usage tracking

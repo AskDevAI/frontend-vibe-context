@@ -6,7 +6,7 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "VibeContext - Latest Documentation for LLMs",
+  title: "AskBudi - Latest Documentation for LLMs",
   description: "Get the latest documentation and code API for any library, reducing tokens and improving code quality for LLMs.",
 };
 

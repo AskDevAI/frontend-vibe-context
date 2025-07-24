@@ -7,7 +7,7 @@ import { useCustomer } from 'autumn-js/react';
 
 export default function ApiUsageExample() {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<Record<string, unknown> | null>(null);
   const { trackApiUsage, checkApiQuota } = useUsageTracker();
   const { customer } = useCustomer();
 

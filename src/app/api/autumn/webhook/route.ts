@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/server-auth';
 
+interface AutumnWebhookData {
+  customer_id?: string;
+  stripe_customer_id?: string;
+  product_id?: string;
+  plan_id?: string;
+  monthly_quota?: number;
+  [key: string]: unknown;
+}
+
 // Autumn webhook handler for billing events
 export async function POST(request: NextRequest) {
   try {
@@ -50,7 +59,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function handleSubscriptionUpdate(customerId: string, data: any) {
+async function handleSubscriptionUpdate(customerId: string, data: AutumnWebhookData) {
   try {
     // Update user profile with new subscription info
     const { plan_type, monthly_quota } = determinePlanFromData(data);
@@ -75,7 +84,7 @@ async function handleSubscriptionUpdate(customerId: string, data: any) {
   }
 }
 
-async function handleSubscriptionCancelled(customerId: string, data: any) {
+async function handleSubscriptionCancelled(customerId: string, _data: AutumnWebhookData) {
   try {
     // Downgrade to free plan
     const { error } = await supabaseAdmin
@@ -97,11 +106,10 @@ async function handleSubscriptionCancelled(customerId: string, data: any) {
   }
 }
 
-async function handlePaymentSucceeded(customerId: string, data: any) {
+async function handlePaymentSucceeded(customerId: string, _data: AutumnWebhookData) {
   try {
     // Reset usage credits or handle payment success
     const now = new Date();
-    const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
     
     // Get current profile to maintain plan type
     const { data: profile } = await supabaseAdmin
@@ -132,7 +140,7 @@ async function handlePaymentSucceeded(customerId: string, data: any) {
   }
 }
 
-async function handlePaymentFailed(customerId: string, data: any) {
+async function handlePaymentFailed(customerId: string, data: AutumnWebhookData) {
   try {
     // Handle payment failure - maybe send notification or limit access
     console.log(`Payment failed for customer ${customerId}:`, data);
@@ -144,7 +152,7 @@ async function handlePaymentFailed(customerId: string, data: any) {
   }
 }
 
-async function handleSubscriptionDeleted(customerId: string, data: any) {
+async function handleSubscriptionDeleted(customerId: string, data: AutumnWebhookData) {
   try {
     // Same as cancellation - downgrade to free
     await handleSubscriptionCancelled(customerId, data);
@@ -153,7 +161,7 @@ async function handleSubscriptionDeleted(customerId: string, data: any) {
   }
 }
 
-function determinePlanFromData(data: any): { plan_type: string; monthly_quota: number } {
+function determinePlanFromData(data: AutumnWebhookData): { plan_type: string; monthly_quota: number } {
   // Extract plan information from Autumn webhook data
   const productId = data.product_id || data.plan_id || '';
   

@@ -119,7 +119,7 @@ export default function ApiDocsPage() {
           <div className="mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">API Reference</h1>
             <p className="text-xl text-gray-600">
-              Complete reference for the VibeContext API endpoints and parameters.
+              Complete reference for the AskBudi API endpoints and parameters.
             </p>
           </div>
 
@@ -141,7 +141,7 @@ export default function ApiDocsPage() {
                   <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5" />
                   <div>
                     <p className="text-blue-800 font-medium">Base URL</p>
-                    <p className="text-blue-700">https://api.vibecontext.com</p>
+                    <p className="text-blue-700">https://api.askbudi.ai</p>
                   </div>
                 </div>
               </div>

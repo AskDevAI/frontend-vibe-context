@@ -27,7 +27,7 @@ const quickStartSteps = [
   {
     step: '2', 
     title: 'Install MCP Server',
-    description: 'Set up the VibeContext MCP server for your AI tools',
+    description: 'Set up the AskBudi MCP server for your AI tools',
     icon: Download,
     color: 'bg-green-500'
   },
@@ -72,18 +72,18 @@ const resources = [
 ];
 
 const codeExample = `# Install the MCP server
-npm install -g @vibecontext/mcp-server
+npm install -g @askbudi/mcp-server
 
 # Configure your API key
-export VIBECONTEXT_API_KEY="your-api-key-here"
+export ASKBUDI_API_KEY="your-api-key-here"
 
 # Start the MCP server
-vibecontext-mcp-server
+askbudi-mcp-server
 
 # Now ask Claude Code:
 # "How do I create a FastAPI endpoint with validation?"
 
-# VibeContext automatically provides the latest FastAPI docs!`;
+# AskBudi automatically provides the latest FastAPI docs!`;
 
 export default function DocsPage() {
   return (
@@ -98,7 +98,7 @@ export default function DocsPage() {
               Developer Documentation
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-              Everything you need to integrate VibeContext with your AI tools and get 
+              Everything you need to integrate AskBudi with your AI tools and get 
               access to the latest library documentation.
             </p>
             
@@ -222,20 +222,20 @@ export default function DocsPage() {
                 <h3 className="text-xl font-semibold text-blue-900 mb-3">Need Help?</h3>
                 <p className="text-blue-800 mb-6">
                   Can&apos;t find what you&apos;re looking for? Our team is here to help you get started 
-                  with VibeContext.
+                  with AskBudi.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button 
                     color="primary"
                     as="a"
-                    href="mailto:support@vibecontext.com"
+                    href="mailto:founders@askbudi.ai"
                   >
                     Contact Support
                   </Button>
                   <Button 
                     variant="bordered"
                     as="a" 
-                    href="https://github.com/vibecontext/examples"
+                    href="https://github.com/askbudi/examples"
                     target="_blank"
                     endContent={<ExternalLink className="w-4 h-4" />}
                   >

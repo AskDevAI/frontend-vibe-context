@@ -137,7 +137,7 @@ System health check.
   "version": "1.0.0",
   "database": "connected",
   "timestamp": "2024-01-01T12:00:00Z",
-  "service": "VibeContext Frontend API"
+  "service": "AskBudi Frontend API"
 }
 ```
 

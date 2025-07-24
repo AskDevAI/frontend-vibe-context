@@ -1,13 +1,12 @@
 'use client';
 
 import { useCustomer } from 'autumn-js/react';
-import { useEffect } from 'react';
 
 interface UsageTrackerProps {
   featureId?: string;
   eventName?: string;
   value?: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export function UsageTracker({ 
@@ -18,7 +17,7 @@ export function UsageTracker({
 }: UsageTrackerProps) {
   const { track } = useCustomer();
 
-  const trackUsage = async () => {
+  const _trackUsage = async () => {
     try {
       await track({
         featureId,
@@ -43,7 +42,7 @@ export function UsageTracker({
 export function useUsageTracker() {
   const { track, check } = useCustomer();
 
-  const trackApiUsage = async (metadata?: Record<string, any>) => {
+  const trackApiUsage = async (metadata?: Record<string, unknown>) => {
     try {
       await track({
         featureId: 'api_requests',

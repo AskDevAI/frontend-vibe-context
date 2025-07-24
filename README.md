@@ -1,6 +1,6 @@
-# VibeContext Frontend
+# AskBudi Frontend
 
-The frontend application for VibeContext - a platform that provides the latest documentation and code API for LLMs, reducing token usage and improving code quality.
+The frontend application for AskBudi - a platform that provides the latest documentation and code API for LLMs, reducing token usage and improving code quality.
 
 ## Features
 
@@ -176,7 +176,7 @@ NEXT_PUBLIC_SITE_URL=https://your-frontend-domain.com
 
 ## Integration with Backend
 
-The frontend is designed to work with the VibeContext backend API:
+The frontend is designed to work with the AskBudi backend API:
 
 - **User Management**: Supabase handles authentication, backend manages user profiles
 - **API Keys**: Backend creates and validates API keys
@@ -220,10 +220,10 @@ The frontend is designed to work with the VibeContext backend API:
 
 ## Support
 
-- **Documentation**: [VibeContext Docs](https://vibecontext.com/docs)
+- **Documentation**: [AskBudi Docs](https://askbudi.ai/docs)
 - **Issues**: Report issues on GitHub
-- **Email**: support@vibecontext.com
+- **Email**: founders@askbudi.ai
 
 ## License
 
-This project is part of the VibeContext monorepo owned by Juno AI Company.
+This project is part of the AskBudi monorepo owned by Juno AI Company.

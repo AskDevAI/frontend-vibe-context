@@ -59,7 +59,7 @@ export default function Navbar() {
         />
         <NavbarBrand>
           <Link href="/" color="foreground" className="font-bold text-xl">
-            VibeContext
+            AskBudi
           </Link>
         </NavbarBrand>
       </NavbarContent>

@@ -19,7 +19,6 @@ import {
 import {
   CreditCard,
   Crown,
-  Calendar,
   TrendingUp,
   AlertCircle,
   ExternalLink,
@@ -32,13 +31,17 @@ import { useCustomer, AttachDialog } from 'autumn-js/react';
 
 export default function BillingPage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [usageStats, setUsageStats] = useState<any>(null);
+  const [usageStats, setUsageStats] = useState<{
+    monthly_quota?: number;
+    requests_this_month?: number;
+    credits_remaining?: number;
+  } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
   const { isOpen: isUpgradeModalOpen, onOpen: onUpgradeModalOpen, onClose: onUpgradeModalClose } = useDisclosure();
   
-  const { customer, attach, track, check } = useCustomer();
+  const { customer, attach } = useCustomer();
 
   useEffect(() => {
     loadBillingData();

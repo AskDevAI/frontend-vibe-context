@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { validateApiKeyAndCheckQuota, logApiUsage, errorResponse, successResponse, hashApiKey } from '@/lib/server-auth';
 
 // GET /api/v1/libraries/search - Search for libraries

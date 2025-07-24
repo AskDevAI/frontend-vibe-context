@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { requireAuth, successResponse, errorResponse, supabaseAdmin } from '@/lib/server-auth';
 import { UserProfile } from '@/lib/server-types';
 
 // GET /api/v1/user/profile - Get user profile
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const user = await requireAuth();
     
@@ -65,7 +65,7 @@ export async function PUT(request: NextRequest) {
     
     // Validate allowed fields for user updates
     const allowedFields = ['billing_customer_id'];
-    const updateData: any = {
+    const updateData: Record<string, unknown> = {
       updated_at: new Date().toISOString(),
     };
 

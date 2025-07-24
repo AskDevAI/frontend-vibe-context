@@ -60,7 +60,7 @@ export default function DashboardLayout({ children, activeTab = 'overview' }: Da
       <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:flex lg:flex-col`}>
         <div className="flex items-center justify-between h-16 px-6 bg-blue-600 flex-shrink-0">
           <Link href="/" className="text-xl font-bold text-white">
-            VibeContext
+            AskBudi
           </Link>
           <button
             onClick={() => setSidebarOpen(false)}

@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { successResponse, errorResponse, supabaseAdmin } from '@/lib/server-auth';
+import { NextRequest } from 'next/server';
+import { successResponse, supabaseAdmin } from '@/lib/server-auth';
 
 // GET /api/v1/health - Health check endpoint
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     // Test database connection
-    const { data, error } = await supabaseAdmin
+    const { error } = await supabaseAdmin
       .from('user_profiles')
       .select('count')
       .limit(1);
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       version: '1.0.0',
       database: databaseStatus,
       timestamp: new Date().toISOString(),
-      service: 'VibeContext Frontend API',
+      service: 'AskBudi Frontend API',
     };
 
     if (error) {
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
       version: '1.0.0',
       database: 'error',
       timestamp: new Date().toISOString(),
-      service: 'VibeContext Frontend API',
+      service: 'AskBudi Frontend API',
       error: error instanceof Error ? error.message : 'Unknown error',
     };
 
