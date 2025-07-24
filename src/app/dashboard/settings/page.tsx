@@ -37,6 +37,7 @@ export default function SettingsPage() {
   const [usageStats, setUsageStats] = useState<{
     monthly_quota?: number;
     requests_this_month?: number;
+    quota_remaining?: number;
   } | null>(null);
   const [userEmail, setUserEmail] = useState<string>('');
   const [loading, setLoading] = useState(true);
@@ -294,14 +295,14 @@ export default function SettingsPage() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600">Remaining</span>
-                    <span className="font-medium">{usageStats?.credits_remaining?.toLocaleString() || '0'}</span>
+                    <span className="font-medium">{usageStats?.quota_remaining?.toLocaleString() || '0'}</span>
                   </div>
                   {usageStats && (
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
                         className="bg-primary-500 h-2 rounded-full"
                         style={{
-                          width: `${Math.min((usageStats.requests_this_month / (usageStats.monthly_quota || 1)) * 100, 100)}%`
+                          width: `${Math.min(((usageStats.requests_this_month || 0) / (usageStats.monthly_quota || 1)) * 100, 100)}%`
                         }}
                       />
                     </div>

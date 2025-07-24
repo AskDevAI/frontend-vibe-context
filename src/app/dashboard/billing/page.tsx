@@ -68,17 +68,16 @@ export default function BillingPage() {
 
   const handleUpgrade = async (productId: string) => {
     try {
-      await attach({
+      const result = await attach({
         productId,
-        dialog: AttachDialog,
-        onSuccess: () => {
-          onUpgradeModalClose();
-          loadBillingData();
-        },
-        onError: (error: Error) => {
-          setError(error.message);
-        }
+        dialog: AttachDialog
       });
+      
+      // Handle success
+      if (result) {
+        onUpgradeModalClose();
+        loadBillingData();
+      }
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to upgrade plan';
       setError(errorMessage);
@@ -88,7 +87,7 @@ export default function BillingPage() {
   const handleManageBilling = async () => {
     try {
       // Use Autumn's billing portal or redirect to a custom billing management page
-      const billingPortalUrl = customer?.billingPortalUrl;
+      const billingPortalUrl = (customer as { billingPortalUrl?: string })?.billingPortalUrl;
       
       if (billingPortalUrl) {
         window.open(billingPortalUrl, '_blank');
@@ -278,7 +277,7 @@ export default function BillingPage() {
                     <div
                       className="bg-primary-500 h-3 rounded-full"
                       style={{
-                        width: `${Math.min((usageStats.requests_this_month / (usageStats.monthly_quota || 1)) * 100, 100)}%`
+                        width: `${Math.min(((usageStats.requests_this_month || 0) / (usageStats.monthly_quota || 1)) * 100, 100)}%`
                       }}
                     />
                   </div>
@@ -318,7 +317,7 @@ export default function BillingPage() {
                 
                 <div className="text-center">
                   <div className="text-2xl font-bold text-gray-900">
-                    {usageStats ? Math.round((usageStats.requests_this_month / (usageStats.monthly_quota || 1)) * 100) : 0}%
+                    {usageStats ? Math.round(((usageStats.requests_this_month || 0) / (usageStats.monthly_quota || 1)) * 100) : 0}%
                   </div>
                   <div className="text-sm text-gray-600">Used</div>
                 </div>

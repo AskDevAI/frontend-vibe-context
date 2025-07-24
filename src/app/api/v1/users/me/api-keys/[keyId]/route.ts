@@ -4,11 +4,11 @@ import { requireAuth, successResponse, errorResponse, supabaseAdmin } from '@/li
 // DELETE /api/v1/users/me/api-keys/[keyId] - Delete an API key
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { keyId: string } }
+  { params }: { params: Promise<{ keyId: string }> }
 ) {
   try {
     const user = await requireAuth();
-    const { keyId } = params;
+    const { keyId } = await params;
 
     if (!keyId) {
       return errorResponse('API key ID is required', 400);
@@ -51,11 +51,11 @@ export async function DELETE(
 // PUT /api/v1/users/me/api-keys/[keyId] - Update an API key
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { keyId: string } }
+  { params }: { params: Promise<{ keyId: string }> }
 ) {
   try {
     const user = await requireAuth();
-    const { keyId } = params;
+    const { keyId } = await params;
 
     if (!keyId) {
       return errorResponse('API key ID is required', 400);

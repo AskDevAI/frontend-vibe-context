@@ -165,9 +165,9 @@ function determinePlanFromData(data: AutumnWebhookData): { plan_type: string; mo
   // Extract plan information from Autumn webhook data
   const productId = data.product_id || data.plan_id || '';
   
-  if (productId.includes('enterprise') || data.monthly_quota >= 100000) {
+  if (productId.includes('enterprise') || (data.monthly_quota && data.monthly_quota >= 100000)) {
     return { plan_type: 'enterprise', monthly_quota: 100000 };
-  } else if (productId.includes('pro') || data.monthly_quota >= 10000) {
+  } else if (productId.includes('pro') || (data.monthly_quota && data.monthly_quota >= 10000)) {
     return { plan_type: 'pro', monthly_quota: 10000 };
   } else {
     return { plan_type: 'free', monthly_quota: 100 };

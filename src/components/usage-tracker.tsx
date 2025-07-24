@@ -23,7 +23,7 @@ export function UsageTracker({
         featureId,
         eventName,
         value,
-        metadata: {
+        entityData: {
           ...metadata,
           timestamp: new Date().toISOString(),
           userAgent: navigator.userAgent,
@@ -48,7 +48,7 @@ export function useUsageTracker() {
         featureId: 'api_requests',
         eventName: 'api_request',
         value: 1,
-        metadata: {
+        entityData: {
           ...metadata,
           timestamp: new Date().toISOString(),
         }
@@ -62,7 +62,7 @@ export function useUsageTracker() {
     try {
       const result = await check({
         featureId: 'api_requests',
-        requiredQuantity: requestCount,
+        requiredBalance: requestCount,
       });
       return result;
     } catch (error) {

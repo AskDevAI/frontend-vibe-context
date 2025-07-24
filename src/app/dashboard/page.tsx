@@ -41,7 +41,7 @@ export default function DashboardPage() {
         setStats({
           apiKeysCount: apiKeys.length,
           totalRequests: usageStats.total_requests,
-          creditsRemaining: usageStats.credits_remaining,
+          creditsRemaining: usageStats.quota_remaining,
           planType: userProfile.plan_type.charAt(0).toUpperCase() + userProfile.plan_type.slice(1),
           isLoading: false,
         });

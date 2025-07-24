@@ -18,7 +18,7 @@ export default function ApiUsageExample() {
       // 1. Check quota before making the API call
       const quotaCheck = await checkApiQuota(1);
       
-      if (!quotaCheck.allowed) {
+      if (!(quotaCheck as { allowed: boolean }).allowed) {
         setResult({
           error: 'API quota exceeded. Please upgrade your plan.',
           quota: quotaCheck
@@ -93,7 +93,7 @@ export default function ApiUsageExample() {
               
               {result.error ? (
                 <div className="text-red-600 text-sm">
-                  <strong>Error:</strong> {result.error}
+                  <strong>Error:</strong> {String(result.error)}
                 </div>
               ) : (
                 <div className="text-green-600 text-sm">
@@ -101,12 +101,12 @@ export default function ApiUsageExample() {
                 </div>
               )}
 
-              {result.quota && (
+              {result.quota && typeof result.quota === 'object' ? (
                 <div className="mt-2 text-sm text-gray-600">
                   <strong>Quota Status:</strong>{' '}
-                  {result.quota.allowed ? (
+                  {(result.quota as { allowed: boolean; balance: unknown }).allowed ? (
                     <span className="text-green-600">
-                      Allowed (Balance: {result.quota.balance})
+                      Allowed (Balance: {String((result.quota as { allowed: boolean; balance: unknown }).balance)})
                     </span>
                   ) : (
                     <span className="text-red-600">
@@ -114,13 +114,13 @@ export default function ApiUsageExample() {
                     </span>
                   )}
                 </div>
-              )}
+              ) : null}
 
-              {result.data && (
+              {result.data ? (
                 <div className="mt-2 text-sm text-gray-600">
-                  <strong>Results:</strong> Found {result.data.results?.length || 0} libraries
+                  <strong>Results:</strong> Found {(result.data as { results?: unknown[] }).results?.length || 0} libraries
                 </div>
-              )}
+              ) : null}
             </div>
           )}
 
