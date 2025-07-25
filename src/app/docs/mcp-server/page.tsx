@@ -5,6 +5,7 @@ import { ArrowLeft, Terminal, CheckCircle, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
+import CodeBlock from '@/components/code-block';
 
 const installationSteps = [
   {
@@ -422,9 +423,7 @@ export default function McpServerDocsPage() {
                       <h3 className="text-lg font-semibold text-gray-900">{step.title}</h3>
                     </div>
                     <p className="text-gray-600 mb-3">{step.description}</p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm">
-                      <pre>{step.code}</pre>
-                    </div>
+                    <CodeBlock code={step.code} />
                   </div>
                 ))}
               </div>
@@ -448,9 +447,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Add the following configuration to your Claude Code settings:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{claudeCodeConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={claudeCodeConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> ~/.claude_code_config.json
@@ -469,9 +466,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Claude Desktop to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{claudeDesktopConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={claudeDesktopConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>macOS:</strong> ~/Library/Application Support/Claude/claude_desktop_config.json<br/>
@@ -491,9 +486,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Cursor to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{cursorConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={cursorConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Cursor Settings → Extensions → MCP
@@ -512,9 +505,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Add AskBudi to your Windsurf configuration:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{windsurfConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={windsurfConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Windsurf Settings → Extensions → MCP
@@ -533,9 +524,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Trae to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{traeConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={traeConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Trae MCP Configuration
@@ -554,9 +543,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure VS Code (with MCP-compatible extensions) to use AskBudi:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{vscodeConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={vscodeConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> VS Code settings.json or extension-specific config
@@ -575,9 +562,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Visual Studio 2022 to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{visualStudioConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={visualStudioConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Visual Studio MCP Configuration
@@ -596,9 +581,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Zed to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{zedConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={zedConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> ~/.config/zed/settings.json
@@ -617,9 +600,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Cline (VS Code extension) to use AskBudi:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{clineConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={clineConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Cline Extension Settings
@@ -638,9 +619,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure BoltAI to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{boltaiConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={boltaiConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> BoltAI MCP Settings
@@ -659,9 +638,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Augment Code to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{augmentConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={augmentConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Augment Code Settings
@@ -680,9 +657,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Roo Code to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{rooConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={rooConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Roo Code Configuration
@@ -701,9 +676,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Zencoder to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{zencoderConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={zencoderConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Zencoder MCP Configuration
@@ -722,9 +695,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Amazon Q Developer CLI to use AskBudi:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{amazonQConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={amazonQConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Amazon Q CLI Configuration
@@ -743,9 +714,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Qodo Gen to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{qodoGenConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={qodoGenConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Qodo Gen Settings
@@ -764,9 +733,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure JetBrains AI Assistant (IntelliJ, PyCharm, etc.):
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{jetbrainsConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={jetbrainsConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> JetBrains AI Assistant Settings
@@ -785,9 +752,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Warp terminal to use AskBudi:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{warpConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={warpConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Warp Terminal Settings
@@ -806,9 +771,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Opencode to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{opencodeConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={opencodeConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Opencode Settings
@@ -827,9 +790,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure GitHub Copilot Coding Agent:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{copilotAgentConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={copilotAgentConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> GitHub Copilot Agent Settings
@@ -848,9 +809,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure Kiro to use the AskBudi MCP server:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{kiroConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={kiroConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Kiro Configuration
@@ -869,9 +828,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure OpenAI Codex integration:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{openaiCodexConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={openaiCodexConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> OpenAI Codex Settings
@@ -890,9 +847,7 @@ export default function McpServerDocsPage() {
                     <p className="text-gray-600">
                       Configure LM Studio to use AskBudi:
                     </p>
-                    <div className="bg-gray-900 text-white p-4 rounded-lg">
-                      <pre className="text-sm overflow-x-auto"><code>{lmStudioConfig}</code></pre>
-                    </div>
+                    <CodeBlock code={lmStudioConfig} />
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> LM Studio Configuration
