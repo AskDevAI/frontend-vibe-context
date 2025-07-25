@@ -953,7 +953,7 @@ export default function McpServerDocsPage() {
                 
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Package not found</h3>
-                  <p className="text-gray-600">If you get "package not found" error, make sure you have the latest npm version:</p>
+                  <p className="text-gray-600">If you get &quot;package not found&quot; error, make sure you have the latest npm version:</p>
                   <code className="bg-gray-100 px-2 py-1 rounded text-sm">npm install -g npm@latest</code>
                 </div>
               </div>
