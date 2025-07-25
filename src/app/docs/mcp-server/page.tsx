@@ -13,23 +13,25 @@ const installationSteps = [
     code: 'node --version\n# Should return v18.0.0 or higher'
   },
   {
-    title: 'Install AskBudi MCP Server',
-    description: 'Install the MCP server globally using npm',
-    code: 'npm install -g @askbudi/mcp-server'
+    title: 'Run AskBudi MCP Server',
+    description: 'Run the MCP server directly using npx (no installation needed)',
+    code: 'npx -y askbudi-context@latest'
   },
   {
     title: 'Set Your API Key',
     description: 'Configure your AskBudi API key as an environment variable',
-    code: 'export ASKBUDI_API_KEY="your-api-key-here"\n# On Windows:\n# set ASKBUDI_API_KEY=your-api-key-here'
+    code: 'export ASKBUDI_API_KEY="your-api-key-here"\nexport PLATFORM="claude"\n# On Windows:\n# set ASKBUDI_API_KEY=your-api-key-here\n# set PLATFORM=claude'
   }
 ];
 
 const claudeCodeConfig = `{
   "mcpServers": {
     "askbudi": {
-      "command": "askbudi-mcp-server",
+      "command": "npx",
+      "args": ["-y", "askbudi-context@latest"],
       "env": {
-        "ASKBUDI_API_KEY": "your-api-key-here"
+        "ASKBUDI_API_KEY": "your-api-key-here",
+        "PLATFORM": "claude"
       }
     }
   }
@@ -39,10 +41,11 @@ const cursorConfig = `{
   "mcp": {
     "servers": {
       "askbudi": {
-        "command": "askbudi-mcp-server",
-        "args": [],
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
         "env": {
-          "ASKBUDI_API_KEY": "your-api-key-here"
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "cursor"
         }
       }
     }
@@ -53,9 +56,281 @@ const windsurfConfig = `# Add to your Windsurf settings.json
 {
   "mcp.servers": {
     "askbudi": {
-      "command": "askbudi-mcp-server",
+      "command": "npx",
+      "args": ["-y", "askbudi-context@latest"],
       "env": {
-        "ASKBUDI_API_KEY": "your-api-key-here"
+        "ASKBUDI_API_KEY": "your-api-key-here",
+        "PLATFORM": "windsurf"
+      }
+    }
+  }
+}`;
+
+const claudeDesktopConfig = `{
+  "mcpServers": {
+    "askbudi": {
+      "command": "npx",
+      "args": ["-y", "askbudi-context@latest"],
+      "env": {
+        "ASKBUDI_API_KEY": "your-api-key-here",
+        "PLATFORM": "claude-desktop"
+      }
+    }
+  }
+}`;
+
+const traeConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "trae"
+        }
+      }
+    }
+  }
+}`;
+
+const vscodeConfig = `{
+  "mcp.servers": {
+    "askbudi": {
+      "command": "npx",
+      "args": ["-y", "askbudi-context@latest"],
+      "env": {
+        "ASKBUDI_API_KEY": "your-api-key-here",
+        "PLATFORM": "vscode"
+      }
+    }
+  }
+}`;
+
+const visualStudioConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "visual-studio"
+        }
+      }
+    }
+  }
+}`;
+
+const zedConfig = `{
+  "assistant": {
+    "mcp_servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "zed"
+        }
+      }
+    }
+  }
+}`;
+
+const clineConfig = `{
+  "cline.mcp.servers": {
+    "askbudi": {
+      "command": "npx",
+      "args": ["-y", "askbudi-context@latest"],
+      "env": {
+        "ASKBUDI_API_KEY": "your-api-key-here",
+        "PLATFORM": "cline"
+      }
+    }
+  }
+}`;
+
+const boltaiConfig = `{
+  "mcp_servers": {
+    "askbudi": {
+      "command": "npx",
+      "args": ["-y", "askbudi-context@latest"],
+      "env": {
+        "ASKBUDI_API_KEY": "your-api-key-here",
+        "PLATFORM": "boltai"
+      }
+    }
+  }
+}`;
+
+const augmentConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "augment"
+        }
+      }
+    }
+  }
+}`;
+
+const rooConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "roo"
+        }
+      }
+    }
+  }
+}`;
+
+const zencoderConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "zencoder"
+        }
+      }
+    }
+  }
+}`;
+
+const amazonQConfig = `# Set environment variables
+export ASKBUDI_API_KEY="your-api-key-here"
+export PLATFORM="amazon-q"
+
+# Add to Amazon Q CLI config
+q config set mcp.servers.askbudi.command "npx"
+q config set mcp.servers.askbudi.args '[-y, askbudi-context@latest]'`;
+
+const qodoGenConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "qodo-gen"
+        }
+      }
+    }
+  }
+}`;
+
+const jetbrainsConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "jetbrains"
+        }
+      }
+    }
+  }
+}`;
+
+const warpConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "warp"
+        }
+      }
+    }
+  }
+}`;
+
+const opencodeConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "opencode"
+        }
+      }
+    }
+  }
+}`;
+
+const copilotAgentConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "copilot-agent"
+        }
+      }
+    }
+  }
+}`;
+
+const kiroConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "kiro"
+        }
+      }
+    }
+  }
+}`;
+
+const openaiCodexConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "openai-codex"
+        }
+      }
+    }
+  }
+}`;
+
+const lmStudioConfig = `{
+  "mcp": {
+    "servers": {
+      "askbudi": {
+        "command": "npx",
+        "args": ["-y", "askbudi-context@latest"],
+        "env": {
+          "ASKBUDI_API_KEY": "your-api-key-here",
+          "PLATFORM": "lm-studio"
+        }
       }
     }
   }
@@ -101,7 +376,7 @@ export default function McpServerDocsPage() {
           <div className="mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">MCP Server Setup</h1>
             <p className="text-xl text-gray-600">
-              Connect AskBudi to Claude Code, Cursor, Windsurf, and other AI tools using the Model Context Protocol (MCP).
+              Connect AskBudi to 25+ AI coding tools including Claude Code, Claude Desktop, Cursor, Windsurf, Trae, VS Code, Visual Studio, Zed, Cline, BoltAI, Augment Code, Roo Code, Zencoder, Amazon Q, Qodo Gen, JetBrains AI Assistant, Warp, Opencode, Copilot Agent, Kiro, OpenAI Codex, LM Studio, and more using the Model Context Protocol (MCP).
             </p>
           </div>
 
@@ -178,7 +453,29 @@ export default function McpServerDocsPage() {
                     </div>
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
-                        <strong>Location:</strong> ~/.config/claude-code/claude_desktop_config.json
+                        <strong>Location:</strong> ~/.claude_code_config.json
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="claude-desktop" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Claude Desktop</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Claude Desktop to use the AskBudi MCP server:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{claudeDesktopConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>macOS:</strong> ~/Library/Application Support/Claude/claude_desktop_config.json<br/>
+                        <strong>Windows:</strong> %APPDATA%/Claude/claude_desktop_config.json
                       </p>
                     </div>
                   </div>
@@ -199,7 +496,7 @@ export default function McpServerDocsPage() {
                     </div>
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
-                        <strong>Location:</strong> Cursor Settings → MCP Servers
+                        <strong>Location:</strong> Cursor Settings → Extensions → MCP
                       </p>
                     </div>
                   </div>
@@ -221,6 +518,384 @@ export default function McpServerDocsPage() {
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <p className="text-blue-800 text-sm">
                         <strong>Location:</strong> Windsurf Settings → Extensions → MCP
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="trae" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Trae</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Trae to use the AskBudi MCP server:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{traeConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> Trae MCP Configuration
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="vscode" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>VS Code</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure VS Code (with MCP-compatible extensions) to use AskBudi:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{vscodeConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> VS Code settings.json or extension-specific config
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="visual-studio" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Visual Studio</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Visual Studio 2022 to use the AskBudi MCP server:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{visualStudioConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> Visual Studio MCP Configuration
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="zed" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Zed</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Zed to use the AskBudi MCP server:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{zedConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> ~/.config/zed/settings.json
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="cline" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Cline</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Cline (VS Code extension) to use AskBudi:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{clineConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> Cline Extension Settings
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="boltai" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>BoltAI</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure BoltAI to use the AskBudi MCP server:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{boltaiConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> BoltAI MCP Settings
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="augment" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Augment Code</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Augment Code to use the AskBudi MCP server:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{augmentConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> Augment Code Settings
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="roo" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Roo Code</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Roo Code to use the AskBudi MCP server:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{rooConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> Roo Code Configuration
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="zencoder" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Zencoder</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Zencoder to use the AskBudi MCP server:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{zencoderConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> Zencoder MCP Configuration
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="amazon-q" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Amazon Q</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Amazon Q Developer CLI to use AskBudi:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{amazonQConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> Amazon Q CLI Configuration
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="qodo-gen" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Qodo Gen</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Qodo Gen to use the AskBudi MCP server:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{qodoGenConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> Qodo Gen Settings
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="jetbrains" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>JetBrains</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure JetBrains AI Assistant (IntelliJ, PyCharm, etc.):
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{jetbrainsConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> JetBrains AI Assistant Settings
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="warp" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Warp</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Warp terminal to use AskBudi:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{warpConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> Warp Terminal Settings
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="opencode" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Opencode</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Opencode to use the AskBudi MCP server:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{opencodeConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> Opencode Settings
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="copilot-agent" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Copilot Agent</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure GitHub Copilot Coding Agent:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{copilotAgentConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> GitHub Copilot Agent Settings
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="kiro" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>Kiro</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure Kiro to use the AskBudi MCP server:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{kiroConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> Kiro Configuration
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="openai-codex" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>OpenAI Codex</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure OpenAI Codex integration:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{openaiCodexConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> OpenAI Codex Settings
+                      </p>
+                    </div>
+                  </div>
+                </Tab>
+
+                <Tab key="lm-studio" title={
+                  <div className="flex items-center space-x-2">
+                    <Terminal className="w-4 h-4" />
+                    <span>LM Studio</span>
+                  </div>
+                }>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">
+                      Configure LM Studio to use AskBudi:
+                    </p>
+                    <div className="bg-gray-900 text-white p-4 rounded-lg">
+                      <pre className="text-sm overflow-x-auto"><code>{lmStudioConfig}</code></pre>
+                    </div>
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <p className="text-blue-800 text-sm">
+                        <strong>Location:</strong> LM Studio Configuration
                       </p>
                     </div>
                   </div>
@@ -265,21 +940,21 @@ export default function McpServerDocsPage() {
             <CardBody>
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Server not found</h3>
-                  <p className="text-gray-600 mb-2">Make sure the MCP server is installed globally:</p>
-                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">npm list -g @askbudi/mcp-server</code>
+                  <h3 className="font-semibold text-gray-900 mb-2">Server connection issues</h3>
+                  <p className="text-gray-600 mb-2">Check if the server can be reached with npx:</p>
+                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">npx -y askbudi-context@latest --help</code>
                 </div>
                 
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">API key errors</h3>
-                  <p className="text-gray-600 mb-2">Verify your API key is set correctly:</p>
-                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">echo $ASKBUDI_API_KEY</code>
+                  <p className="text-gray-600 mb-2">Verify your environment variables are set correctly:</p>
+                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">echo $ASKBUDI_API_KEY && echo $PLATFORM</code>
                 </div>
                 
                 <div>
-                  <h3 className="font-semibold text-gray-900 mb-2">Permission issues</h3>
-                  <p className="text-gray-600">On macOS/Linux, you might need to use sudo for global installation:</p>
-                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">sudo npm install -g @askbudi/mcp-server</code>
+                  <h3 className="font-semibold text-gray-900 mb-2">Package not found</h3>
+                  <p className="text-gray-600">If you get "package not found" error, make sure you have the latest npm version:</p>
+                  <code className="bg-gray-100 px-2 py-1 rounded text-sm">npm install -g npm@latest</code>
                 </div>
               </div>
             </CardBody>

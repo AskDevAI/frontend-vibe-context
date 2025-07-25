@@ -71,14 +71,12 @@ const resources = [
   }
 ];
 
-const codeExample = `# Install the MCP server
-npm install -g @askbudi/mcp-server
+const codeExample = `# Run the MCP server directly
+npx -y askbudi-context@latest
 
-# Configure your API key
+# Configure your API key and platform
 export ASKBUDI_API_KEY="your-api-key-here"
-
-# Start the MCP server
-askbudi-mcp-server
+export PLATFORM="claude"
 
 # Now ask Claude Code:
 # "How do I create a FastAPI endpoint with validation?"
