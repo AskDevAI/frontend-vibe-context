@@ -17,15 +17,18 @@ const navigation = {
   ],
   resources: [
     { name: 'GitHub App', href: '/github' },
-    { name: 'MCP Server', href: '/mcp' },
+    { name: 'MCP Server', href: '/docs/mcp-server' },
     { name: 'Status Page', href: '/status' },
     { name: 'Support', href: '/support' },
+  ],
+  opensource: [
+    { name: 'TinyAgent', href: '/tinyagent' },
+    { name: 'TinyCodeAgent', href: '/tinycodeagent' },
   ],
   legal: [
     { name: 'Privacy', href: '/privacy' },
     { name: 'Terms', href: '/terms' },
-    { name: 'Security', href: '/security' },
-    { name: 'Compliance', href: '/compliance' },
+
   ],
 };
 
@@ -33,7 +36,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
           <div>
             <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">
               Product
@@ -76,6 +79,24 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3">
               {navigation.resources.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">
+              Open Source Projects
+            </h3>
+            <ul className="space-y-3">
+              {navigation.opensource.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
