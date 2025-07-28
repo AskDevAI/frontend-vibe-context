@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/dashboard-layout';
+import AuthGuard from '@/components/auth-guard';
 import { Card, CardBody, CardHeader } from '@heroui/react';
 import { Key, BarChart3, Zap, Users } from 'lucide-react';
 import { apiService } from '@/lib/api';
@@ -55,7 +56,8 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <DashboardLayout activeTab="overview">
+    <AuthGuard>
+      <DashboardLayout activeTab="overview">
       <div className="space-y-6">
         {/* Welcome Section */}
         <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-white">
@@ -199,6 +201,7 @@ export default function DashboardPage() {
           </CardBody>
         </Card>
       </div>
-    </DashboardLayout>
+      </DashboardLayout>
+    </AuthGuard>
   );
 }

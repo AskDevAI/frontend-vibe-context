@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/dashboard-layout';
+import AuthGuard from '@/components/auth-guard';
 import { Card, CardBody, CardHeader, Button } from '@heroui/react';
 import { BarChart3, TrendingUp, Clock, Globe, Download, Calendar, AlertCircle } from 'lucide-react';
 import { apiService, type AnalyticsData } from '@/lib/api';
@@ -37,17 +38,20 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <DashboardLayout activeTab="analytics">
+      <AuthGuard>
+        <DashboardLayout activeTab="analytics">
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         </div>
-      </DashboardLayout>
+        </DashboardLayout>
+      </AuthGuard>
     );
   }
 
   if (error || !analyticsData) {
     return (
-      <DashboardLayout activeTab="analytics">
+      <AuthGuard>
+        <DashboardLayout activeTab="analytics">
         <div className="space-y-6">
           <Card className="border-danger-200 bg-danger-50">
             <CardBody className="p-6">
@@ -70,12 +74,14 @@ export default function AnalyticsPage() {
             </CardBody>
           </Card>
         </div>
-      </DashboardLayout>
+        </DashboardLayout>
+      </AuthGuard>
     );
   }
 
   return (
-    <DashboardLayout activeTab="analytics">
+    <AuthGuard>
+      <DashboardLayout activeTab="analytics">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -279,6 +285,7 @@ export default function AnalyticsPage() {
           </CardBody>
         </Card>
       </div>
-    </DashboardLayout>
+      </DashboardLayout>
+    </AuthGuard>
   );
 }

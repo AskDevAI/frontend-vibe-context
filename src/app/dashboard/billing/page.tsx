@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/dashboard-layout';
+import AuthGuard from '@/components/auth-guard';
 import {
   Card,
   CardBody,
@@ -127,17 +128,20 @@ export default function BillingPage() {
 
   if (loading) {
     return (
-      <DashboardLayout activeTab="billing">
+      <AuthGuard>
+        <DashboardLayout activeTab="billing">
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         </div>
-      </DashboardLayout>
+        </DashboardLayout>
+      </AuthGuard>
     );
   }
 
   if (error && !profile) {
     return (
-      <DashboardLayout activeTab="billing">
+      <AuthGuard>
+        <DashboardLayout activeTab="billing">
         <div className="space-y-6">
           <Card className="border-danger-200 bg-danger-50">
             <CardBody className="p-6">
@@ -160,12 +164,14 @@ export default function BillingPage() {
             </CardBody>
           </Card>
         </div>
-      </DashboardLayout>
+        </DashboardLayout>
+      </AuthGuard>
     );
   }
 
   return (
-    <DashboardLayout activeTab="billing">
+    <AuthGuard>
+      <DashboardLayout activeTab="billing">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -473,6 +479,7 @@ export default function BillingPage() {
           </ModalContent>
         </Modal>
       </div>
-    </DashboardLayout>
+      </DashboardLayout>
+    </AuthGuard>
   );
 }

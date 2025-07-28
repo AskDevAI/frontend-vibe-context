@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import DashboardLayout from '@/components/dashboard-layout';
+import AuthGuard from '@/components/auth-guard';
 import {
   Card,
   CardBody,
@@ -170,7 +171,8 @@ export default function SettingsPage() {
   }
 
   return (
-    <DashboardLayout activeTab="settings">
+    <AuthGuard>
+      <DashboardLayout activeTab="settings">
       <div className="space-y-6">
         {/* Header */}
         <div>
@@ -483,5 +485,6 @@ export default function SettingsPage() {
         </Modal>
       </div>
     </DashboardLayout>
+    </AuthGuard>
   );
 }

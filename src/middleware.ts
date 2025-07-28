@@ -33,6 +33,16 @@ export async function middleware(request: NextRequest) {
   // Refresh session if it exists
   const { data: { user } } = await supabase.auth.getUser();
 
+  // Check if the route requires authentication
+  const isProtectedRoute = request.nextUrl.pathname.startsWith('/dashboard');
+  
+  if (isProtectedRoute && !user) {
+    // Redirect to login with next_url parameter
+    const redirectUrl = new URL('/auth/login', request.url);
+    redirectUrl.searchParams.set('next_url', request.nextUrl.pathname);
+    return NextResponse.redirect(redirectUrl);
+  }
+
   // Log for debugging Autumn integration
   if (request.nextUrl.pathname.startsWith('/api/autumn/')) {
     console.log('Middleware: Autumn request for user:', user?.id || 'unauthenticated');

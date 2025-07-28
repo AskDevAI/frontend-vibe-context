@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, Input, Card, CardBody, Link } from '@heroui/react';
 import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
 import { createSupabaseClient } from '@/lib/supabase';
@@ -19,7 +19,10 @@ export default function AuthForm({ mode }: AuthFormProps) {
   const [error, setError] = useState('');
   
   const router = useRouter();
+  const searchParams = useSearchParams();
   const supabase = createSupabaseClient();
+  
+  const nextUrl = searchParams.get('next_url') || '/dashboard';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,7 +56,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
         if (error) throw error;
       }
 
-      router.push('/dashboard');
+      router.push(nextUrl);
       router.refresh();
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
