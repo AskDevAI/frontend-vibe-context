@@ -20,22 +20,37 @@ export default function TinyAgentPage() {
 
   const installCode = "pip install tinyagent-py";
   const basicUsageCode = `import asyncio
-from tinyagent import TinyAgent, tool
-
-@tool("weather", "Get weather information for a city")
-def get_weather(city: str) -> str:
-    return f"The weather in {city} is sunny and 25°C"
+from tinyagent import TinyAgent
+from tinyagent.tools.subagent import create_general_subagent
+from tinyagent.tools.todo_write import enable_todo_write_tool
 
 async def main():
+    # Initialize TinyAgent with new features
     agent = TinyAgent(
-        model="o4-mini",
-        api_key="your-api-key"
+        model="gpt-4o-mini",  # or "claude-4", "gpt-5", etc.
+        api_key="your-api-key",
+        enable_todo_write=True  # Enable TodoWrite tool
     )
     
-    agent.add_tool(get_weather)
+    # Add a general-purpose subagent for parallel tasks
+    helper_subagent = create_general_subagent(
+        name="helper",
+        model="gpt-4.1-mini",
+        max_turns=20,
+        enable_python=True,
+        enable_shell=True
+    )
+    agent.add_tool(helper_subagent)
     
     try:
-        result = await agent.run("What's the weather in Paris?")
+        result = await agent.run("""
+        I need help with a complex project:
+        1. Create a todo list for this task
+        2. Use the helper subagent to research AI trends 2024
+        3. Generate a comprehensive report
+        
+        Track progress with the todo system.
+        """)
         print(result)
     finally:
         await agent.close()
@@ -46,23 +61,41 @@ asyncio.run(main())`;
 from tinyagent import TinyAgent
 from tinyagent.storage import JsonFileStorage
 from tinyagent.hooks.rich_ui_callback import RichUICallback
+from tinyagent.hooks import anthropic_prompt_cache
+from tinyagent.tools.subagent import create_research_subagent, create_coding_subagent
 
 async def main():
-    # With persistent storage and rich UI
+    # Production-ready agent with all new features
     storage = JsonFileStorage("./sessions")
     ui = RichUICallback(markdown=True, show_thinking=True)
     
     agent = TinyAgent(
-        model="o4-mini",
+        model="claude-3-5-sonnet-20241022",  # or "gpt-5", "claude-4"
         api_key="your-api-key",
         storage=storage,
-        session_id="user_session"
+        session_id="user_session",
+        enable_todo_write=True
     )
     
+    # Add Anthropic prompt caching for cost reduction
+    cache_callback = anthropic_prompt_cache()
+    agent.add_callback(cache_callback)
     agent.add_callback(ui)
     
+    # Add specialized subagents
+    researcher = create_research_subagent("researcher", "gpt-4o", max_turns=20)
+    coder = create_coding_subagent("coder", "claude-3-sonnet", max_turns=25)
+    agent.add_tool(researcher)
+    agent.add_tool(coder)
+    
     try:
-        result = await agent.run("Continue our conversation")
+        result = await agent.run("""
+        Complex project workflow:
+        1. Use researcher to analyze market trends
+        2. Use coder to implement analysis algorithms
+        3. Track all tasks with todos
+        4. Generate final report
+        """)
         print(result)
     finally:
         await agent.close()
@@ -226,8 +259,8 @@ await main()`;
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              The most minimal yet powerful AI Agent framework. Supports ANY LLM model (OpenAI, Claude, Gemini, Moonshot, etc.) 
-              with MCP client support, persistent storage, built-in UI hooks (RichUI, Gradio, Jupyter), and extensible architecture.
+              The most minimal yet powerful AI Agent framework. Supports ANY LLM model including GPT-5, Claude-4, Gemini, Moonshot, and 100+ models. 
+              Features revolutionary subagent tools, sandboxed file operations, MCP client support, persistent storage, built-in UI hooks, and extensible architecture.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
@@ -256,7 +289,8 @@ await main()`;
               <Chip color="success" variant="flat">MIT License</Chip>
               <Chip color="primary" variant="flat">Python 3.8+</Chip>
               <Chip color="secondary" variant="flat">100 Lines Core</Chip>
-              <Chip color="warning" variant="flat">Any LLM Model</Chip>
+              <Chip color="warning" variant="flat">GPT-5 & Claude-4 Ready</Chip>
+              <Chip color="danger" variant="flat">Subagent Tools</Chip>
             </div>
           </div>
         </div>
@@ -338,14 +372,14 @@ await main()`;
             <Card className="shadow-lg">
               <CardBody className="p-4 text-center">
                 <h3 className="font-semibold text-blue-600 mb-2">OpenAI</h3>
-                <p className="text-sm text-gray-600">gpt-4o, gpt-4o-mini, gpt-4, gpt-3.5-turbo</p>
+                <p className="text-sm text-gray-600">gpt-5, gpt-4o, gpt-4o-mini, gpt-4, gpt-3.5-turbo</p>
               </CardBody>
             </Card>
             
             <Card className="shadow-lg">
               <CardBody className="p-4 text-center">
                 <h3 className="font-semibold text-purple-600 mb-2">Anthropic</h3>
-                <p className="text-sm text-gray-600">claude-3-5-sonnet, claude-3-opus, claude-3-haiku</p>
+                <p className="text-sm text-gray-600">claude-4, claude-3-5-sonnet, claude-3-opus, claude-3-haiku</p>
               </CardBody>
             </Card>
             
@@ -369,20 +403,20 @@ await main()`;
               <h3 className="text-lg font-semibold mb-4 text-center">Model Switching Examples</h3>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-medium mb-2">OpenAI GPT-4</h4>
+                  <h4 className="font-medium mb-2">OpenAI GPT-5 (Latest)</h4>
                   <div className="bg-gray-900 text-white p-3 rounded-lg text-sm font-mono">
                     <span className="text-blue-300">agent</span> = <span className="text-green-300">TinyAgent</span>(<br/>
-                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;gpt-4o&quot;</span>,<br/>
+                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;gpt-5&quot;</span>,<br/>
                     &nbsp;&nbsp;<span className="text-yellow-300">api_key</span>=<span className="text-red-300">&quot;your-openai-key&quot;</span><br/>
                     )
                   </div>
                 </div>
                 
                 <div>
-                  <h4 className="font-medium mb-2">Claude Sonnet</h4>
+                  <h4 className="font-medium mb-2">Claude-4 (Latest)</h4>
                   <div className="bg-gray-900 text-white p-3 rounded-lg text-sm font-mono">
                     <span className="text-blue-300">agent</span> = <span className="text-green-300">TinyAgent</span>(<br/>
-                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;claude-3-5-sonnet-20241022&quot;</span>,<br/>
+                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;claude-4&quot;</span>,<br/>
                     &nbsp;&nbsp;<span className="text-yellow-300">api_key</span>=<span className="text-red-300">&quot;your-anthropic-key&quot;</span><br/>
                     )
                   </div>
@@ -427,9 +461,9 @@ await main()`;
                 <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Zap className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Minimal Core</h3>
+                <h3 className="text-lg font-semibold mb-2">Subagent Tools</h3>
                 <p className="text-gray-600 text-sm">
-                  Just 100 lines of core code, making it easy to understand, extend, and customize
+                  Revolutionary parallel task execution system with specialized workers and context isolation
                 </p>
               </CardBody>
             </Card>
@@ -439,9 +473,9 @@ await main()`;
                 <div className="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Puzzle className="w-6 h-6 text-green-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Extensible Hooks</h3>
+                <h3 className="text-lg font-semibold mb-2">Sandboxed File Tools</h3>
                 <p className="text-gray-600 text-sm">
-                  Add custom functionality with hooks for logging, UI callbacks, and token tracking
+                  Secure file operations: read_file, write_file, update_file, glob, grep with provider sandboxes
                 </p>
               </CardBody>
             </Card>
@@ -451,9 +485,9 @@ await main()`;
                 <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Shield className="w-6 h-6 text-purple-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">MCP Support</h3>
+                <h3 className="text-lg font-semibold mb-2">Enhanced Shell Tool</h3>
                 <p className="text-gray-600 text-sm">
-                  Built-in Model Context Protocol client for connecting to various MCP servers
+                  Improved bash tool with safety validation, platform tips, and provider-backed execution
                 </p>
               </CardBody>
             </Card>
@@ -463,9 +497,9 @@ await main()`;
                 <div className="bg-orange-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Terminal className="w-6 h-6 text-orange-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Multiple Storage</h3>
+                <h3 className="text-lg font-semibold mb-2">TodoWrite Tool</h3>
                 <p className="text-gray-600 text-sm">
-                  Support for JSON, SQLite, PostgreSQL, and Redis storage backends
+                  Built-in task management system for tracking progress and organizing complex workflows
                 </p>
               </CardBody>
             </Card>
@@ -475,9 +509,9 @@ await main()`;
                 <div className="bg-red-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Star className="w-6 h-6 text-red-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Built-in UI Hooks</h3>
+                <h3 className="text-lg font-semibold mb-2">Anthropic Prompt Caching</h3>
                 <p className="text-gray-600 text-sm">
-                  RichUI for terminal, Gradio for web interfaces, JupyterUI for interactive notebooks
+                  Automatic prompt caching for Claude models to reduce API costs for large messages
                 </p>
               </CardBody>
             </Card>
@@ -487,9 +521,9 @@ await main()`;
                 <div className="bg-teal-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Zap className="w-6 h-6 text-teal-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Session Management</h3>
+                <h3 className="text-lg font-semibold mb-2">Universal Tool Hooks</h3>
                 <p className="text-gray-600 text-sm">
-                  Persistent sessions with automatic loading and robust error handling
+                  Control any tool execution via before_tool_execution/after_tool_execution callbacks
                 </p>
               </CardBody>
             </Card>
@@ -499,9 +533,9 @@ await main()`;
                 <div className="bg-yellow-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Shield className="w-6 h-6 text-yellow-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Any LLM Model</h3>
+                <h3 className="text-lg font-semibold mb-2">GPT-5 & Claude-4 Ready</h3>
                 <p className="text-gray-600 text-sm">
-                  OpenAI, Claude Sonnet, Gemini, Moonshot Kimi-k2, and 100+ models via LiteLLM
+                  Latest AI models including GPT-5, Claude-4, and 100+ models via LiteLLM
                 </p>
               </CardBody>
             </Card>
@@ -513,8 +547,8 @@ await main()`;
       <div className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Advanced Usage</h2>
-            <p className="text-lg text-gray-600">Build sophisticated agents with persistent storage and rich UI</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Advanced Usage with Subagents</h2>
+            <p className="text-lg text-gray-600">Build sophisticated agents with subagent tools, prompt caching, and parallel execution</p>
           </div>
 
           <Card className="shadow-xl">
@@ -739,10 +773,10 @@ await main()`;
                 <Zap className="w-4 h-4 text-blue-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">⚡ Lightning Fast Setup</h3>
+                <h3 className="text-lg font-semibold mb-2">🚀 Revolutionary Subagent System</h3>
                 <p className="text-gray-600">
-                  Get started in under 5 minutes. With just 100 lines of core code, TinyAgent provides 
-                  all essential features without bloat. No complex configurations or steep learning curves.
+                  Execute multiple tasks in parallel with specialized AI workers. Each subagent operates independently 
+                  with complete context isolation, automatic cleanup, and specialized capabilities for research, coding, analysis, and more.
                 </p>
               </div>
             </div>
@@ -752,10 +786,10 @@ await main()`;
                 <Puzzle className="w-4 h-4 text-green-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">🔧 Infinitely Extensible</h3>
+                <h3 className="text-lg font-semibold mb-2">🔒 Sandboxed File Operations</h3>
                 <p className="text-gray-600">
-                  Add custom tools, callbacks, and hooks effortlessly. Built-in support for rich UI, 
-                  token tracking, logging, MCP servers, and custom integrations. Your imagination is the limit.
+                  Secure file tools (read_file, write_file, update_file, glob, grep) route through provider sandboxes. 
+                  Universal tool hooks let you control any tool execution with before/after callbacks for complete security and auditability.
                 </p>
               </div>
             </div>
@@ -765,10 +799,10 @@ await main()`;
                 <Shield className="w-4 h-4 text-purple-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">🚀 Production Ready</h3>
+                <h3 className="text-lg font-semibold mb-2">💰 Cost Optimization</h3>
                 <p className="text-gray-600">
-                  Robust session management, multiple storage backends (JSON, SQLite, PostgreSQL, Redis), 
-                  comprehensive error handling, and battle-tested architecture used by thousands of developers.
+                  Automatic Anthropic prompt caching reduces API costs for large messages. TodoWrite tool tracks progress 
+                  to prevent redundant work. Support for cost-effective models like GPT-4o-mini and Claude-3-haiku alongside premium models.
                 </p>
               </div>
             </div>
@@ -778,10 +812,10 @@ await main()`;
                 <Terminal className="w-4 h-4 text-orange-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">💡 Developer Friendly</h3>
+                <h3 className="text-lg font-semibold mb-2">🤖 GPT-5 & Claude-4 Ready</h3>
                 <p className="text-gray-600">
-                  Multiple UI options (RichUI for terminal, Gradio for web, JupyterUI for notebooks), comprehensive 
-                  documentation, and an active community. Debug easily with built-in logging and monitoring.
+                  First-class support for the latest AI models including GPT-5 and Claude-4. Enhanced shell tool with safety validation, 
+                  platform-specific tips, and provider-backed execution. Multiple UI options and comprehensive monitoring built-in.
                 </p>
               </div>
             </div>

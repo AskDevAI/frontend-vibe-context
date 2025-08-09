@@ -21,22 +21,34 @@ export default function TinyCodeAgentPage() {
   const installCode = "pip install tinyagent-py";
   
   const basicUsageCode = `import asyncio
-from tinyagent.code_agent import TinyCodeAgent
+from tinyagent import TinyCodeAgent
 
 async def main():
-    # Initialize the coding agent
+    # Initialize with new features
     agent = TinyCodeAgent(
-        model="o4-mini",
+        model="gpt-4o-mini",  # or "gpt-5", "claude-4"
         api_key="your-api-key",
-        provider="modal",
-        local_execution=False
+        provider="seatbelt",  # or "modal" for cloud
+        
+        # Enable new tools
+        enable_file_tools=True,      # read_file, write_file, update_file, glob, grep
+        enable_shell_tool=True,      # Enhanced bash tool
+        enable_todo_write=True,      # Task management
+        
+        # Auto git checkpoints
+        auto_git_checkpoint=True,
+        
+        # Rich terminal UI
+        ui="rich"
     )
     
     try:
-        # Ask the agent to write and execute code
         result = await agent.run("""
-        Create a Python function that calculates the Fibonacci sequence 
-        and test it with the first 10 numbers
+        I need to analyze and refactor a Python project:
+        1. Use glob to find all Python files
+        2. Use grep to identify functions needing refactoring  
+        3. Create a refactoring plan with todos
+        4. Implement improvements with file operations
         """)
         print(result)
     finally:
@@ -45,26 +57,41 @@ async def main():
 asyncio.run(main())`;
 
   const secureShellCode = `import asyncio
-from tinyagent.code_agent import TinyCodeAgent
+from tinyagent import TinyCodeAgent
+from tinyagent.code_agent.tools.file_tools import ProductionApprovalHook
 
 async def main():
-    # Modal provider for secure cloud execution
+    # Enhanced security with file operation controls
     agent = TinyCodeAgent(
-        model="o4-mini",
+        model="gpt-4o-mini",
         api_key="your-api-key",
-        provider="modal",
-        pip_packages=["pandas", "matplotlib", "numpy"],
-        authorized_imports=["pandas", "matplotlib.*", "numpy.*"],
-        local_execution=False
+        provider="modal",  # Cloud execution
+        
+        # Provider-specific config
+        provider_config={
+            "pip_packages": ["pandas", "matplotlib", "seaborn"],
+            "bypass_shell_safety": False  # Strict for cloud
+        },
+        
+        # Enhanced tools
+        enable_file_tools=True,
+        enable_shell_tool=True,
+        enable_todo_write=True,
+        
+        authorized_imports=["pandas", "matplotlib.*", "seaborn.*"]
     )
     
+    # Add file operation approval hook
+    approval_hook = ProductionApprovalHook()
+    agent.add_callback(approval_hook)
+    
     try:
-        # Safe code execution in cloud environment
         result = await agent.run("""
-        Analyze this CSV data and create a visualization:
-        - Load data from 'sales.csv'
-        - Calculate monthly trends
-        - Create a line chart
+        Comprehensive data analysis workflow:
+        1. Use glob to find all CSV files in project
+        2. Read and analyze sales data with file tools
+        3. Create visualizations with enhanced shell commands
+        4. Track progress with todos
         """)
         print(result)
     finally:
@@ -255,8 +282,8 @@ asyncio.run(run_example(page_content))`;
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Build your own Cursor alternative or automate complex tasks like spreadsheet manipulation 
-              and data analysis. Supports ANY LLM model (OpenAI, Claude, Gemini, Moonshot, etc.) with secure shell access, stateful environment, and computer interaction capabilities.
+              Build your own Cursor alternative or automate complex tasks with AI-powered coding. Features GPT-5 & Claude-4 support, 
+              sandboxed file operations, enhanced shell tools, TodoWrite task management, and secure execution environments (Seatbelt/Modal).
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
@@ -284,9 +311,9 @@ asyncio.run(run_example(page_content))`;
             <div className="flex justify-center gap-4 flex-wrap">
               <Chip color="success" variant="flat">MIT License</Chip>
               <Chip color="primary" variant="flat">Python 3.8+</Chip>
-              <Chip color="secondary" variant="flat">Secure Execution</Chip>
-              <Chip color="warning" variant="flat">Stateful Environment</Chip>
-              <Chip color="danger" variant="flat">Any LLM Model</Chip>
+              <Chip color="secondary" variant="flat">GPT-5 & Claude-4</Chip>
+              <Chip color="warning" variant="flat">Sandboxed File Tools</Chip>
+              <Chip color="danger" variant="flat">Enhanced Shell Tool</Chip>
             </div>
           </div>
         </div>
@@ -376,14 +403,14 @@ asyncio.run(run_example(page_content))`;
             <Card className="shadow-lg">
               <CardBody className="p-4 text-center">
                 <h3 className="font-semibold text-blue-600 mb-2">OpenAI</h3>
-                <p className="text-sm text-gray-600">gpt-4o, gpt-4o-mini, gpt-4, gpt-3.5-turbo</p>
+                <p className="text-sm text-gray-600">gpt-5, gpt-4o, gpt-4o-mini, gpt-4, gpt-3.5-turbo</p>
               </CardBody>
             </Card>
             
             <Card className="shadow-lg">
               <CardBody className="p-4 text-center">
                 <h3 className="font-semibold text-purple-600 mb-2">Anthropic</h3>
-                <p className="text-sm text-gray-600">claude-3-5-sonnet, claude-3-opus, claude-3-haiku</p>
+                <p className="text-sm text-gray-600">claude-4, claude-3-5-sonnet, claude-3-opus, claude-3-haiku</p>
               </CardBody>
             </Card>
             
@@ -407,20 +434,20 @@ asyncio.run(run_example(page_content))`;
               <h3 className="text-lg font-semibold mb-4 text-center">Model Switching Examples</h3>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-medium mb-2">OpenAI o1-mini (Code Optimized)</h4>
+                  <h4 className="font-medium mb-2">GPT-5 (Latest & Best)</h4>
                   <div className="bg-gray-900 text-white p-3 rounded-lg text-sm font-mono">
                     <span className="text-blue-300">agent</span> = <span className="text-green-300">TinyCodeAgent</span>(<br/>
-                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;o1-mini&quot;</span>,<br/>
+                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;gpt-5&quot;</span>,<br/>
                     &nbsp;&nbsp;<span className="text-yellow-300">api_key</span>=<span className="text-red-300">&quot;your-openai-key&quot;</span><br/>
                     )
                   </div>
                 </div>
                 
                 <div>
-                  <h4 className="font-medium mb-2">Claude 3.5 Sonnet (Best Reasoning)</h4>
+                  <h4 className="font-medium mb-2">Claude-4 (Latest & Advanced)</h4>
                   <div className="bg-gray-900 text-white p-3 rounded-lg text-sm font-mono">
                     <span className="text-blue-300">agent</span> = <span className="text-green-300">TinyCodeAgent</span>(<br/>
-                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;claude-3-5-sonnet-20241022&quot;</span>,<br/>
+                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;claude-4&quot;</span>,<br/>
                     &nbsp;&nbsp;<span className="text-yellow-300">api_key</span>=<span className="text-red-300">&quot;your-anthropic-key&quot;</span><br/>
                     )
                   </div>
@@ -455,8 +482,8 @@ asyncio.run(run_example(page_content))`;
       <div className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Powerful Coding Features</h2>
-            <p className="text-lg text-gray-600">Everything you need for AI-powered code generation and execution</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Enhanced Coding Features</h2>
+            <p className="text-lg text-gray-600">Advanced file operations, shell tools, task management, and the latest AI models</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -465,9 +492,9 @@ asyncio.run(run_example(page_content))`;
                 <div className="bg-emerald-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Shield className="w-6 h-6 text-emerald-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Secure Shell Access</h3>
+                <h3 className="text-lg font-semibold mb-2">Sandboxed File Tools</h3>
                 <p className="text-gray-600 text-sm">
-                  Safe code execution in sandboxed environments with configurable security policies
+                  Native read_file, write_file, update_file, glob, grep tools with provider sandbox security
                 </p>
               </CardBody>
             </Card>
@@ -477,9 +504,9 @@ asyncio.run(run_example(page_content))`;
                 <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Cloud className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Local or Cloud</h3>
+                <h3 className="text-lg font-semibold mb-2">Enhanced Shell Tool</h3>
                 <p className="text-gray-600 text-sm">
-                  Execute code locally for development or in cloud environments for scalability
+                  Improved bash tool with safety validation, platform-specific tips, and provider-backed execution
                 </p>
               </CardBody>
             </Card>
@@ -489,9 +516,9 @@ asyncio.run(run_example(page_content))`;
                 <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Terminal className="w-6 h-6 text-purple-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Stateful Environment</h3>
+                <h3 className="text-lg font-semibold mb-2">TodoWrite Tool</h3>
                 <p className="text-gray-600 text-sm">
-                  Persistent Python environment that maintains variables and imports between runs
+                  Built-in task management system for tracking complex workflows and organizing progress
                 </p>
               </CardBody>
             </Card>
@@ -501,9 +528,9 @@ asyncio.run(run_example(page_content))`;
                 <div className="bg-orange-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <CodeIcon className="w-6 h-6 text-orange-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Code Generation</h3>
+                <h3 className="text-lg font-semibold mb-2">Auto Git Checkpoints</h3>
                 <p className="text-gray-600 text-sm">
-                  AI-powered code generation with thinking, planning, and execution phases
+                  Automatic version control after shell commands with descriptive commit messages
                 </p>
               </CardBody>
             </Card>
@@ -513,9 +540,9 @@ asyncio.run(run_example(page_content))`;
                 <div className="bg-red-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Star className="w-6 h-6 text-red-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Extensible Hooks</h3>
+                <h3 className="text-lg font-semibold mb-2">Universal Tool Hooks</h3>
                 <p className="text-gray-600 text-sm">
-                  Add custom functionality with hooks for logging, debugging, and integrations
+                  Control any tool execution via before_tool_execution/after_tool_execution callbacks
                 </p>
               </CardBody>
             </Card>
@@ -525,9 +552,9 @@ asyncio.run(run_example(page_content))`;
                 <div className="bg-teal-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Shield className="w-6 h-6 text-teal-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Built on TinyAgent</h3>
+                <h3 className="text-lg font-semibold mb-2">Provider System</h3>
                 <p className="text-gray-600 text-sm">
-                  Inherits all TinyAgent features: minimal core, MCP support, rich UI callbacks
+                  Pluggable execution backends: Seatbelt (local sandbox), Modal.com (cloud), with unified API
                 </p>
               </CardBody>
             </Card>
@@ -537,9 +564,9 @@ asyncio.run(run_example(page_content))`;
                 <div className="bg-yellow-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Star className="w-6 h-6 text-yellow-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">Any LLM Model</h3>
+                <h3 className="text-lg font-semibold mb-2">GPT-5 & Claude-4 Ready</h3>
                 <p className="text-gray-600 text-sm">
-                  OpenAI, Claude Sonnet, Gemini, Moonshot Kimi-k2, and 100+ models via LiteLLM
+                  Latest AI models including GPT-5, Claude-4, with 100+ models via LiteLLM
                 </p>
               </CardBody>
             </Card>
