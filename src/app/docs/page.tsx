@@ -70,8 +70,8 @@ const resources = [
     badge: null
   },
   {
-    title: 'Juno CLI Documentation',
-    description: 'Complete guide for the revolutionary terminal-based AI development environment',
+    title: 'Juno Agent Documentation',
+    description: 'Complete guide for the Universal AI Tool Configuration Hub and terminal-based AI development environment',
     icon: Terminal,
     href: '/juno-cli/docs',
     badge: 'Featured'

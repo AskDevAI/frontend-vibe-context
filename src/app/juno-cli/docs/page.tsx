@@ -50,40 +50,44 @@ export default function JunoCLIDocsPage() {
   };
 
   // Code examples
-  const installCode = `# Install Juno CLI
-pip install juno-cli
+  const installCode = `# Install Juno Agent
+pip install juno-agent
 
 # Verify installation
-juno-cli --version`;
+juno-agent --version`;
 
-  const basicSetupCode = `# First-time setup
-juno-cli --setup
+  const basicSetupCode = `# Universal AI tool setup
+juno-agent --setup
 
-# Start Juno CLI with default model
-juno-cli
+# Start Juno Agent with default model
+juno-agent
 
 # Start with specific model
-juno-cli --model gpt-5
+juno-agent --model gpt-5
 
 # Start in debug mode
-juno-cli --debug --trace`;
+juno-agent --debug --trace`;
 
-  const externalContextCode = `# External Context System Setup
-juno-cli
+  const externalContextCode = `# Universal AI Tool Configuration System
+juno-agent --setup
 
-# In the TUI, use commands:
-/setup
-# Select "Configure External Context"
-# Choose libraries to document (React, Next.js, etc.)
-# Juno automatically fetches current documentation
+# Configures 26+ AI tools automatically:
+✓ Cursor - .cursorrules created
+✓ Claude Code - CLAUDE.md created  
+✓ Windsurf - .windsurfrules created
+✓ VS Code - settings.json updated
+✓ GitHub Copilot - configured
+✓ + 21 more tools
 
-# Example: Auto-configure for React project
+# Version-specific documentation fetching:
 cd my-react-app
-juno-cli
-# Juno detects: React 18.3.1, TypeScript 5.4.5
-# Automatically configures AI context with latest docs`;
+juno-agent
+# Detects: React 18.3.1, TypeScript 5.4.5
+# Fetches current docs for exact versions
+# Creates external_context/ symlinks
+# All AI tools now have accurate context`;
 
-  const modelConfigCode = `# ~/.juno-cli/config.yaml
+  const modelConfigCode = `# ~/.juno-agent/config.yaml
 models:
   default: "gpt-5"
   providers:
@@ -133,7 +137,7 @@ project:
 from juno_cli import JunoCLI
 
 async def main():
-    # Initialize Juno CLI programmatically
+    # Initialize Juno Agent programmatically
     cli = JunoCLI(
         model="claude-4",  # or "gpt-5", "gemini-2.5-pro"
         api_key="your-api-key",
@@ -306,7 +310,7 @@ asyncio.run(main())`;
                 </Link>
               </BreadcrumbItem>
               <BreadcrumbItem>
-                <Link href="/juno-cli">Juno CLI</Link>
+                <Link href="/juno-agent">Juno Agent</Link>
               </BreadcrumbItem>
               <BreadcrumbItem>Documentation</BreadcrumbItem>
             </Breadcrumbs>
@@ -371,13 +375,13 @@ asyncio.run(main())`;
               <div className="mt-8 pt-6 border-t">
                 <h4 className="font-semibold text-gray-900 mb-3">Quick Links</h4>
                 <div className="space-y-2">
-                  <Link href="https://github.com/askbudi/juno-cli" className="flex items-center gap-2 text-sm text-gray-600 hover:text-violet-600">
+                  <Link href="https://github.com/askbudi/juno-agent" className="flex items-center gap-2 text-sm text-gray-600 hover:text-violet-600">
                     <Github className="w-4 h-4" />
                     GitHub Repository
                   </Link>
-                  <Link href="/juno-cli" className="flex items-center gap-2 text-sm text-gray-600 hover:text-violet-600">
+                  <Link href="/juno-agent" className="flex items-center gap-2 text-sm text-gray-600 hover:text-violet-600">
                     <ArrowRight className="w-4 h-4" />
-                    Back to Juno CLI
+                    Back to Juno Agent
                   </Link>
                 </div>
               </div>
@@ -390,17 +394,17 @@ asyncio.run(main())`;
             <div className="mb-8">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">
                 <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
-                  Juno CLI Documentation
+                  Juno Agent Documentation
                 </span>
               </h1>
               <p className="text-xl text-gray-600 mb-6">
-                Complete guide to using Juno CLI - the revolutionary external context system that keeps AI tools updated with your exact dependencies.
+                Complete guide to using Juno Agent - the revolutionary external context system that keeps AI tools updated with your exact dependencies.
               </p>
               
               <div className="flex gap-4">
                 <Button 
                   as={Link} 
-                  href="https://github.com/askbudi/juno-cli" 
+                  href="https://github.com/askbudi/juno-agent" 
                   color="primary" 
                   startContent={<Github className="w-4 h-4" />}
                 >
@@ -429,7 +433,7 @@ asyncio.run(main())`;
                 <Card className="shadow-lg">
                   <CardBody className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-lg font-semibold">Install Juno CLI</h4>
+                      <h4 className="text-lg font-semibold">Install Juno Agent</h4>
                       <Button
                         size="sm"
                         variant="ghost"
@@ -508,7 +512,7 @@ asyncio.run(main())`;
                     <CardBody className="p-6">
                       <h4 className="font-semibold mb-3">Basic Usage</h4>
                       <div className="bg-gray-900 text-white p-3 rounded font-mono text-sm">
-                        <div className="text-green-400">$ juno-cli</div>
+                        <div className="text-green-400">$ juno-agent</div>
                         <div className="text-gray-300 mt-1">Welcome to JUNO AI CLI</div>
                         <div className="text-blue-300 mt-1">💬 Ready to chat...</div>
                       </div>
@@ -519,7 +523,7 @@ asyncio.run(main())`;
                     <CardBody className="p-6">
                       <h4 className="font-semibold mb-3">With Specific Model</h4>
                       <div className="bg-gray-900 text-white p-3 rounded font-mono text-sm">
-                        <div className="text-green-400">$ juno-cli --model gpt-5</div>
+                        <div className="text-green-400">$ juno-agent --model gpt-5</div>
                         <div className="text-gray-300 mt-1">Using GPT-5 (OpenAI)</div>
                         <div className="text-yellow-300 mt-1">🤖 Model: GPT-5 Ready</div>
                       </div>
@@ -933,7 +937,7 @@ asyncio.run(main())`;
                 <Card className="shadow-lg">
                   <CardBody className="p-6">
                     <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm">
-                      <div className="text-yellow-300">juno-cli [OPTIONS] [COMMAND]</div>
+                      <div className="text-yellow-300">juno-agent [OPTIONS] [COMMAND]</div>
                       <div className="mt-4 space-y-2">
                         <div><span className="text-blue-300">--workdir, -w PATH</span><span className="text-gray-300 ml-4">Working directory (defaults to current)</span></div>
                         <div><span className="text-blue-300">--debug</span><span className="text-gray-300 ml-4">Enable debug mode with detailed logging</span></div>
@@ -954,13 +958,13 @@ asyncio.run(main())`;
                       <h4 className="font-semibold mb-3">Basic Commands</h4>
                       <div className="space-y-3">
                         <div className="bg-gray-900 text-white p-2 rounded text-sm font-mono">
-                          <span className="text-green-400">$</span> juno-cli
+                          <span className="text-green-400">$</span> juno-agent
                         </div>
                         <div className="bg-gray-900 text-white p-2 rounded text-sm font-mono">
-                          <span className="text-green-400">$</span> juno-cli --model claude-4
+                          <span className="text-green-400">$</span> juno-agent --model claude-4
                         </div>
                         <div className="bg-gray-900 text-white p-2 rounded text-sm font-mono">
-                          <span className="text-green-400">$</span> juno-cli --setup
+                          <span className="text-green-400">$</span> juno-agent --setup
                         </div>
                       </div>
                     </CardBody>
@@ -971,13 +975,13 @@ asyncio.run(main())`;
                       <h4 className="font-semibold mb-3">Advanced Commands</h4>
                       <div className="space-y-3">
                         <div className="bg-gray-900 text-white p-2 rounded text-sm font-mono">
-                          <span className="text-green-400">$</span> juno-cli --debug --trace
+                          <span className="text-green-400">$</span> juno-agent --debug --trace
                         </div>
                         <div className="bg-gray-900 text-white p-2 rounded text-sm font-mono">
-                          <span className="text-green-400">$</span> juno-cli --ui-mode simple
+                          <span className="text-green-400">$</span> juno-agent --ui-mode simple
                         </div>
                         <div className="bg-gray-900 text-white p-2 rounded text-sm font-mono">
-                          <span className="text-green-400">$</span> juno-cli version
+                          <span className="text-green-400">$</span> juno-agent version
                         </div>
                       </div>
                     </CardBody>
@@ -1072,7 +1076,7 @@ asyncio.run(main())`;
                 <div className="mt-6 grid md:grid-cols-2 gap-6">
                   <Card className="shadow-lg">
                     <CardBody className="p-6">
-                      <h4 className="font-semibold mb-3">Global Configuration (~/.juno-cli/)</h4>
+                      <h4 className="font-semibold mb-3">Global Configuration (~/.juno-agent/)</h4>
                       <ul className="space-y-2 text-gray-600">
                         <li>• Shared across all projects</li>
                         <li>• API keys and default model settings</li>
@@ -1084,7 +1088,7 @@ asyncio.run(main())`;
 
                   <Card className="shadow-lg">
                     <CardBody className="p-6">
-                      <h4 className="font-semibold mb-3">Local Configuration (.juno-cli/)</h4>
+                      <h4 className="font-semibold mb-3">Local Configuration (.juno-agent/)</h4>
                       <ul className="space-y-2 text-gray-600">
                         <li>• Project-specific settings</li>
                         <li>• Override global settings</li>
@@ -1134,7 +1138,7 @@ asyncio.run(main())`;
                   <AccordionItem key="tracing" title="Tracing Configuration">
                     <div className="p-4">
                       <ul className="space-y-2 text-gray-600">
-                        <li><code>PHOENIX_PROJECT_NAME</code> - Project name for tracing (default: juno-cli)</li>
+                        <li><code>PHOENIX_PROJECT_NAME</code> - Project name for tracing (default: juno-agent)</li>
                         <li><code>PHOENIX_ENDPOINT</code> - Tracing endpoint (default: https://app.phoenix.arize.com/v1/traces)</li>
                       </ul>
                     </div>
@@ -1149,7 +1153,7 @@ asyncio.run(main())`;
                     <h4 className="font-semibold mb-4">Project-specific Configurations</h4>
                     <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm">
                       <div className="text-green-400"># Project A (React + TypeScript)</div>
-                      <div className="text-gray-300">~/projects/react-app/.juno-cli/config.yaml</div>
+                      <div className="text-gray-300">~/projects/react-app/.juno-agent/config.yaml</div>
                       <div className="text-blue-300 mt-2">
                         default_model: &ldquo;gpt-5&rdquo;<br/>
                         context_libraries: [&ldquo;react&rdquo;, &ldquo;typescript&rdquo;, &ldquo;next.js&rdquo;]<br/>
@@ -1157,7 +1161,7 @@ asyncio.run(main())`;
                       </div>
                       
                       <div className="text-green-400 mt-4"># Project B (Python + Django)</div>
-                      <div className="text-gray-300">~/projects/django-api/.juno-cli/config.yaml</div>
+                      <div className="text-gray-300">~/projects/django-api/.juno-agent/config.yaml</div>
                       <div className="text-purple-300 mt-2">
                         default_model: &ldquo;claude-4&rdquo;<br/>
                         context_libraries: [&ldquo;django&rdquo;, &ldquo;python&rdquo;, &ldquo;postgresql&rdquo;]<br/>
@@ -1315,7 +1319,7 @@ asyncio.run(main())`;
                         <div className="p-3 bg-green-50 rounded border border-green-200">
                           <p className="text-sm text-green-800 mb-2">For detailed troubleshooting</p>
                           <div className="bg-gray-900 text-white p-2 rounded text-sm font-mono">
-                            <span className="text-green-400">$</span> juno-cli --debug --trace
+                            <span className="text-green-400">$</span> juno-agent --debug --trace
                           </div>
                           <p className="text-sm text-green-700 mt-2">Logs saved to app_run.log in current directory</p>
                         </div>
@@ -1338,7 +1342,7 @@ asyncio.run(main())`;
                 <Card className="shadow-lg">
                   <CardBody className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-lg font-semibold">Initialize Juno CLI Programmatically</h4>
+                      <h4 className="text-lg font-semibold">Initialize Juno Agent Programmatically</h4>
                       <Button
                         size="sm"
                         variant="ghost"

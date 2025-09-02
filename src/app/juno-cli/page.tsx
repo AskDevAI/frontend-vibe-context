@@ -18,16 +18,16 @@ export default function JunoCLIPage() {
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  const installCode = "pip install juno-cli";
+  const installCode = "pip install juno-agent";
   
-  const basicUsageCode = `# Start Juno CLI
-juno-cli
+  const basicUsageCode = `# Start Juno Agent
+juno-agent
 
 # Or with specific model
-juno-cli --model gpt-5
+juno-agent --model gpt-5
 
-# Interactive setup
-juno-cli --setup`;
+# Universal AI tool setup
+juno-agent --setup`;
 
   const advancedUsageCode = `import asyncio
 from juno_cli import JunoCLI
@@ -128,24 +128,24 @@ tracing:
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-violet-100 text-violet-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
               <Terminal className="w-4 h-4" />
-              Professional Terminal AI Environment
+              Universal AI Tool Configuration Hub
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
               <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
-                Juno CLI
+                Juno Agent
               </span>
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Revolutionary external context system that keeps AI tools updated with your exact dependencies. 
-              Never fight with outdated AI knowledge again - automatic documentation fetching for any model, any provider, complete privacy.
+              The world's first Universal AI Tool Configuration Hub. One setup command configures 26+ AI tools (Cursor, Claude Code, Windsurf, VS Code) 
+              with current dependency docs. Never configure AI tools manually again.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Button 
                 as={Link} 
-                href="https://github.com/askbudi/juno-cli" 
+                href="https://github.com/askbudi/juno-agent" 
                 color="primary" 
                 size="lg" 
                 className="font-semibold"
@@ -167,11 +167,11 @@ tracing:
             </div>
 
             <div className="flex justify-center gap-4 flex-wrap">
-              <Chip color="success" variant="flat">External Context Innovation</Chip>
+              <Chip color="success" variant="flat">26+ AI Tools Setup</Chip>
               <Chip color="primary" variant="flat">50+ AI Models</Chip>
-              <Chip color="secondary" variant="flat">Any Provider</Chip>
-              <Chip color="warning" variant="flat">Local-First Privacy</Chip>
-              <Chip color="danger" variant="flat">Open Source</Chip>
+              <Chip color="secondary" variant="flat">Universal Config</Chip>
+              <Chip color="warning" variant="flat">Version-Specific Docs</Chip>
+              <Chip color="danger" variant="flat">AGPL-3.0 License</Chip>
             </div>
           </div>
         </div>
@@ -181,8 +181,8 @@ tracing:
       <div className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Never Lose Context Again</h2>
-            <p className="text-lg text-gray-600">One setup command configures all your AI tools with current dependency documentation</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Never Configure AI Tools Manually Again</h2>
+            <p className="text-lg text-gray-600">Revolutionary Universal Setup System - one command configures 26+ AI tools with current dependency documentation</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -253,10 +253,10 @@ tracing:
       <div className="py-16 bg-gradient-to-r from-violet-600 to-purple-600 text-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-6">Stop Fighting with Outdated AI Knowledge</h2>
+            <h2 className="text-4xl font-bold mb-6">One Command, 26+ AI Tools Configured</h2>
             <p className="text-xl mb-8 max-w-4xl mx-auto opacity-90">
-              AI tools fail because they don't know your exact dependency versions. Juno CLI's revolutionary external context system 
-              automatically fetches current documentation for your dependencies and configures all your AI tools.
+              While other AI tools compete for your attention, Juno Agent makes ALL of them work better together. Universal setup system 
+              configures Cursor, Claude Code, Windsurf, VS Code, and 22+ more tools with version-specific dependency documentation.
             </p>
           </div>
 
@@ -266,9 +266,9 @@ tracing:
                 <div className="bg-white/20 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Shield className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Automatic Documentation Fetching</h3>
+                <h3 className="text-xl font-semibold mb-3">Universal AI Tool Configuration</h3>
                 <p className="text-white/80 text-sm">
-                  AI knows your exact React 18.3.1, not React 16. Current documentation for every dependency, automatically.
+                  Configures Cursor, Claude Code, Windsurf, VS Code, Copilot, and 21+ other AI tools with one command.
                 </p>
               </CardBody>
             </Card>
@@ -278,9 +278,9 @@ tracing:
                 <div className="bg-white/20 w-16 h-16 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Zap className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">One Setup, All AI Tools</h3>
+                <h3 className="text-xl font-semibold mb-3">Version-Specific Context</h3>
                 <p className="text-white/80 text-sm">
-                  Single command configures Claude Code, Cursor, Copilot, and 20+ other AI tools with consistent context.
+                  Every AI tool gets current docs for your exact React 18.3.1, not outdated React 16 training data.
                 </p>
               </CardBody>
             </Card>
@@ -301,14 +301,67 @@ tracing:
           <div className="text-center mt-12">
             <div className="inline-flex items-center gap-2 bg-white/20 px-6 py-3 rounded-full text-lg font-medium">
               <Star className="w-5 h-5" />
-              World's First External Context System for AI Coding Tools
+              World's First Universal AI Tool Configuration Hub
             </div>
           </div>
         </div>
       </div>
 
-      {/* Model Support */}
+      {/* Universal Setup Demo */}
       <div className="py-16 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Revolutionary Universal Setup System</h2>
+            <p className="text-lg text-gray-600">Watch how one command transforms ALL your AI tools</p>
+          </div>
+
+          <Card className="shadow-xl bg-gray-900 text-white">
+            <CardBody className="p-6">
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-semibold text-green-400 mb-2">$ juno-agent --setup</h3>
+                <p className="text-gray-400">Configuring 26+ AI tools...</p>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h4 className="text-lg font-semibold text-blue-300 mb-3">✅ AI Tools Configured</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="text-green-300">✓ Cursor - .cursorrules created</div>
+                    <div className="text-green-300">✓ Claude Code - CLAUDE.md created</div>
+                    <div className="text-green-300">✓ Windsurf - .windsurfrules created</div>
+                    <div className="text-green-300">✓ VS Code - settings.json updated</div>
+                    <div className="text-green-300">✓ GitHub Copilot - configured</div>
+                    <div className="text-green-300">✓ JetBrains AI - AGENTS.md created</div>
+                    <div className="text-gray-400">✓ + 20 more tools...</div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="text-lg font-semibold text-purple-300 mb-3">📚 Context Distributed</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="text-yellow-300">→ React 18.3.1 docs fetched</div>
+                    <div className="text-yellow-300">→ TypeScript 5.4.5 docs fetched</div>
+                    <div className="text-yellow-300">→ Next.js 14.2.1 docs fetched</div>
+                    <div className="text-yellow-300">→ Tailwind CSS 3.4.0 docs fetched</div>
+                    <div className="text-green-300">→ external_context/ symlinks created</div>
+                    <div className="text-green-300">→ MCP server installed & configured</div>
+                    <div className="text-blue-300">→ All AI tools now have current docs</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-6 p-4 bg-green-900/30 rounded-lg border border-green-700">
+                <p className="text-center text-green-300 font-medium">
+                  🎉 Setup complete! All your AI tools now work with current dependency documentation.
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+        </div>
+      </div>
+
+      {/* Model Support */}
+      <div className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">The Switzerland of AI Coding Tools</h2>
@@ -527,26 +580,20 @@ tracing:
       <div className="py-16 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Juno CLI?</h2>
-            <p className="text-lg text-gray-600">See how we compare to other AI coding tools</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Juno Agent?</h2>
+            <p className="text-lg text-gray-600">2025 market comparison - see why we're different</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="shadow-lg">
               <CardBody className="p-6">
-                <h3 className="text-xl font-semibold mb-4 text-gray-700">Other AI Tools</h3>
+                <h3 className="text-xl font-semibold mb-4 text-gray-700">2025 AI Tools (Cursor $9B, Copilot Multi-Model)</h3>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
                       <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                     </div>
-                    <span className="text-sm text-gray-600">Locked to single AI provider</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
-                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                    </div>
-                    <span className="text-sm text-gray-600">Outdated dependency knowledge</span>
+                    <span className="text-sm text-gray-600">Fight for exclusive attention</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
@@ -558,13 +605,19 @@ tracing:
                     <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
                       <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                     </div>
-                    <span className="text-sm text-gray-600">No cost transparency</span>
+                    <span className="text-sm text-gray-600">Outdated training data context</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
                       <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                     </div>
-                    <span className="text-sm text-gray-600">Cloud-dependent</span>
+                    <span className="text-sm text-gray-600">Hidden pricing & limits</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center mt-0.5">
+                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    </div>
+                    <span className="text-sm text-gray-600">Editor-only or basic CLI</span>
                   </li>
                 </ul>
               </CardBody>
@@ -575,7 +628,7 @@ tracing:
                 <div className="text-center mb-4">
                   <div className="inline-flex items-center gap-2 bg-violet-100 text-violet-700 px-3 py-1 rounded-full text-sm font-medium">
                     <Star className="w-4 h-4" />
-                    Juno CLI
+                    Juno Agent
                   </div>
                 </div>
                 <h3 className="text-xl font-semibold mb-4 text-center text-violet-700">The Smart Choice</h3>
@@ -584,19 +637,19 @@ tracing:
                     <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     </div>
+                    <span className="text-sm text-gray-700 font-medium">Universal AI tool configuration</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                    <span className="text-sm text-gray-700 font-medium">Version-specific documentation</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
                     <span className="text-sm text-gray-700 font-medium">50+ models, any provider</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    </div>
-                    <span className="text-sm text-gray-700 font-medium">External context system</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    </div>
-                    <span className="text-sm text-gray-700 font-medium">One setup, all AI tools</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
