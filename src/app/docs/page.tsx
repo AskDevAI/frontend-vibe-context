@@ -68,6 +68,13 @@ const resources = [
     icon: Globe,
     href: '/docs/libraries',
     badge: null
+  },
+  {
+    title: 'Juno CLI Documentation',
+    description: 'Complete guide for the revolutionary terminal-based AI development environment',
+    icon: Terminal,
+    href: '/juno-cli/docs',
+    badge: 'Featured'
   }
 ];
 
@@ -169,7 +176,7 @@ export default function DocsPage() {
           {/* Documentation Resources */}
           <div className="mb-20">
             <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Documentation</h2>
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {resources.map((resource, index) => {
                 const Icon = resource.icon;
                 return (
@@ -193,7 +200,8 @@ export default function DocsPage() {
                                 variant="flat"
                                 color={
                                   resource.badge === 'Essential' ? 'primary' :
-                                  resource.badge === 'Popular' ? 'success' : 'warning'
+                                  resource.badge === 'Popular' ? 'success' :
+                                  resource.badge === 'Featured' ? 'secondary' : 'warning'
                                 }
                               >
                                 {resource.badge}

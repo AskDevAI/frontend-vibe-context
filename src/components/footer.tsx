@@ -24,6 +24,7 @@ const navigation = {
   opensource: [
     { name: 'TinyAgent', href: '/tinyagent' },
     { name: 'TinyCodeAgent', href: '/tinycodeagent' },
+    { name: 'Juno CLI', href: '/juno-cli' },
   ],
   legal: [
     { name: 'Privacy', href: '/privacy' },
