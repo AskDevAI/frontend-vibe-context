@@ -32,7 +32,7 @@ export async function GET(_request: NextRequest) {
     }
 
     // Get total tokens used in last 30 days
-    const { data: tokenData, error: tokenError } = await supabaseAdmin
+    const { data: _tokenData, error: tokenError } = await supabaseAdmin
       .from('usage_log')
       .select('tokens_used')
       .eq('user_id', user.id)

@@ -109,7 +109,7 @@ async function handleSubscriptionCancelled(customerId: string, _data: AutumnWebh
 async function handlePaymentSucceeded(customerId: string, _data: AutumnWebhookData) {
   try {
     // Reset usage credits or handle payment success
-    const now = new Date();
+    const _now = new Date();
     
     // Get current profile to maintain plan type
     const { data: profile } = await supabaseAdmin

@@ -29,7 +29,7 @@ juno-agent --model gpt-5
 # Universal AI tool setup
 juno-agent --setup`;
 
-  const advancedUsageCode = `import asyncio
+  const _advancedUsageCode = `import asyncio
 from juno_cli import JunoCLI
 
 async def main():
@@ -138,7 +138,7 @@ tracing:
             </h1>
             
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              The world's first Universal AI Tool Configuration Hub. One setup command configures 26+ AI tools (Cursor, Claude Code, Windsurf, VS Code) 
+              The world&apos;s first Universal AI Tool Configuration Hub. One setup command configures 26+ AI tools (Cursor, Claude Code, Windsurf, VS Code) 
               with current dependency docs. Never configure AI tools manually again.
             </p>
 
@@ -301,7 +301,7 @@ tracing:
           <div className="text-center mt-12">
             <div className="inline-flex items-center gap-2 bg-white/20 px-6 py-3 rounded-full text-lg font-medium">
               <Star className="w-5 h-5" />
-              World's First Universal AI Tool Configuration Hub
+              World&apos;s First Universal AI Tool Configuration Hub
             </div>
           </div>
         </div>
@@ -581,7 +581,7 @@ tracing:
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Juno Agent?</h2>
-            <p className="text-lg text-gray-600">2025 market comparison - see why we're different</p>
+            <p className="text-lg text-gray-600">2025 market comparison - see why we&apos;re different</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
