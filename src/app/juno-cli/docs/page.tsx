@@ -54,26 +54,23 @@ export default function JunoCLIDocsPage() {
 pip install juno-agent
 
 # Verify installation
-juno-agent --version`;
+juno-agent version`;
 
   const basicSetupCode = `# Universal AI tool setup
-juno-agent --setup
+juno-agent setup
 
 # Start Juno Agent with default model
 juno-agent
-
-# Start with specific model
-juno-agent --model gpt-5
 
 # Start in debug mode
 juno-agent --debug --trace`;
 
   const externalContextCode = `# Universal AI Tool Configuration System
-juno-agent --setup
+juno-agent setup
 
 # Configures 26+ AI tools automatically:
-✓ Cursor - .cursorrules created
-✓ Claude Code - CLAUDE.md created  
+✓ Cursor - .cursor/rules/*.mdc created
+✓ Claude Code - configured  
 ✓ Windsurf - .windsurfrules created
 ✓ VS Code - settings.json updated
 ✓ GitHub Copilot - configured
@@ -133,32 +130,6 @@ project:
 │ 🔵 DeepSeek R1 (OpenRouter) - Free tier - 64K context 🔧           │
 └───────────────────────────────────────────────────────────────────────┘`;
 
-  const programmingExampleCode = `import asyncio
-from juno_cli import JunoCLI
-
-async def main():
-    # Initialize Juno Agent programmatically
-    cli = JunoCLI(
-        model="claude-4",  # or "gpt-5", "gemini-2.5-pro"
-        api_key="your-api-key",
-        ui_mode="fancy",   # Rich TUI experience
-        
-        # External context features
-        auto_scan=True,
-        project_context=True,
-        
-        # Advanced features
-        enable_tracing=True,
-        storage_backend="sqlite"
-    )
-    
-    try:
-        # Start interactive session
-        await cli.start_session()
-    finally:
-        await cli.cleanup()
-
-asyncio.run(main())`;
 
   // Navigation sections
   const sections = [
@@ -268,7 +239,6 @@ asyncio.run(main())`;
       { keys: 'S', action: 'Setup', description: 'Run setup wizard from Welcome Screen' },
       { keys: 'Ctrl+W', action: 'Welcome Screen', description: 'Return to welcome from chat' },
       { keys: '/', action: 'Commands', description: 'Trigger command autocomplete' },
-      { keys: 'Delete', action: 'Delete Session', description: 'Delete selected session in history' }
     ]}
   ];
 
@@ -521,11 +491,11 @@ asyncio.run(main())`;
 
                   <Card className="shadow-lg">
                     <CardBody className="p-6">
-                      <h4 className="font-semibold mb-3">With Specific Model</h4>
+                      <h4 className="font-semibold mb-3">In Debug Mode</h4>
                       <div className="bg-gray-900 text-white p-3 rounded font-mono text-sm">
-                        <div className="text-green-400">$ juno-agent --model gpt-5</div>
-                        <div className="text-gray-300 mt-1">Using GPT-5 (OpenAI)</div>
-                        <div className="text-yellow-300 mt-1">🤖 Model: GPT-5 Ready</div>
+                        <div className="text-green-400">$ juno-agent --debug</div>
+                        <div className="text-gray-300 mt-1">Debug mode enabled</div>
+                        <div className="text-yellow-300 mt-1">📊 Detailed logging active</div>
                       </div>
                     </CardBody>
                   </Card>
@@ -961,10 +931,10 @@ asyncio.run(main())`;
                           <span className="text-green-400">$</span> juno-agent
                         </div>
                         <div className="bg-gray-900 text-white p-2 rounded text-sm font-mono">
-                          <span className="text-green-400">$</span> juno-agent --model claude-4
+                          <span className="text-green-400">$</span> juno-agent
                         </div>
                         <div className="bg-gray-900 text-white p-2 rounded text-sm font-mono">
-                          <span className="text-green-400">$</span> juno-agent --setup
+                          <span className="text-green-400">$</span> juno-agent setup
                         </div>
                       </div>
                     </CardBody>
@@ -1330,46 +1300,6 @@ asyncio.run(main())`;
               </div>
             </section>
 
-            {/* Programming API */}
-            <section id="programming-api" className="mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                <Code2 className="w-8 h-8 text-violet-600" />
-                Programming API
-              </h2>
-
-              <div className="mb-8">
-                <h3 className="text-2xl font-semibold text-gray-800 mb-4">Programmatic Usage</h3>
-                <Card className="shadow-lg">
-                  <CardBody className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-lg font-semibold">Initialize Juno Agent Programmatically</h4>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        isIconOnly
-                        onClick={() => copyToClipboard(programmingExampleCode, 'programming')}
-                      >
-                        <Copy className="w-4 h-4" />
-                      </Button>
-                    </div>
-                    <SyntaxHighlighter
-                      language="python"
-                      style={vscDarkPlus}
-                      customStyle={{
-                        margin: 0,
-                        borderRadius: '0.5rem',
-                        fontSize: '0.875rem'
-                      }}
-                    >
-                      {programmingExampleCode}
-                    </SyntaxHighlighter>
-                    {copiedCode === 'programming' && (
-                      <div className="text-green-600 text-sm mt-2">Copied to clipboard!</div>
-                    )}
-                  </CardBody>
-                </Card>
-              </div>
-            </section>
 
           </div>
         </div>

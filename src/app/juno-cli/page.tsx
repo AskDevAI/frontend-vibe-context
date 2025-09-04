@@ -23,38 +23,9 @@ export default function JunoCLIPage() {
   const basicUsageCode = `# Start Juno Agent
 juno-agent
 
-# Or with specific model
-juno-agent --model gpt-5
-
 # Universal AI tool setup
-juno-agent --setup`;
+juno-agent setup`;
 
-  const _advancedUsageCode = `import asyncio
-from juno_cli import JunoCLI
-
-async def main():
-    # Initialize Juno CLI programmatically
-    cli = JunoCLI(
-        model="claude-4",  # or "gpt-5", "gemini-2.5-pro"
-        api_key="your-api-key",
-        ui_mode="fancy",   # Rich TUI experience
-        
-        # Project intelligence
-        auto_scan=True,
-        project_context=True,
-        
-        # Advanced features
-        enable_tracing=True,
-        storage_backend="sqlite"
-    )
-    
-    try:
-        # Start interactive session
-        await cli.start_session()
-    finally:
-        await cli.cleanup()
-
-asyncio.run(main())`;
 
   const tuiExampleCode = `# Terminal User Interface Features
 
@@ -318,7 +289,7 @@ tracing:
           <Card className="shadow-xl bg-gray-900 text-white">
             <CardBody className="p-6">
               <div className="text-center mb-6">
-                <h3 className="text-xl font-semibold text-green-400 mb-2">$ juno-agent --setup</h3>
+                <h3 className="text-xl font-semibold text-green-400 mb-2">$ juno-agent setup</h3>
                 <p className="text-gray-400">Configuring 26+ AI tools...</p>
               </div>
               
@@ -326,8 +297,8 @@ tracing:
                 <div>
                   <h4 className="text-lg font-semibold text-blue-300 mb-3">✅ AI Tools Configured</h4>
                   <div className="space-y-2 text-sm">
-                    <div className="text-green-300">✓ Cursor - .cursorrules created</div>
-                    <div className="text-green-300">✓ Claude Code - CLAUDE.md created</div>
+                    <div className="text-green-300">✓ Cursor - .cursor/rules/*.mdc created</div>
+                    <div className="text-green-300">✓ Claude Code - configured</div>
                     <div className="text-green-300">✓ Windsurf - .windsurfrules created</div>
                     <div className="text-green-300">✓ VS Code - settings.json updated</div>
                     <div className="text-green-300">✓ GitHub Copilot - configured</div>
