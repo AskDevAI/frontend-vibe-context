@@ -6,8 +6,8 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AskBudi - Latest Documentation for LLMs",
-  description: "Get the latest documentation and code API for any library, reducing tokens and improving code quality for LLMs.",
+  title: "AskBudi + TinyAgent - Complete AI Development Platform",
+  description: "Complete AI development ecosystem: Get the latest documentation with AskBudi, build intelligent agents with TinyAgent's three-tier architecture, and scale with enterprise-grade security and flexibility.",
 };
 
 export default function RootLayout({

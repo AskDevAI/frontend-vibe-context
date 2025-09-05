@@ -27,18 +27,16 @@ from tinyagent.tools.todo_write import enable_todo_write_tool
 async def main():
     # Initialize TinyAgent with new features
     agent = TinyAgent(
-        model="gpt-4o-mini",  # or "claude-4", "gpt-5", etc.
+        model="gpt-4o-mini",  # or "claude-3-5-sonnet-20241022", "gpt-4o", etc.
         api_key="your-api-key",
         enable_todo_write=True  # Enable TodoWrite tool
     )
     
     # Add a general-purpose subagent for parallel tasks
     helper_subagent = create_general_subagent(
-        name="helper",
-        model="gpt-4.1-mini",
-        max_turns=20,
-        enable_python=True,
-        enable_shell=True
+        "helper",
+        model="gpt-4o-mini",
+        max_turns=20
     )
     agent.add_tool(helper_subagent)
     
@@ -70,7 +68,7 @@ async def main():
     ui = RichUICallback(markdown=True, show_thinking=True)
     
     agent = TinyAgent(
-        model="claude-3-5-sonnet-20241022",  # or "gpt-5", "claude-4"
+        model="claude-3-5-sonnet-20241022",  # or "gpt-4o", "gpt-4o-mini"
         api_key="your-api-key",
         storage=storage,
         session_id="user_session",
@@ -83,8 +81,8 @@ async def main():
     agent.add_callback(ui)
     
     # Add specialized subagents
-    researcher = create_research_subagent("researcher", "gpt-4o", max_turns=20)
-    coder = create_coding_subagent("coder", "claude-3-sonnet", max_turns=25)
+    researcher = create_research_subagent("researcher", model="gpt-4o", max_turns=20)
+    coder = create_coding_subagent("coder", model="claude-3-5-sonnet", max_turns=25)
     agent.add_tool(researcher)
     agent.add_tool(coder)
     
@@ -105,14 +103,15 @@ asyncio.run(main())`;
   const supportBotCode = `import asyncio
 from tinyagent import TinyAgent, tool
 
-@tool("get_order", "Get order status")
+@tool()
 def get_order_status(order_id: str) -> str:
+    """Get order status"""
     # Your database logic here
     return f"Order {order_id}: Shipped"
 
 async def main():
     bot = TinyAgent(
-        model="o4-mini",
+        model="gpt-4o-mini",
         api_key="your-api-key",
         system_prompt="You are a helpful customer support agent"
     )
@@ -135,7 +134,7 @@ async def main():
     storage = JsonFileStorage("./research_sessions")
     
     researcher = TinyAgent(
-        model="o4-mini",
+        model="gpt-4o-mini",
         api_key="your-api-key",
         storage=storage,
         session_id="research_session",
@@ -169,7 +168,7 @@ async def main():
     )
     
     agent = TinyAgent(
-        model="o4-mini",
+        model="gpt-4o-mini",
         api_key="your-api-key"
     )
     
@@ -196,7 +195,7 @@ async def main():
     )
     
     agent = TinyAgent(
-        model="o4-mini",
+        model="gpt-4o-mini",
         api_key="your-api-key"
     )
     
@@ -218,7 +217,7 @@ from tinyagent import TinyAgent
 async def main():
     # Interactive UI directly in Jupyter notebooks
     agent = TinyAgent(
-        model="o4-mini",
+        model="gpt-4o-mini",
         api_key="your-api-key",
         ui="jupyter"  # Automatically enables JupyterUI
     )
@@ -249,7 +248,7 @@ await main()`;
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
               <Zap className="w-4 h-4" />
-              Open Source AI Agent Framework
+              Enterprise-Grade AI Agent Framework
             </div>
             
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
@@ -258,9 +257,9 @@ await main()`;
               </span>
             </h1>
             
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              The most minimal yet powerful AI Agent framework. Supports ANY LLM model including GPT-5, Claude-4, Gemini, Moonshot, and 100+ models. 
-              Features revolutionary subagent tools, sandboxed file operations, MCP client support, persistent storage, built-in UI hooks, and extensible architecture.
+            <p className="text-xl text-gray-600 mb-8 max-w-4xl mx-auto">
+              The most powerful yet minimal AI agent framework with three-tier architecture: TinyAgent + TinyCodeAgent + Subagent Swarm. 
+              Supports 20 built-in tools, multiple execution providers, enterprise security, and seamless model flexibility across OpenAI, Anthropic, Google, and custom providers.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
@@ -276,6 +275,16 @@ await main()`;
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
               <Button 
+                as={Link}
+                href="/tinyagent/docs"
+                color="secondary"
+                size="lg"
+                className="font-semibold"
+                startContent={<Terminal className="w-5 h-5" />}
+              >
+                Full Documentation
+              </Button>
+              <Button 
                 variant="bordered" 
                 size="lg"
                 className="font-semibold"
@@ -287,10 +296,11 @@ await main()`;
 
             <div className="flex justify-center gap-4 flex-wrap">
               <Chip color="success" variant="flat">MIT License</Chip>
-              <Chip color="primary" variant="flat">Python 3.8+</Chip>
-              <Chip color="secondary" variant="flat">100 Lines Core</Chip>
-              <Chip color="warning" variant="flat">GPT-5 & Claude-4 Ready</Chip>
-              <Chip color="danger" variant="flat">Subagent Tools</Chip>
+              <Chip color="primary" variant="flat">Python 3.10+</Chip>
+              <Chip color="secondary" variant="flat">20 Tools</Chip>
+              <Chip color="warning" variant="flat">Three-Tier Architecture</Chip>
+              <Chip color="danger" variant="flat">Enterprise Security</Chip>
+              <Chip color="default" variant="flat">Multi-Provider Support</Chip>
             </div>
           </div>
         </div>
@@ -372,14 +382,14 @@ await main()`;
             <Card className="shadow-lg">
               <CardBody className="p-4 text-center">
                 <h3 className="font-semibold text-blue-600 mb-2">OpenAI</h3>
-                <p className="text-sm text-gray-600">gpt-5, gpt-4o, gpt-4o-mini, gpt-4, gpt-3.5-turbo</p>
+                <p className="text-sm text-gray-600">gpt-4o, gpt-4o-mini, gpt-4, gpt-3.5-turbo</p>
               </CardBody>
             </Card>
             
             <Card className="shadow-lg">
               <CardBody className="p-4 text-center">
                 <h3 className="font-semibold text-purple-600 mb-2">Anthropic</h3>
-                <p className="text-sm text-gray-600">claude-4, claude-3-5-sonnet, claude-3-opus, claude-3-haiku</p>
+                <p className="text-sm text-gray-600">claude-3-5-sonnet, claude-3-opus, claude-3-haiku</p>
               </CardBody>
             </Card>
             
@@ -403,20 +413,20 @@ await main()`;
               <h3 className="text-lg font-semibold mb-4 text-center">Model Switching Examples</h3>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-medium mb-2">OpenAI GPT-5 (Latest)</h4>
+                  <h4 className="font-medium mb-2">OpenAI GPT-4o (Latest)</h4>
                   <div className="bg-gray-900 text-white p-3 rounded-lg text-sm font-mono">
                     <span className="text-blue-300">agent</span> = <span className="text-green-300">TinyAgent</span>(<br/>
-                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;gpt-5&quot;</span>,<br/>
+                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;gpt-4o&quot;</span>,<br/>
                     &nbsp;&nbsp;<span className="text-yellow-300">api_key</span>=<span className="text-red-300">&quot;your-openai-key&quot;</span><br/>
                     )
                   </div>
                 </div>
                 
                 <div>
-                  <h4 className="font-medium mb-2">Claude-4 (Latest)</h4>
+                  <h4 className="font-medium mb-2">Claude-3.5-Sonnet (Latest)</h4>
                   <div className="bg-gray-900 text-white p-3 rounded-lg text-sm font-mono">
                     <span className="text-blue-300">agent</span> = <span className="text-green-300">TinyAgent</span>(<br/>
-                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;claude-4&quot;</span>,<br/>
+                    &nbsp;&nbsp;<span className="text-yellow-300">model</span>=<span className="text-red-300">&quot;claude-3-5-sonnet-20241022&quot;</span>,<br/>
                     &nbsp;&nbsp;<span className="text-yellow-300">api_key</span>=<span className="text-red-300">&quot;your-anthropic-key&quot;</span><br/>
                     )
                   </div>
@@ -533,9 +543,9 @@ await main()`;
                 <div className="bg-yellow-100 w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Shield className="w-6 h-6 text-yellow-600" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2">GPT-5 & Claude-4 Ready</h3>
+                <h3 className="text-lg font-semibold mb-2">Latest AI Models</h3>
                 <p className="text-gray-600 text-sm">
-                  Latest AI models including GPT-5, Claude-4, and 100+ models via LiteLLM
+                  Support for GPT-4o, Claude-3.5-Sonnet, and 100+ models via LiteLLM
                 </p>
               </CardBody>
             </Card>
@@ -812,9 +822,9 @@ await main()`;
                 <Terminal className="w-4 h-4 text-orange-600" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold mb-2">🤖 GPT-5 & Claude-4 Ready</h3>
+                <h3 className="text-lg font-semibold mb-2">🤖 Latest AI Models Ready</h3>
                 <p className="text-gray-600">
-                  First-class support for the latest AI models including GPT-5 and Claude-4. Enhanced shell tool with safety validation, 
+                  First-class support for the latest AI models including GPT-4o and Claude-3.5-Sonnet. Enhanced shell tool with safety validation, 
                   platform-specific tips, and provider-backed execution. Multiple UI options and comprehensive monitoring built-in.
                 </p>
               </div>

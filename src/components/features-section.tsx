@@ -16,36 +16,42 @@ const features = [
     title: 'Smart Library Search',
     description: 'Find any library across npm, PyPI, GitHub, and more with intelligent search and version matching.',
     color: 'bg-blue-500',
+    category: 'AskBudi'
   },
   {
     icon: Download,
     title: 'MCP Server Integration',
     description: 'Works with Claude Code, Cursor, Windsurf, and any MCP-compatible IDE out of the box.',
     color: 'bg-purple-500',
+    category: 'Integration'
   },
   {
     icon: Zap,
-    title: 'Blazing Fast API',
-    description: 'Sub-second response times with intelligent caching and optimized database queries.',
+    title: '25+ Built-in Tools',
+    description: 'From file operations to web scraping, TinyAgent comes with everything you need to build powerful agents.',
     color: 'bg-yellow-500',
+    category: 'TinyAgent'
   },
   {
     icon: Shield,
-    title: 'API Key Security',
-    description: 'Secure authentication with quota management, usage tracking, and billing integration.',
+    title: 'Enterprise Security',
+    description: 'Production-grade security with API key management, rate limiting, and audit logging.',
     color: 'bg-green-500',
+    category: 'TinyAgent'
   },
   {
     icon: Code2,
-    title: 'Code-Aware Context',
-    description: 'Analyzes your project structure to provide more relevant documentation snippets.',
+    title: 'Three-Tier Architecture',
+    description: 'TinyAgent + TinyCodeAgent + Subagent Swarm for scalable, distributed AI agent systems.',
     color: 'bg-red-500',
+    category: 'TinyAgent'
   },
   {
     icon: GitBranch,
-    title: 'Auto-Updated Docs',
-    description: 'GitHub App integration keeps documentation automatically synchronized with latest releases.',
+    title: 'Model Flexibility',
+    description: 'Support for OpenAI, Anthropic, Google, and custom providers with seamless switching.',
     color: 'bg-indigo-500',
+    category: 'TinyAgent'
   },
 ];
 
@@ -56,18 +62,18 @@ const integrations = [
     icon: '🤖',
   },
   {
-    name: 'Cursor',
-    description: 'AI-powered IDE',
-    icon: '⚡',
+    name: 'Python',
+    description: 'TinyAgent library',
+    icon: '🐍',
   },
   {
-    name: 'Windsurf',
-    description: 'Code with confidence',
-    icon: '🏄',
+    name: 'OpenAI/Anthropic',
+    description: 'Multi-provider AI',
+    icon: '🧠',
   },
   {
-    name: 'GitHub',
-    description: 'Auto-sync repos',
+    name: 'Docker',
+    description: 'Containerized agents',
     icon: '📦',
   },
 ];
@@ -79,14 +85,15 @@ export default function FeaturesSection() {
         {/* Features Grid */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
-            Everything you need for
+            Complete AI Development
             <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              {' '}modern AI development
+              {' '}Ecosystem
             </span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Built for developers who want their AI tools to have access to the latest, 
-            most accurate documentation without the token overhead.
+          <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+            From intelligent documentation retrieval with AskBudi to autonomous agent development 
+            with TinyAgent's three-tier architecture. Everything you need for modern AI development 
+            in one integrated platform.
           </p>
         </div>
 
@@ -142,16 +149,16 @@ export default function FeaturesSection() {
                 <div className="text-gray-600">Libraries indexed</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary mb-2">80%</div>
-                <div className="text-gray-600">Token reduction</div>
+                <div className="text-3xl font-bold text-primary mb-2">25+</div>
+                <div className="text-gray-600">Agent tools</div>
               </div>
               <div>
                 <div className="text-3xl font-bold text-primary mb-2">&lt;100ms</div>
-                <div className="text-gray-600">Average response</div>
+                <div className="text-gray-600">API response</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-primary mb-2">99.9%</div>
-                <div className="text-gray-600">Uptime SLA</div>
+                <div className="text-3xl font-bold text-primary mb-2">3-Tier</div>
+                <div className="text-gray-600">Architecture</div>
               </div>
             </div>
           </CardBody>

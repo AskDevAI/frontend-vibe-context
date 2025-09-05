@@ -21,6 +21,8 @@ export default function Navbar() {
   const [loading, setLoading] = useState(true);
 
   const menuItems = [
+    'TinyAgent',
+    'Juno CLI',
     'Documentation',
     'Pricing',
     'About',
@@ -66,6 +68,16 @@ export default function Navbar() {
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
+          <Link color="foreground" href="/tinyagent">
+            TinyAgent
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="/juno-cli">
+            Juno CLI
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
           <Link color="foreground" href="/docs">
             Documentation
           </Link>
@@ -73,11 +85,6 @@ export default function Navbar() {
         <NavbarItem>
           <Link color="foreground" href="/pricing">
             Pricing
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="/about">
-            About
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -123,20 +130,26 @@ export default function Navbar() {
       </NavbarContent>
 
       <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              color={
-                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-              }
-              className="w-full"
-              href={`/${item.toLowerCase().replace(' ', '-')}`}
-              size="lg"
-            >
-              {item}
-            </Link>
-          </NavbarMenuItem>
-        ))}
+        {menuItems.map((item, index) => {
+          let href = `/${item.toLowerCase().replace(' ', '-')}`;
+          if (item === 'TinyAgent') href = '/tinyagent';
+          if (item === 'Juno CLI') href = '/juno-cli';
+          
+          return (
+            <NavbarMenuItem key={`${item}-${index}`}>
+              <Link
+                color={
+                  index === 4 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
+                }
+                className="w-full"
+                href={href}
+                size="lg"
+              >
+                {item}
+              </Link>
+            </NavbarMenuItem>
+          );
+        })}
         {user ? (
           <NavbarMenuItem>
             <Link color="primary" href="/dashboard" size="lg">
