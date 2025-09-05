@@ -2,40 +2,16 @@
 
 import { useCustomer } from 'autumn-js/react';
 
-interface UsageTrackerProps {
-  featureId?: string;
-  eventName?: string;
-  value?: number;
-  metadata?: Record<string, unknown>;
-}
+// interface UsageTrackerProps {
+//   featureId?: string;
+//   eventName?: string;
+//   value?: number;
+//   metadata?: Record<string, unknown>;
+// }
 
-export function UsageTracker({ 
-  featureId: _ = 'api_requests', 
-  eventName: __ = 'api_request',
-  value: ___ = 1,
-  metadata: ____ = {}
-}: UsageTrackerProps) {
-  const { track: _____ } = useCustomer();
-
-  // Future enhancement: track usage programmatically
-  // const trackUsage = async () => {
-  //   try {
-  //     await track({
-  //       featureId,
-  //       eventName,
-  //       value,
-  //       entityData: {
-  //         ...metadata,
-  //         timestamp: new Date().toISOString(),
-  //         userAgent: navigator.userAgent,
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.error('Failed to track usage with Autumn:', error);
-  //   }
-  // };
-
-  // This component doesn't render anything, it's just for tracking
+export function UsageTracker() {
+  // This component is currently disabled - tracking is handled by the useUsageTracker hook below
+  // Future enhancement: implement automatic tracking based on props
   return null;
 }
 

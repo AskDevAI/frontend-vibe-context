@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
         break;
         
       case 'customer.subscription.deleted':
-        await handleSubscriptionDeleted(customer_id, data);
+        await handleSubscriptionDeleted(customer_id);
         break;
         
       default:
@@ -152,10 +152,10 @@ async function handlePaymentFailed(customerId: string, data: AutumnWebhookData) 
   }
 }
 
-async function handleSubscriptionDeleted(customerId: string, data: AutumnWebhookData) {
+async function handleSubscriptionDeleted(customerId: string) {
   try {
     // Same as cancellation - downgrade to free
-    await handleSubscriptionCancelled(customerId, data);
+    await handleSubscriptionCancelled(customerId);
   } catch (error) {
     console.error('Error handling subscription deletion:', error);
   }
