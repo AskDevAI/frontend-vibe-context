@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+// import { NextRequest } from 'next/server'; // Unused since we removed the parameter
 import { requireAuth, successResponse, errorResponse, supabaseAdmin } from '@/lib/server-auth';
 
 // GET /api/v1/user/analytics - Get detailed user analytics

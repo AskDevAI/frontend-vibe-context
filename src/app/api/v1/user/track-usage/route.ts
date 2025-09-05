@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       value = 1,
       event_name,
       properties = {},
-      idempotency_key
+      idempotency_key: _
     } = body;
 
     // This endpoint is now handled by Autumn's frontend hooks

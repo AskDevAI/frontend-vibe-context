@@ -10,12 +10,12 @@ interface UsageTrackerProps {
 }
 
 export function UsageTracker({ 
-  featureId = 'api_requests', 
-  eventName = 'api_request',
-  value = 1,
-  metadata = {}
+  featureId: _ = 'api_requests', 
+  eventName: __ = 'api_request',
+  value: ___ = 1,
+  metadata: ____ = {}
 }: UsageTrackerProps) {
-  const { track } = useCustomer();
+  const { track: _____ } = useCustomer();
 
   // Future enhancement: track usage programmatically
   // const trackUsage = async () => {

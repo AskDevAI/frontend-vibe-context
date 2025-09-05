@@ -30,11 +30,11 @@ export async function POST(request: NextRequest) {
         break;
         
       case 'subscription.cancelled':
-        await handleSubscriptionCancelled(customer_id, data);
+        await handleSubscriptionCancelled(customer_id);
         break;
         
       case 'invoice.payment_succeeded':
-        await handlePaymentSucceeded(customer_id, data);
+        await handlePaymentSucceeded(customer_id);
         break;
         
       case 'invoice.payment_failed':

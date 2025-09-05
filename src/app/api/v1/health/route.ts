@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server';
+// import { NextRequest } from 'next/server'; // Unused since we removed the parameter
 import { successResponse, supabaseAdmin } from '@/lib/server-auth';
 
 // GET /api/v1/health - Health check endpoint
