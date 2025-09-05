@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import { requireAuth, successResponse, errorResponse, supabaseAdmin } from '@/lib/server-auth';
 
 // GET /api/v1/user/usage - Get user usage statistics
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     const user = await requireAuth();
     
@@ -32,7 +32,7 @@ export async function GET(_request: NextRequest) {
     }
 
     // Get total tokens used in last 30 days
-    const { data: _tokenData, error: tokenError } = await supabaseAdmin
+    const { error: tokenError } = await supabaseAdmin
       .from('usage_log')
       .select('tokens_used')
       .eq('user_id', user.id)

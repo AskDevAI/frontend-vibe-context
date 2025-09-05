@@ -84,7 +84,7 @@ async function handleSubscriptionUpdate(customerId: string, data: AutumnWebhookD
   }
 }
 
-async function handleSubscriptionCancelled(customerId: string, _data: AutumnWebhookData) {
+async function handleSubscriptionCancelled(customerId: string) {
   try {
     // Downgrade to free plan
     const { error } = await supabaseAdmin
@@ -106,10 +106,10 @@ async function handleSubscriptionCancelled(customerId: string, _data: AutumnWebh
   }
 }
 
-async function handlePaymentSucceeded(customerId: string, _data: AutumnWebhookData) {
+async function handlePaymentSucceeded(customerId: string) {
   try {
     // Reset usage credits or handle payment success
-    const _now = new Date();
+    // const now = new Date(); // Unused for now but may be needed for payment processing logic
     
     // Get current profile to maintain plan type
     const { data: profile } = await supabaseAdmin

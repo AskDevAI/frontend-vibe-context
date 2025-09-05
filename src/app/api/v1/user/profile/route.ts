@@ -3,7 +3,7 @@ import { requireAuth, successResponse, errorResponse, supabaseAdmin } from '@/li
 import { UserProfile } from '@/lib/server-types';
 
 // GET /api/v1/user/profile - Get user profile
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     const user = await requireAuth();
     

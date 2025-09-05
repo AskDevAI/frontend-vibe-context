@@ -3,7 +3,7 @@ import { requireAuth, successResponse, errorResponse, supabaseAdmin, generateApi
 import { ApiKeyRecord, ApiKeyResponse, ApiKeyCreateRequest, ApiKeyWithSecret, MAX_API_KEYS_PER_USER, QUOTA_LIMITS } from '@/lib/server-types';
 
 // GET /api/v1/users/me/api-keys - List user's API keys
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     const user = await requireAuth();
     

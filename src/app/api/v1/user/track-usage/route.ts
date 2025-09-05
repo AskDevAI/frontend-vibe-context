@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       value = 1,
       event_name,
       properties = {},
-      idempotency_key: _idempotencyKey
+      idempotency_key
     } = body;
 
     // This endpoint is now handled by Autumn's frontend hooks
@@ -98,7 +98,7 @@ export async function GET(request: NextRequest) {
           feature_id: 'api_requests',
           fallback: true,
         });
-      } catch (_fallbackError) {
+      } catch {
         return errorResponse('Failed to check entitlement', 500);
       }
     }

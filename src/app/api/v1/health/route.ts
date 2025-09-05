@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import { successResponse, supabaseAdmin } from '@/lib/server-auth';
 
 // GET /api/v1/health - Health check endpoint
-export async function GET(_request: NextRequest) {
+export async function GET() {
   try {
     // Test database connection
     const { error } = await supabaseAdmin

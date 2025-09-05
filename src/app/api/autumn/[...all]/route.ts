@@ -3,7 +3,7 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
 export const { GET, POST } = autumnHandler({
-  identify: async (_request) => {
+  identify: async () => {
     try {
       console.log('Autumn identify function called');
       

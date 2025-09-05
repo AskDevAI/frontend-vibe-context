@@ -1,28 +1,19 @@
 'use client';
 
-import { Button, Card, CardBody, Chip, Input, Breadcrumbs, BreadcrumbItem, Accordion, AccordionItem } from '@heroui/react';
+import { Button, Card, CardBody, Input, Breadcrumbs, BreadcrumbItem } from '@heroui/react';
 import { 
   Github, 
-  Terminal, 
-  Command, 
-  Zap, 
   Shield, 
-  Palette, 
   ArrowRight, 
   Copy, 
   Play,
   Search,
   BookOpen,
   Settings,
-  Keyboard,
   Code2,
   Home,
   Lightbulb,
   Monitor,
-  Cpu,
-  Eye,
-  ArrowUp,
-  Users,
   Layers,
   Network,
   Lock
@@ -35,7 +26,7 @@ import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 
 export default function TinyAgentDocsPage() {
-  const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [, setCopiedCode] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState('getting-started');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -406,7 +397,7 @@ custom_agent = TinyAgent(
 
                     <div className="space-y-6">
                       <p className="text-lg text-gray-600">
-                        TinyAgent's revolutionary three-tier architecture provides scalable, 
+                        TinyAgent&apos;s revolutionary three-tier architecture provides scalable, 
                         distributed AI agent systems with specialized roles and parallel processing.
                       </p>
 

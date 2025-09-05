@@ -402,7 +402,7 @@ export default function SettingsPage() {
                         redirectTo: `${window.location.origin}/auth/reset-password`,
                       });
                       setSuccess('Password reset email sent! Check your inbox.');
-                    } catch (_error) {
+                    } catch {
                       setError('Failed to send password reset email');
                     }
                   }}

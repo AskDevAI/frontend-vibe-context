@@ -17,22 +17,23 @@ export function UsageTracker({
 }: UsageTrackerProps) {
   const { track } = useCustomer();
 
-  const _trackUsage = async () => {
-    try {
-      await track({
-        featureId,
-        eventName,
-        value,
-        entityData: {
-          ...metadata,
-          timestamp: new Date().toISOString(),
-          userAgent: navigator.userAgent,
-        }
-      });
-    } catch (error) {
-      console.error('Failed to track usage with Autumn:', error);
-    }
-  };
+  // Future enhancement: track usage programmatically
+  // const trackUsage = async () => {
+  //   try {
+  //     await track({
+  //       featureId,
+  //       eventName,
+  //       value,
+  //       entityData: {
+  //         ...metadata,
+  //         timestamp: new Date().toISOString(),
+  //         userAgent: navigator.userAgent,
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error('Failed to track usage with Autumn:', error);
+  //   }
+  // };
 
   // This component doesn't render anything, it's just for tracking
   return null;

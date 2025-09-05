@@ -92,7 +92,7 @@ export default function FeaturesSection() {
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto">
             From intelligent documentation retrieval with AskBudi to autonomous agent development 
-            with TinyAgent's three-tier architecture. Everything you need for modern AI development 
+            with TinyAgent&apos;s three-tier architecture. Everything you need for modern AI development 
             in one integrated platform.
           </p>
         </div>

@@ -65,7 +65,7 @@ export default function HeroSection() {
           
           <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto">
             Complete AI development ecosystem: Get the latest documentation with AskBudi, 
-            build intelligent agents with TinyAgent's three-tier architecture, and scale 
+            build intelligent agents with TinyAgent&apos;s three-tier architecture, and scale 
             with enterprise-grade security and flexibility.
           </p>
 
