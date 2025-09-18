@@ -241,7 +241,7 @@ export default function DocsPage() {
                   <Button 
                     variant="bordered"
                     as="a" 
-                    href="https://github.com/askbudi/examples"
+                    href="https://github.com/askbudi/"
                     target="_blank"
                     endContent={<ExternalLink className="w-4 h-4" />}
                   >
