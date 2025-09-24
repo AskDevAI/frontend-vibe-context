@@ -649,9 +649,9 @@ roundtable-ai --agents codex,claude`}
                 className="w-full"
                 classNames={{
                   tabList: "gap-6 w-full relative rounded-none p-0 border-b border-gray-700 bg-transparent",
-                  cursor: "w-full bg-blue-500",
+                  cursor: "w-full bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg shadow-blue-500/30",
                   tab: "max-w-fit px-0 h-12",
-                  tabContent: "group-data-[selected=true]:text-blue-400 text-gray-400 font-medium"
+                  tabContent: "group-data-[selected=true]:text-white font-semibold text-gray-400 font-medium"
                 }}
               >
                 <Tab key="pip" title="Using pip (Standard)">
