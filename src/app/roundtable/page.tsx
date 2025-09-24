@@ -22,44 +22,14 @@ export default function RoundtablePage() {
   };
 
 
-  const heroPrompt = `Investigate a memory leak in our Next.js app.
-The production server crashes after ~2 hours.
+  const heroPrompt = `The user dashboard is randomly slow for enterprise customers.
 
-# Delegate tasks to specialized agents
-- gemini: Analyze the entire codebase for memory leak patterns like unclosed connections, event listeners, and growing arrays. Use its 1M context window.
-- claude: Review the attached heap dump and server logs to find the specific components or API routes consuming increasing memory.
-- codex: Based on the findings, implement targeted fixes with proper cleanup patterns and monitoring code.`;
+Use Gemini SubAgent to analyze frontend performance issues in the React components, especially expensive re-renders and inefficient data fetching.
 
-  const heroResult = `**Memory Leak Analysis Complete**
+Use Codex SubAgent to examine the backend API endpoint for N+1 queries and database bottlenecks.
 
-**Root Causes Identified:**
+Use Claude SubAgent to review the infrastructure logs and identify memory/CPU pressure during peak hours.`;
 
-1.  **Database Connection Leak** (Critical)
-    *   **Agent:** Gemini
-    *   **Finding:** Prisma client connections were not being closed in API routes, causing a ~15MB leak per request.
-
-2.  **Event Listener Leak** (High)
-    *   **Agent:** Claude
-    *   **Finding:** WebSocket connections in a \`ChatWidget\` component lacked cleanup in \`useEffect\`, leaving listeners attached.
-
-**Fixes Implemented by Codex:**
-
-\`\`\`diff
-// src/lib/db.js
-+ process.on('beforeExit', async () => {
-+   await prisma.$disconnect()
-+ })
-
-// src/components/ChatWidget.tsx
-useEffect(() => {
-  const ws = new WebSocket(wsUrl);
-  ws.onmessage = handleMessage;
-+
-+  return () => {
-+    ws.close();
-+  }
-}, []);
-\`\`​`;
 
   const architectureDiagram = `
     +----------------------------------+
@@ -67,7 +37,7 @@ useEffect(() => {
     | (Primary AI Assistant)           |
     +----------------+-----------------+
                      |
-    (1. User prompt with @-delegations)
+    (1. User prompt with subagent delegation)
                      |
     +----------------v-----------------+
     |      Roundtable MCP Server       |
@@ -79,7 +49,7 @@ useEffect(() => {
 +--------------------v--------------------+
 |                                         |
 |  +-----------+   +-----------+   +-----------+  |
-|  |  @gemini  |   |  @claude  |   |   @codex  |  |
+|  |  Gemini   |   |  Claude   |   |   Codex   |  |
 |  | (Analysis)|   |  (Logic)  |   | (Implement)| |
 |  +-----------+   +-----------+   +-----------+  |
 |                                         |
@@ -140,27 +110,57 @@ useEffect(() => {
             </div>
           </div>
 
-          <div className="mt-12 bg-gray-900/50 border border-gray-700 rounded-xl overflow-hidden">
-            <div className="p-4 border-b border-gray-700 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-red-500"></span>
-                <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
-                <span className="w-3 h-3 rounded-full bg-green-500"></span>
+          <div className="mt-12 bg-gray-900/90 border border-gray-700 rounded-xl overflow-hidden shadow-2xl">
+            {/* Claude Code Header */}
+            <div className="p-4 border-b border-gray-700 flex items-center justify-between bg-gray-800/50">
+              <div className="flex items-center gap-3">
+                <div className="flex gap-2">
+                  <span className="w-3 h-3 rounded-full bg-red-500"></span>
+                  <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
+                  <span className="w-3 h-3 rounded-full bg-green-500"></span>
+                </div>
+                <span className="text-sm font-medium text-gray-300">Claude Code</span>
               </div>
-              <span className="text-sm text-gray-400">/Users/dev/my-project</span>
+              <span className="text-sm text-gray-400">~/my-project</span>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-gray-700">
-              <div className="bg-gray-900 p-6">
-                <h3 className="font-semibold text-white flex items-center gap-2"><ChevronsRight size={18} /> Your Prompt</h3>
-                <SyntaxHighlighter language="markdown" style={vscDarkPlus} customStyle={{ background: 'transparent', fontSize: '0.875rem', padding: '0.5rem 0' }}>
+
+            {/* Single prompt view */}
+            <div className="bg-gray-900 p-6 relative">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-white flex items-center gap-2">
+                  <ChevronsRight size={18} className="text-blue-400" />
+                  Multi-Agent Debugging Prompt
+                </h3>
+                <Button
+                  isIconOnly
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-400 hover:text-white hover:bg-gray-800"
+                  onClick={() => copyToClipboard(heroPrompt, 'hero-prompt')}
+                >
+                  {copied === 'hero-prompt' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                </Button>
+              </div>
+
+              <div className="bg-gray-950 rounded-lg border border-gray-700 p-4">
+                <SyntaxHighlighter
+                  language="markdown"
+                  style={vscDarkPlus}
+                  customStyle={{
+                    background: 'transparent',
+                    fontSize: '0.9rem',
+                    padding: 0,
+                    margin: 0
+                  }}
+                >
                   {heroPrompt}
                 </SyntaxHighlighter>
               </div>
-              <div className="bg-gray-900 p-6">
-                <h3 className="font-semibold text-white flex items-center gap-2"><Zap size={16} className="text-green-400" /> Synthesized Result</h3>
-                <SyntaxHighlighter language="markdown" style={vscDarkPlus} customStyle={{ background: 'transparent', fontSize: '0.875rem', padding: '0.5rem 0' }}>
-                  {heroResult}
-                </SyntaxHighlighter>
+
+              <div className="mt-4 text-center">
+                <p className="text-sm text-gray-400">
+                  <span className="text-blue-400">✨ Claude Code</span> with Roundtable AI will delegate this to specialized subagents and synthesize their findings
+                </p>
               </div>
             </div>
           </div>
@@ -233,56 +233,131 @@ useEffect(() => {
           </div>
         </div>
 
-        {/* Concrete Examples Section */}
+        {/* Real-World Use Cases Section */}
         <div className="py-16 sm:py-20 bg-gray-950">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-white">Delegate, Don&apos;t Micromanage</h2>
-              <p className="mt-4 text-lg text-gray-400">Three examples of workflows that are tedious for a single AI but trivial with Roundtable.</p>
+              <h2 className="text-3xl font-bold text-white">Real-World Multi-Agent Workflows</h2>
+              <p className="mt-4 text-lg text-gray-400">Developer-tested use cases that show clear value over single AI tools</p>
             </div>
-            <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="mt-12 space-y-8">
+
+              {/* Virtual War Room */}
               <Card className="bg-gray-900 border border-gray-800">
-                <CardBody className="p-6">
-                  <div className="flex items-center gap-3">
-                    <Database className="w-8 h-8 text-sky-400" />
-                    <h3 className="text-lg font-bold text-white">API Architecture Design</h3>
+                <CardBody className="p-8">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
+                        <Database className="w-6 h-6 text-red-400" />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-white">Virtual War Room: Multi-Stack Bug Analysis</h3>
+                      <p className="mt-2 text-gray-400">
+                        <strong>Problem:</strong> &ldquo;The user dashboard is randomly slow for enterprise customers&rdquo; - could be frontend, backend, database, or infrastructure.
+                      </p>
+                      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="bg-gray-800/50 p-4 rounded-lg">
+                          <h4 className="font-semibold text-purple-400 text-sm">Gemini SubAgent</h4>
+                          <p className="text-xs text-gray-400 mt-1">Frontend analysis: identifies expensive re-renders and inefficient data-fetching patterns in React components</p>
+                        </div>
+                        <div className="bg-gray-800/50 p-4 rounded-lg">
+                          <h4 className="font-semibold text-sky-400 text-sm">Codex SubAgent</h4>
+                          <p className="text-xs text-gray-400 mt-1">Backend analysis: detects N+1 query problems and suggests JOIN optimizations</p>
+                        </div>
+                        <div className="bg-gray-800/50 p-4 rounded-lg">
+                          <h4 className="font-semibold text-orange-400 text-sm">Claude SubAgent</h4>
+                          <p className="text-xs text-gray-400 mt-1">Infrastructure analysis: correlates slowness with memory limits and suggests scaling</p>
+                        </div>
+                      </div>
+                      <p className="mt-4 text-sm text-green-400">
+                        <strong>Result:</strong> Instant virtual &ldquo;war room&rdquo; with senior engineers from different teams, providing holistic stack analysis in minutes instead of hours.
+                      </p>
+                    </div>
                   </div>
-                  <p className="mt-3 text-sm text-gray-400">Design, audit, and optimize a new service endpoint from scratch.</p>
-                  <ul className="mt-4 space-y-2 text-sm">
-                    <li className="flex gap-3"><b className="text-sky-400 w-20 shrink-0">@codex:</b> Drafts the initial REST API spec and boilerplate code.</li>
-                    <li className="flex gap-3"><b className="text-orange-400 w-20 shrink-0">@claude:</b> Audits the design for security flaws (e.g., authZ).</li>
-                    <li className="flex gap-3"><b className="text-purple-400 w-20 shrink-0">@gemini:</b> Suggests performance optimizations like caching headers.</li>
-                  </ul>
                 </CardBody>
               </Card>
+
+              {/* Flaky CI Triage */}
               <Card className="bg-gray-900 border border-gray-800">
-                <CardBody className="p-6">
-                  <div className="flex items-center gap-3">
-                    <Zap className="w-8 h-8 text-yellow-400" />
-                    <h3 className="text-lg font-bold text-white">Performance Optimization</h3>
+                <CardBody className="p-8">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                        <Zap className="w-6 h-6 text-yellow-400" />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-white">Automated Flaky Test Autopilot</h3>
+                      <p className="mt-2 text-gray-400">
+                        <strong>Problem:</strong> CI randomly fails, digging through 10k+ lines of logs and reproducing race conditions wastes hours.
+                      </p>
+                      <div className="mt-4 bg-gray-800/30 p-4 rounded-lg">
+                        <div className="text-sm text-gray-300">
+                          <strong>Multi-agent loop:</strong> Log clustering → hypothesis generation → automated experiments → change-point analysis → repro script generation
+                        </div>
+                      </div>
+                      <p className="mt-4 text-sm text-green-400">
+                        <strong>Output:</strong> <code className="bg-gray-800 px-2 py-1 rounded text-xs">scripts/repro_flake_&lt;id&gt;.sh</code> with exact seed/flags and a PR with the fix or quarantine rationale.
+                      </p>
+                    </div>
                   </div>
-                  <p className="mt-3 text-sm text-gray-400">Identify and fix a database query bottleneck causing API timeouts.</p>
-                  <ul className="mt-4 space-y-2 text-sm">
-                    <li className="flex gap-3"><b className="text-purple-400 w-20 shrink-0">@gemini:</b> Scans the repo, mapping expensive queries to specific API endpoints.</li>
-                    <li className="flex gap-3"><b className="text-orange-400 w-20 shrink-0">@claude:</b> Designs an optimization strategy with new indexes and a caching layer.</li>
-                    <li className="flex gap-3"><b className="text-sky-400 w-20 shrink-0">@codex:</b> Implements the changes and provides before/after benchmarks.</li>
-                  </ul>
                 </CardBody>
               </Card>
+
+              {/* CVE Security Audit */}
               <Card className="bg-gray-900 border border-gray-800">
-                <CardBody className="p-6">
-                  <div className="flex items-center gap-3">
-                    <ShieldCheck className="w-8 h-8 text-green-400" />
-                    <h3 className="text-lg font-bold text-white">Dependency Upgrade</h3>
+                <CardBody className="p-8">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0">
+                      <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
+                        <ShieldCheck className="w-6 h-6 text-green-400" />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-white">Proactive CVE Analysis & Patching</h3>
+                      <p className="mt-2 text-gray-400">
+                        <strong>Scenario:</strong> Critical RCE vulnerability announced for a library your project depends on. Need to act fast.
+                      </p>
+                      <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-3">
+                        <div className="bg-gray-800/50 p-3 rounded text-center">
+                          <div className="text-xs text-blue-400 font-medium">CVE Research</div>
+                          <div className="text-xs text-gray-400 mt-1">Analyze vulnerability</div>
+                        </div>
+                        <div className="bg-gray-800/50 p-3 rounded text-center">
+                          <div className="text-xs text-purple-400 font-medium">Code Scanning</div>
+                          <div className="text-xs text-gray-400 mt-1">Find all usages</div>
+                        </div>
+                        <div className="bg-gray-800/50 p-3 rounded text-center">
+                          <div className="text-xs text-green-400 font-medium">Patch Generation</div>
+                          <div className="text-xs text-gray-400 mt-1">Create fix commands</div>
+                        </div>
+                        <div className="bg-gray-800/50 p-3 rounded text-center">
+                          <div className="text-xs text-orange-400 font-medium">Critical Review</div>
+                          <div className="text-xs text-gray-400 mt-1">Assess side effects</div>
+                        </div>
+                      </div>
+                      <p className="mt-4 text-sm text-green-400">
+                        <strong>Value:</strong> Turns multi-hour high-stress manual process into fast automated workflow with senior engineer-level review.
+                      </p>
+                    </div>
                   </div>
-                  <p className="mt-3 text-sm text-gray-400">Safely upgrade a major library and fix the resulting breaking changes across the codebase.</p>
-                  <ul className="mt-4 space-y-2 text-sm">
-                    <li className="flex gap-3"><b className="text-purple-400 w-20 shrink-0">@gemini:</b> Reads the library&apos;s changelog and identifies all breaking changes.</li>
-                    <li className="flex gap-3"><b className="text-sky-400 w-20 shrink-0">@codex:</b> Scans the codebase and performs the necessary code modifications.</li>
-                    <li className="flex gap-3"><b className="text-orange-400 w-20 shrink-0">@claude:</b> Reviews the changes for logical errors and updates unit tests.</li>
-                  </ul>
                 </CardBody>
               </Card>
+
+            </div>
+
+            <div className="mt-12 text-center">
+              <p className="text-sm text-gray-400 mb-4">These workflows combine research, analysis, code generation, and critical review—exactly what multi-agent systems excel at.</p>
+              <Button
+                as={Link}
+                href="https://github.com/askbudi/roundtable"
+                target="_blank"
+                variant="bordered"
+                className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
+              >
+                See More Examples on GitHub
+              </Button>
             </div>
           </div>
         </div>
