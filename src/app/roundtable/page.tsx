@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, CardBody } from '@heroui/react';
+import { Button, Card, CardBody, Tabs, Tab } from '@heroui/react';
 import {
   Copy, Check, Github, Database, Zap, ShieldCheck, ChevronsRight
 } from 'lucide-react';
@@ -13,6 +13,7 @@ import Footer from '@/components/footer';
 
 export default function RoundtablePage() {
   const [copied, setCopied] = useState<string | null>(null);
+  const [installationMethod, setInstallationMethod] = useState('pip');
 
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -20,7 +21,6 @@ export default function RoundtablePage() {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const installCommand = "pip install roundtable-mcp";
 
   const heroPrompt = `Investigate a memory leak in our Next.js app.
 The production server crashes after ~2 hours.
@@ -109,11 +109,35 @@ useEffect(() => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white">
-              Stop Copy-Pasting Between AI Models.
+              <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">Roundtable AI</span> MCP Server
             </h1>
             <p className="mt-4 text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
-              Roundtable is a local server that lets your primary AI assistant delegate tasks to a team of specialized models like Gemini, Claude, and Codex. Solve complex engineering problems in parallel, directly from your IDE.
+              Stop copy-pasting between AI models. Roundtable AI is a local MCP server that lets your primary AI assistant delegate tasks to specialized models like Gemini, Claude, Codex, and Cursor. Solve complex engineering problems in parallel, directly from your IDE.
             </p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <div className="bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 flex items-center gap-3">
+                <code className="text-green-400 font-mono text-sm">
+                  <span className="text-blue-400">$</span> pip install roundtable-ai
+                </code>
+                <Button
+                  isIconOnly
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-400 hover:text-white hover:bg-gray-700"
+                  onClick={() => copyToClipboard('pip install roundtable-ai', 'hero-install')}
+                >
+                  {copied === 'hero-install' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                </Button>
+              </div>
+              <Button
+                as="a"
+                href="#installation"
+                variant="bordered"
+                className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
+              >
+                Install in IDEs →
+              </Button>
+            </div>
           </div>
 
           <div className="mt-12 bg-gray-900/50 border border-gray-700 rounded-xl overflow-hidden">
@@ -181,7 +205,7 @@ useEffect(() => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-white">Technical Architecture</h2>
-              <p className="mt-4 text-lg text-gray-400">Roundtable is a local Master Control Plane (MCP) server that coordinates sub-agents.</p>
+              <p className="mt-4 text-lg text-gray-400">Roundtable is a local Model Context Protocol (MCP) server that coordinates sub-agents.</p>
             </div>
             <div className="mt-12">
               <Card className="bg-gray-900 border border-gray-700">
@@ -264,30 +288,504 @@ useEffect(() => {
         </div>
 
         {/* Installation */}
-        <div className="py-16 sm:py-20">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="installation" className="py-16 sm:py-20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-white">Installation</h2>
-              <p className="mt-4 text-lg text-gray-400">Install from PyPI. Roundtable is a standard MCP server.</p>
+              <h2 className="text-3xl font-bold text-white">Installation & IDE Setup</h2>
+              <p className="mt-4 text-lg text-gray-400">Install Roundtable AI and configure it with 26+ supported MCP clients</p>
             </div>
-            <div className="mt-8">
-              <div className="bg-gray-900 border border-gray-700 rounded-lg p-4 flex items-center justify-between">
-                <code className="text-green-400 font-mono text-sm md:text-base">
-                  <span className="text-blue-400">$</span> {installCommand}
-                </code>
-                <Button
-                  isIconOnly
-                  variant="ghost"
-                  className="text-gray-400 hover:text-white hover:bg-gray-700"
-                  onClick={() => copyToClipboard(installCommand, 'install')}
-                >
-                  {copied === 'install' ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
-                </Button>
+
+            {/* Quick Start */}
+            <div className="mt-12">
+              <h3 className="text-xl font-semibold text-white mb-6">Quick Start</h3>
+              <div className="bg-gray-900 border border-gray-700 rounded-lg relative">
+                <div className="p-4 border-b border-gray-700">
+                  <span className="text-sm font-mono text-gray-400"># Install Roundtable AI</span>
+                </div>
+                <div className="p-4">
+                  <SyntaxHighlighter language="bash" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: 0 }}>
+{`# Install Roundtable AI
+pip install roundtable-ai
+
+# Check available AI tools
+roundtable-ai --check
+
+# Start with all available tools
+roundtable-ai
+
+# Use specific assistants only
+roundtable-ai --agents codex,claude`}
+                  </SyntaxHighlighter>
+                  <Button
+                    isIconOnly
+                    variant="ghost"
+                    className="absolute top-2 right-2 text-gray-400 hover:text-white hover:bg-gray-700"
+                    onClick={() => copyToClipboard(`# Install Roundtable AI\npip install roundtable-ai\n\n# Check available AI tools\nroundtable-ai --check\n\n# Start with all available tools\nroundtable-ai\n\n# Use specific assistants only\nroundtable-ai --agents codex,claude`, 'quickstart')}
+                  >
+                    {copied === 'quickstart' ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
+                  </Button>
+                </div>
               </div>
-              <p className="mt-4 text-sm text-center text-gray-500">
-                After installation, add the `roundtable-mcp` command to your IDE assistant&apos;s configuration file to register the sub-agents.
-              </p>
-              <div className="mt-6 flex justify-center">
+            </div>
+
+            {/* Installation Methods with Tabs */}
+            <div className="mt-12">
+              <h3 className="text-xl font-semibold text-white mb-6">IDE Configuration (Top 7)</h3>
+              <Tabs
+                aria-label="Installation methods"
+                selectedKey={installationMethod}
+                onSelectionChange={(key) => setInstallationMethod(key as string)}
+                className="w-full"
+                classNames={{
+                  tabList: "gap-6 w-full relative rounded-none p-0 border-b border-gray-700 bg-transparent",
+                  cursor: "w-full bg-blue-500",
+                  tab: "max-w-fit px-0 h-12",
+                  tabContent: "group-data-[selected=true]:text-blue-400 text-gray-400 font-medium"
+                }}
+              >
+                <Tab key="pip" title="Using pip (Standard)">
+                  <div className="mt-6 space-y-6">{/* IDE Configuration without UV */}
+              <div className="space-y-6">
+
+                {/* Claude Code */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                    1. Claude Code
+                  </h4>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="bash" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`claude mcp add roundtable-ai -- roundtable-ai --agents gemini,claude,codex,cursor`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard('claude mcp add roundtable-ai -- roundtable-ai --agents gemini,claude,codex,cursor', 'claude-config')}
+                    >
+                      {copied === 'claude-config' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Cursor */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                    2. Cursor
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">.cursor/mcp.json</code></p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`{
+  "mcpServers": {
+    "roundtable-ai": {
+      "command": "roundtable-ai",
+      "env": {
+        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"
+      }
+    }
+  }
+}`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "roundtable-ai": {\n      "command": "roundtable-ai",\n      "env": {\n        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"\n      }\n    }\n  }\n}`, 'cursor-config')}
+                    >
+                      {copied === 'cursor-config' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Claude Desktop */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+                    3. Claude Desktop
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">~/.config/claude_desktop_config.json</code></p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`{
+  "mcpServers": {
+    "roundtable-ai": {
+      "command": "roundtable-ai",
+      "env": {
+        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"
+      }
+    }
+  }
+}`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "roundtable-ai": {\n      "command": "roundtable-ai",\n      "env": {\n        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"\n      }\n    }\n  }\n}`, 'claude-desktop-config')}
+                    >
+                      {copied === 'claude-desktop-config' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* VS Code */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                    4. VS Code
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">Add to <code className="bg-gray-800 px-2 py-1 rounded">settings.json</code>:</p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`{
+  "mcp.servers": {
+    "roundtable-ai": {
+      "command": "roundtable-ai",
+      "env": {
+        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"
+      }
+    }
+  }
+}`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`{\n  "mcp.servers": {\n    "roundtable-ai": {\n      "command": "roundtable-ai",\n      "env": {\n        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"\n      }\n    }\n  }\n}`, 'vscode-config')}
+                    >
+                      {copied === 'vscode-config' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* OpenAI Codex */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                    5. OpenAI Codex
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">~/.codex/config.toml</code></p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="toml" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`# IMPORTANT: the top-level key is 'mcp_servers' rather than 'mcpServers'.
+[mcp_servers.roundtable-ai]
+command = "roundtable-ai"
+args = []
+env = { "CLI_MCP_SUBAGENTS" = "codex,claude,cursor,gemini" }`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`# IMPORTANT: the top-level key is 'mcp_servers' rather than 'mcpServers'.\n[mcp_servers.roundtable-ai]\ncommand = "roundtable-ai"\nargs = []\nenv = { "CLI_MCP_SUBAGENTS" = "codex,claude,cursor,gemini" }`, 'codex-config')}
+                    >
+                      {copied === 'codex-config' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Windsurf */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                    6. Windsurf
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">~/.codeium/windsurf/mcp_config.json</code></p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`{
+  "mcpServers": {
+    "roundtable-ai": {
+      "command": "roundtable-ai",
+      "env": {
+        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"
+      }
+    }
+  }
+}`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "roundtable-ai": {\n      "command": "roundtable-ai",\n      "env": {\n        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"\n      }\n    }\n  }\n}`, 'windsurf-config')}
+                    >
+                      {copied === 'windsurf-config' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Gemini CLI */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                    7. Gemini CLI
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">~/.gemini/settings.json</code></p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`{
+  "mcpServers": {
+    "roundtable-ai": {
+      "command": "roundtable-ai",
+      "env": {
+        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"
+      }
+    }
+  }
+}`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "roundtable-ai": {\n      "command": "roundtable-ai",\n      "env": {\n        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"\n      }\n    }\n  }\n}`, 'gemini-config')}
+                    >
+                      {copied === 'gemini-config' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+                  </div>
+                </Tab>
+
+                <Tab key="uvx" title="Using UV/UVX">
+                  <div className="mt-6 space-y-6">
+
+                {/* Claude Code */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                    1. Claude Code
+                  </h4>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="bash" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`claude mcp add roundtable-ai -- uvx roundtable-ai@latest --agents gemini,claude,codex,cursor`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard('claude mcp add roundtable-ai -- uvx roundtable-ai@latest --agents gemini,claude,codex,cursor', 'claude-config-uvx')}
+                    >
+                      {copied === 'claude-config-uvx' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Cursor */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                    2. Cursor
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">.cursor/mcp.json</code></p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`{
+  "mcpServers": {
+    "roundtable-ai": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "roundtable-ai@latest"
+      ],
+      "env": {
+        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"
+      }
+    }
+  }
+}`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "roundtable-ai": {\n      "type": "stdio",\n      "command": "uvx",\n      "args": [\n        "roundtable-ai@latest"\n      ],\n      "env": {\n        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"\n      }\n    }\n  }\n}`, 'cursor-config-uvx')}
+                    >
+                      {copied === 'cursor-config-uvx' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Claude Desktop */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-orange-400 rounded-full"></span>
+                    3. Claude Desktop
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">~/.config/claude_desktop_config.json</code></p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`{
+  "mcpServers": {
+    "roundtable-ai": {
+      "command": "uvx",
+      "args": ["roundtable-ai@latest"],
+      "env": {
+        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"
+      }
+    }
+  }
+}`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "roundtable-ai": {\n      "command": "uvx",\n      "args": ["roundtable-ai@latest"],\n      "env": {\n        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"\n      }\n    }\n  }\n}`, 'claude-desktop-config-uvx')}
+                    >
+                      {copied === 'claude-desktop-config-uvx' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* VS Code */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                    4. VS Code
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">Add to <code className="bg-gray-800 px-2 py-1 rounded">settings.json</code>:</p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`{
+  "mcp.servers": {
+    "roundtable-ai": {
+      "command": "uvx",
+      "args": ["roundtable-ai@latest"],
+      "env": {
+        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"
+      }
+    }
+  }
+}`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`{\n  "mcp.servers": {\n    "roundtable-ai": {\n      "command": "uvx",\n      "args": ["roundtable-ai@latest"],\n      "env": {\n        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"\n      }\n    }\n  }\n}`, 'vscode-config-uvx')}
+                    >
+                      {copied === 'vscode-config-uvx' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* OpenAI Codex */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                    5. OpenAI Codex
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">~/.codex/config.toml</code></p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="toml" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`# IMPORTANT: the top-level key is 'mcp_servers' rather than 'mcpServers'.
+[mcp_servers.roundtable-ai]
+command = "uvx"
+args = ["roundtable-ai@latest"]
+env = { "CLI_MCP_SUBAGENTS" = "codex,claude,cursor,gemini" }`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`# IMPORTANT: the top-level key is 'mcp_servers' rather than 'mcpServers'.\n[mcp_servers.roundtable-ai]\ncommand = "uvx"\nargs = ["roundtable-ai@latest"]\nenv = { "CLI_MCP_SUBAGENTS" = "codex,claude,cursor,gemini" }`, 'codex-config-uvx')}
+                    >
+                      {copied === 'codex-config-uvx' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Windsurf */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                    6. Windsurf
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">~/.codeium/windsurf/mcp_config.json</code></p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`{
+  "mcpServers": {
+    "roundtable-ai": {
+      "command": "uvx",
+      "args": ["roundtable-ai@latest"],
+      "env": {
+        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"
+      }
+    }
+  }
+}`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "roundtable-ai": {\n      "command": "uvx",\n      "args": ["roundtable-ai@latest"],\n      "env": {\n        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"\n      }\n    }\n  }\n}`, 'windsurf-config-uvx')}
+                    >
+                      {copied === 'windsurf-config-uvx' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Gemini CLI */}
+                <div className="bg-gray-900 border border-gray-700 rounded-lg p-6">
+                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                    7. Gemini CLI
+                  </h4>
+                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">~/.gemini/settings.json</code></p>
+                  <div className="bg-gray-800 rounded relative">
+                    <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
+{`{
+  "mcpServers": {
+    "roundtable-ai": {
+      "command": "uvx",
+      "args": ["roundtable-ai@latest"],
+      "env": {
+        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"
+      }
+    }
+  }
+}`}
+                    </SyntaxHighlighter>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      size="sm"
+                      className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                      onClick={() => copyToClipboard(`{\n  "mcpServers": {\n    "roundtable-ai": {\n      "command": "uvx",\n      "args": ["roundtable-ai@latest"],\n      "env": {\n        "CLI_MCP_SUBAGENTS": "codex,claude,cursor,gemini"\n      }\n    }\n  }\n}`, 'gemini-config-uvx')}
+                    >
+                      {copied === 'gemini-config-uvx' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                  </div>
+                </Tab>
+              </Tabs>
+
+              <div className="mt-8 text-center">
+                <p className="text-sm text-gray-400 mb-4">Roundtable AI supports 26+ MCP-compatible clients including JetBrains IDEs, GitHub Copilot, Zed, and more.</p>
                 <Button
                   as={Link}
                   href="https://github.com/askbudi/roundtable"
@@ -295,7 +793,33 @@ useEffect(() => {
                   className="bg-gray-200 text-gray-950 font-semibold hover:bg-white"
                   startContent={<Github className="w-5 h-5" />}
                 >
-                  View on GitHub
+                  View Full Documentation on GitHub
+                </Button>
+              </div>
+            </div>
+
+            {/* Advanced Configuration */}
+            <div className="mt-12">
+              <h3 className="text-xl font-semibold text-white mb-6">Advanced Configuration</h3>
+              <div className="bg-gray-900 border border-gray-700 rounded-lg p-6 relative">
+                <SyntaxHighlighter language="bash" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: 0 }}>
+{`# Use environment variables for project-specific setup
+export CLI_MCP_SUBAGENTS="codex,claude"
+export CLI_MCP_DEBUG=true
+
+# Override with command flags (highest priority)
+roundtable-ai --agents gemini,claude
+
+# Ignore availability checks
+CLI_MCP_IGNORE_AVAILABILITY=true roundtable-ai`}
+                </SyntaxHighlighter>
+                <Button
+                  isIconOnly
+                  variant="ghost"
+                  className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                  onClick={() => copyToClipboard(`# Use environment variables for project-specific setup\nexport CLI_MCP_SUBAGENTS="codex,claude"\nexport CLI_MCP_DEBUG=true\n\n# Override with command flags (highest priority)\nroundtable-ai --agents gemini,claude\n\n# Ignore availability checks\nCLI_MCP_IGNORE_AVAILABILITY=true roundtable-ai`, 'advanced-config')}
+                >
+                  {copied === 'advanced-config' ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
                 </Button>
               </div>
             </div>
