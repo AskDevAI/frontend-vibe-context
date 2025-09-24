@@ -1,8 +1,9 @@
 'use client';
 
-import { Button, Card, CardBody, Tabs, Tab } from '@heroui/react';
+import { Button, Card, CardBody, Tabs, Tab, Accordion, AccordionItem } from '@heroui/react';
 import {
-  Copy, Check, Github, Database, Zap, ShieldCheck, ChevronsRight
+  Copy, Check, Github, Database, ChevronsRight,
+  Bug, Lock, Gauge, GitBranch, AlertCircle
 } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -29,6 +30,263 @@ Use Gemini SubAgent to analyze frontend performance issues in the React componen
 Use Codex SubAgent to examine the backend API endpoint for N+1 queries and database bottlenecks.
 
 Use Claude SubAgent to review the infrastructure logs and identify memory/CPU pressure during peak hours.`;
+
+  // Example prompts for the expandable section
+  const examplePrompts = [
+    {
+      id: 'multistack-debug',
+      title: 'Multi-Stack Debugging',
+      subtitle: 'Virtual War Room for Production Issues',
+      icon: Bug,
+      color: 'text-red-400',
+      bgColor: 'bg-red-500/20',
+      prompt: `I'm debugging a critical production issue. The user sees a "Failed to load data" message.
+
+Here is the browser console output:
+\`\`\`json
+{
+  "timestamp": "2024-09-24T10:05:21.123Z",
+  "level": "error",
+  "message": "API request failed for /api/v1/user/profile",
+  "error": {
+    "status": 500,
+    "statusText": "Internal Server Error"
+  }
+}
+\`\`\`
+
+Here is the backend server log:
+\`\`\`
+ERROR: Exception in ASGI application
+File "/app/services/user_service.py", line 42, in get_user_profile
+  user_data = await db.fetch_one(query)
+ValueError: Database connection is not available
+\`\`\`
+
+Use Gemini SubAgent to analyze the logs from both stacks, correlate the events, and form a hypothesis about the root cause.
+Use Codex SubAgent to analyze the Python backend traceback and suggest a specific code fix for the database connection error.
+Use Claude SubAgent to review the frontend error handling and recommend more resilient patterns.
+Use Cursor SubAgent to search the codebase for other files that might have similar database connection issues.
+
+At the end, aggregate all findings into a single incident report with root cause analysis and prioritized fixes.`
+    },
+    {
+      id: 'security-audit',
+      title: 'Security Vulnerability Analysis',
+      subtitle: 'SQL Injection & JWT Vulnerability Assessment',
+      icon: Lock,
+      color: 'text-yellow-400',
+      bgColor: 'bg-yellow-500/20',
+      prompt: `A security audit flagged potential vulnerabilities. I need analysis and patches.
+
+Here is the vulnerable code from our Node.js API:
+\`\`\`javascript
+app.get('/api/reports/:reportId', (req, res) => {
+  const reportId = req.params.reportId;
+  // Vulnerable to SQL injection
+  const sql = \`SELECT * FROM reports WHERE id = '\${reportId}'\`;
+
+  db.query(sql, (err, result) => {
+    if (err) return res.status(500).send('Database error');
+    res.json(result.rows);
+  });
+});
+\`\`\`
+
+JWT configuration:
+\`\`\`javascript
+const jwt = require('jsonwebtoken');
+const payload = jwt.verify(token, process.env.JWT_SECRET, {
+  algorithms: ['HS256', 'none'] // 'none' algorithm is dangerous
+});
+\`\`\`
+
+Use Claude SubAgent to explain the SQL injection vulnerability and demonstrate a potential attack scenario.
+Use Codex SubAgent to rewrite both code snippets using parameterized queries and secure JWT configuration.
+Use Gemini SubAgent to identify the OWASP Top 10 categories these vulnerabilities fall under.
+Use Cursor SubAgent to search the repository for similar patterns that might be vulnerable.
+
+Finally, create a security remediation plan with prioritized fixes and prevention strategies.`
+    },
+    {
+      id: 'performance-opt',
+      title: 'Performance Optimization',
+      subtitle: 'API Latency & Database Query Tuning',
+      icon: Gauge,
+      color: 'text-green-400',
+      bgColor: 'bg-green-500/20',
+      prompt: `Our checkout API p95 latency increased from 220ms to 780ms. Need optimization strategy.
+
+PostgreSQL slow query log:
+\`\`\`sql
+-- Duration: 2455.112 ms
+SELECT c.name, COUNT(o.id) AS total_orders, SUM(p.amount) AS revenue
+FROM companies c, orders o, payments p
+WHERE c.id = o.company_id
+  AND o.id = p.order_id
+  AND c.region = 'North America'
+GROUP BY c.name
+ORDER BY revenue DESC;
+\`\`\`
+
+EXPLAIN ANALYZE shows:
+\`\`\`
+Seq Scan on orders (cost=0.00..52000.00 rows=100000)
+  Filter: (status = 'completed')
+  Rows Removed by Filter: 134,201
+\`\`\`
+
+Node.js hotspot from profiling:
+\`\`\`javascript
+// 40% CPU time
+orders.map(o => ({ ...o, json: JSON.stringify(o) }));
+
+// N+1 query problem
+for (const id of orderIds) {
+  await fetchInventory(id);
+}
+\`\`\`
+
+Use Claude SubAgent to analyze the EXPLAIN plan and identify why the query is slow.
+Use Codex SubAgent to rewrite the SQL with proper JOINs and suggest indexes.
+Use Gemini SubAgent to fix the N+1 query problem with batch fetching.
+Use Cursor SubAgent to find all instances of JSON.stringify in hot code paths.
+
+Aggregate findings into a performance optimization plan with measurable improvements.`
+    },
+    {
+      id: 'ci-fix',
+      title: 'CI/CD Pipeline Troubleshooting',
+      subtitle: 'GitHub Actions & Docker Registry Issues',
+      icon: GitBranch,
+      color: 'text-blue-400',
+      bgColor: 'bg-blue-500/20',
+      prompt: `Main branch CI is failing after adding Docker builds. Multiple issues detected.
+
+GitHub Actions error:
+\`\`\`
+Run docker/build-push-action@v5
+Error: denied: Token exchange failed for ghcr.io
+missing scope "repository:org/app:pull"
+\`\`\`
+
+Node version mismatch:
+\`\`\`
+Error: Node 18.x required by engines, found 16.20.0
+\`\`\`
+
+Workflow file (.github/workflows/ci.yml):
+\`\`\`yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with: { node-version: '16' }
+      - run: npm ci
+      - run: npm test
+      - uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: ghcr.io/org/app:\${{ github.sha }}
+\`\`\`
+
+Use Gemini SubAgent to identify all configuration issues in the workflow file.
+Use Codex SubAgent to fix the GitHub Actions YAML with proper Node version and Docker auth.
+Use Claude SubAgent to recommend CI/CD best practices like caching and parallelization.
+Use Cursor SubAgent to check if package.json engines field matches the CI configuration.
+
+Create a working pipeline configuration with all issues resolved.`
+    },
+    {
+      id: 'flaky-tests',
+      title: 'Flaky Test Investigation',
+      subtitle: 'Race Conditions & Intermittent Failures',
+      icon: AlertCircle,
+      color: 'text-purple-400',
+      bgColor: 'bg-purple-500/20',
+      prompt: `Tests pass locally but fail randomly in CI. Need to identify and fix the flakiness.
+
+CI failure log:
+\`\`\`
+FAIL src/components/__tests__/UserDashboard.test.tsx
+● UserDashboard › should load user data
+
+Expected: "John Doe"
+Received: undefined
+
+at waitFor (node_modules/@testing-library/react/wait-for.js:48:12)
+  Timeout - Async callback was not invoked within 5000ms
+\`\`\`
+
+Test code:
+\`\`\`typescript
+test('should load user data', async () => {
+  render(<UserDashboard userId="123" />);
+
+  // Flaky: sometimes the data isn't loaded in time
+  await waitFor(() => {
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+  });
+});
+\`\`\`
+
+Component code:
+\`\`\`typescript
+useEffect(() => {
+  fetchUser(userId).then(setUser);
+  // Missing: cleanup and error handling
+}, [userId]);
+\`\`\`
+
+Use Claude SubAgent to identify why this test is flaky and explain race condition issues.
+Use Codex SubAgent to rewrite the test with proper mocking and deterministic waits.
+Use Gemini SubAgent to fix the component's useEffect with cleanup and error handling.
+Use Cursor SubAgent to find other tests using similar patterns that might be flaky.
+
+Provide a comprehensive fix for the flaky tests with best practices documentation.`
+    },
+    {
+      id: 'db-migration',
+      title: 'Database Schema Migration',
+      subtitle: 'Zero-Downtime PostgreSQL Changes',
+      icon: Database,
+      color: 'text-indigo-400',
+      bgColor: 'bg-indigo-500/20',
+      prompt: `Need to add new columns and indexes to production database with zero downtime.
+
+Current schema:
+\`\`\`sql
+CREATE TABLE users (
+  id UUID PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE orders (
+  id BIGSERIAL PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  total DECIMAL(10,2),
+  created_at TIMESTAMP DEFAULT NOW()
+);
+\`\`\`
+
+Required changes:
+- Add 'status' column to orders with default 'pending'
+- Add composite index on (user_id, created_at DESC)
+- Add 'last_login' column to users (nullable)
+- Backfill existing data
+
+Current load: ~1000 requests/second, ~5M orders, ~500K users
+
+Use Gemini SubAgent to create a migration strategy that ensures zero downtime.
+Use Codex SubAgent to write the SQL migration scripts with proper transaction handling.
+Use Claude SubAgent to identify potential risks and rollback procedures.
+Use Cursor SubAgent to update the ORM models and application code to handle both schemas during migration.
+
+Produce a complete migration plan with scripts, timeline, and validation steps.`
+    }
+  ];
 
 
   const architectureDiagram = `
@@ -233,122 +491,100 @@ Use Claude SubAgent to review the infrastructure logs and identify memory/CPU pr
           </div>
         </div>
 
-        {/* Real-World Use Cases Section */}
+        {/* Expandable Examples Section */}
         <div className="py-16 sm:py-20 bg-gray-950">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-white">Real-World Multi-Agent Workflows</h2>
-              <p className="mt-4 text-lg text-gray-400">Developer-tested use cases that show clear value over single AI tools</p>
+              <h2 className="text-3xl font-bold text-white">Real-World Examples</h2>
+              <p className="mt-4 text-lg text-gray-400">
+                Copyable prompts for common developer scenarios. Click to expand and copy.
+              </p>
             </div>
-            <div className="mt-12 space-y-8">
 
-              {/* Virtual War Room */}
-              <Card className="bg-gray-900 border border-gray-800">
-                <CardBody className="p-8">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
-                        <Database className="w-6 h-6 text-red-400" />
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-white">Virtual War Room: Multi-Stack Bug Analysis</h3>
-                      <p className="mt-2 text-gray-400">
-                        <strong>Problem:</strong> &ldquo;The user dashboard is randomly slow for enterprise customers&rdquo; - could be frontend, backend, database, or infrastructure.
-                      </p>
-                      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-gray-800/50 p-4 rounded-lg">
-                          <h4 className="font-semibold text-purple-400 text-sm">Gemini SubAgent</h4>
-                          <p className="text-xs text-gray-400 mt-1">Frontend analysis: identifies expensive re-renders and inefficient data-fetching patterns in React components</p>
+            <div className="mt-12">
+              <Accordion
+                variant="bordered"
+                className="border-gray-700"
+                itemClasses={{
+                  base: "border-gray-700 data-[open=true]:border-gray-600",
+                  title: "text-gray-200 data-[open=true]:text-white",
+                  trigger: "data-[hover=true]:bg-gray-800 data-[open=true]:bg-gray-800",
+                  content: "text-gray-300 bg-gray-900/50"
+                }}
+              >
+                {examplePrompts.map((example) => {
+                  const IconComponent = example.icon;
+                  return (
+                    <AccordionItem
+                      key={example.id}
+                      aria-label={example.title}
+                      startContent={
+                        <div className={`w-10 h-10 ${example.bgColor} rounded-lg flex items-center justify-center`}>
+                          <IconComponent className={`w-5 h-5 ${example.color}`} />
                         </div>
-                        <div className="bg-gray-800/50 p-4 rounded-lg">
-                          <h4 className="font-semibold text-sky-400 text-sm">Codex SubAgent</h4>
-                          <p className="text-xs text-gray-400 mt-1">Backend analysis: detects N+1 query problems and suggests JOIN optimizations</p>
+                      }
+                      title={
+                        <div className="py-2">
+                          <div className="font-semibold text-base">{example.title}</div>
+                          <div className="text-sm text-gray-400 mt-1">{example.subtitle}</div>
                         </div>
-                        <div className="bg-gray-800/50 p-4 rounded-lg">
-                          <h4 className="font-semibold text-orange-400 text-sm">Claude SubAgent</h4>
-                          <p className="text-xs text-gray-400 mt-1">Infrastructure analysis: correlates slowness with memory limits and suggests scaling</p>
+                      }
+                    >
+                      <div className="p-6 bg-gray-900 rounded-lg border border-gray-700">
+                        <div className="flex items-center justify-between mb-4">
+                          <h4 className="font-semibold text-white flex items-center gap-2">
+                            <ChevronsRight size={16} className="text-blue-400" />
+                            Claude Code Prompt
+                          </h4>
+                          <Button
+                            isIconOnly
+                            variant="ghost"
+                            size="sm"
+                            className="text-gray-400 hover:text-white hover:bg-gray-800"
+                            onClick={() => copyToClipboard(example.prompt, example.id)}
+                          >
+                            {copied === example.id ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                          </Button>
                         </div>
-                      </div>
-                      <p className="mt-4 text-sm text-green-400">
-                        <strong>Result:</strong> Instant virtual &ldquo;war room&rdquo; with senior engineers from different teams, providing holistic stack analysis in minutes instead of hours.
-                      </p>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
 
-              {/* Flaky CI Triage */}
-              <Card className="bg-gray-900 border border-gray-800">
-                <CardBody className="p-8">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                        <Zap className="w-6 h-6 text-yellow-400" />
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-white">Automated Flaky Test Autopilot</h3>
-                      <p className="mt-2 text-gray-400">
-                        <strong>Problem:</strong> CI randomly fails, digging through 10k+ lines of logs and reproducing race conditions wastes hours.
-                      </p>
-                      <div className="mt-4 bg-gray-800/30 p-4 rounded-lg">
-                        <div className="text-sm text-gray-300">
-                          <strong>Multi-agent loop:</strong> Log clustering → hypothesis generation → automated experiments → change-point analysis → repro script generation
+                        <div className="bg-gray-950 rounded-lg border border-gray-700 p-4 max-h-96 overflow-y-auto">
+                          <SyntaxHighlighter
+                            language="markdown"
+                            style={vscDarkPlus}
+                            customStyle={{
+                              background: 'transparent',
+                              fontSize: '0.875rem',
+                              padding: 0,
+                              margin: 0
+                            }}
+                          >
+                            {example.prompt}
+                          </SyntaxHighlighter>
                         </div>
-                      </div>
-                      <p className="mt-4 text-sm text-green-400">
-                        <strong>Output:</strong> <code className="bg-gray-800 px-2 py-1 rounded text-xs">scripts/repro_flake_&lt;id&gt;.sh</code> with exact seed/flags and a PR with the fix or quarantine rationale.
-                      </p>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
 
-              {/* CVE Security Audit */}
-              <Card className="bg-gray-900 border border-gray-800">
-                <CardBody className="p-8">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
-                        <ShieldCheck className="w-6 h-6 text-green-400" />
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-white">Proactive CVE Analysis & Patching</h3>
-                      <p className="mt-2 text-gray-400">
-                        <strong>Scenario:</strong> Critical RCE vulnerability announced for a library your project depends on. Need to act fast.
-                      </p>
-                      <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-3">
-                        <div className="bg-gray-800/50 p-3 rounded text-center">
-                          <div className="text-xs text-blue-400 font-medium">CVE Research</div>
-                          <div className="text-xs text-gray-400 mt-1">Analyze vulnerability</div>
-                        </div>
-                        <div className="bg-gray-800/50 p-3 rounded text-center">
-                          <div className="text-xs text-purple-400 font-medium">Code Scanning</div>
-                          <div className="text-xs text-gray-400 mt-1">Find all usages</div>
-                        </div>
-                        <div className="bg-gray-800/50 p-3 rounded text-center">
-                          <div className="text-xs text-green-400 font-medium">Patch Generation</div>
-                          <div className="text-xs text-gray-400 mt-1">Create fix commands</div>
-                        </div>
-                        <div className="bg-gray-800/50 p-3 rounded text-center">
-                          <div className="text-xs text-orange-400 font-medium">Critical Review</div>
-                          <div className="text-xs text-gray-400 mt-1">Assess side effects</div>
+                        <div className="mt-4 flex items-center justify-between text-sm">
+                          <div className="text-gray-400">
+                            <span className="text-gray-500">Delegates to:</span>{' '}
+                            <span className="text-purple-400">Gemini</span>,{' '}
+                            <span className="text-sky-400">Codex</span>,{' '}
+                            <span className="text-orange-400">Claude</span>,{' '}
+                            <span className="text-blue-400">Cursor</span>
+                          </div>
+                          <div className="text-gray-500">
+                            Click copy to use in Claude Code
+                          </div>
                         </div>
                       </div>
-                      <p className="mt-4 text-sm text-green-400">
-                        <strong>Value:</strong> Turns multi-hour high-stress manual process into fast automated workflow with senior engineer-level review.
-                      </p>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
-
+                    </AccordionItem>
+                  );
+                })}
+              </Accordion>
             </div>
 
             <div className="mt-12 text-center">
-              <p className="text-sm text-gray-400 mb-4">These workflows combine research, analysis, code generation, and critical review—exactly what multi-agent systems excel at.</p>
+              <p className="text-sm text-gray-400 mb-4">
+                Each example includes real code, logs, and explicit delegation to specialized subagents.
+              </p>
               <Button
                 as={Link}
                 href="https://github.com/askbudi/roundtable"
@@ -356,7 +592,7 @@ Use Claude SubAgent to review the infrastructure logs and identify memory/CPU pr
                 variant="bordered"
                 className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
               >
-                See More Examples on GitHub
+                View More Examples on GitHub
               </Button>
             </div>
           </div>
