@@ -95,14 +95,14 @@ export default function HeroSection() {
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             )}
-            <Button 
-              as={Link} 
-              href="/tinyagent" 
-              color="secondary" 
+            <Button
+              as={Link}
+              href="/roundtable"
+              color="secondary"
               size="lg"
               className="font-semibold"
             >
-              Try TinyAgent
+              Try Roundtable AI
             </Button>
             <Button 
               as={Link} 

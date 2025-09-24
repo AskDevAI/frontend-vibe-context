@@ -22,6 +22,7 @@ const navigation = {
     { name: 'Support', href: '/support' },
   ],
   opensource: [
+    { name: 'Roundtable AI', href: '/roundtable' },
     { name: 'TinyAgent', href: '/tinyagent' },
     { name: 'TinyCodeAgent', href: '/tinycodeagent' },
     { name: 'Juno Agent', href: '/juno-cli' },

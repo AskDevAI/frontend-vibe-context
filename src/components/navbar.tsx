@@ -10,6 +10,7 @@ import {
   NavbarMenuItem,
   Button,
   Link,
+  Chip,
 } from '@heroui/react';
 import { useState, useEffect } from 'react';
 import { createSupabaseClient } from '@/lib/supabase';
@@ -21,6 +22,7 @@ export default function Navbar() {
   const [loading, setLoading] = useState(true);
 
   const menuItems = [
+    'Roundtable AI',
     'TinyAgent',
     'Juno CLI',
     'Documentation',
@@ -67,6 +69,23 @@ export default function Navbar() {
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarItem>
+          <Link
+            color="foreground"
+            href="/roundtable"
+            className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-[#5B6CFF]/10 to-[#20E3B2]/10 rounded-full hover:from-[#5B6CFF]/20 hover:to-[#20E3B2]/20 transition-all"
+          >
+            <span className="font-semibold bg-gradient-to-r from-[#5B6CFF] to-[#20E3B2] bg-clip-text text-transparent">
+              Roundtable AI
+            </span>
+            <Chip
+              size="sm"
+              className="bg-[#5B6CFF] text-white font-bold animate-pulse"
+            >
+              NEW
+            </Chip>
+          </Link>
+        </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="/tinyagent">
             TinyAgent
@@ -132,20 +151,30 @@ export default function Navbar() {
       <NavbarMenu>
         {menuItems.map((item, index) => {
           let href = `/${item.toLowerCase().replace(' ', '-')}`;
+          if (item === 'Roundtable AI') href = '/roundtable';
           if (item === 'TinyAgent') href = '/tinyagent';
           if (item === 'Juno CLI') href = '/juno-cli';
-          
+
           return (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
                 color={
-                  index === 4 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
+                  index === 5 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
                 }
                 className="w-full"
                 href={href}
                 size="lg"
               >
-                {item}
+                {item === 'Roundtable AI' ? (
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold bg-gradient-to-r from-[#5B6CFF] to-[#20E3B2] bg-clip-text text-transparent">
+                      {item}
+                    </span>
+                    <Chip size="sm" className="bg-[#5B6CFF] text-white font-bold">NEW</Chip>
+                  </div>
+                ) : (
+                  item
+                )}
               </Link>
             </NavbarMenuItem>
           );
