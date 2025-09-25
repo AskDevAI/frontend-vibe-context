@@ -357,14 +357,22 @@ Produce a complete migration plan with scripts, timeline, and validation steps.`
                   {copied === 'hero-install' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
                 </Button>
               </div>
-              <Button
-                as="a"
-                href="#installation"
-                variant="bordered"
-                className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
-              >
-                Install in IDEs →
-              </Button>
+              <div className="flex gap-3">
+                <Button
+                  as="a"
+                  href="#installation"
+                  variant="bordered"
+                  className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
+                >
+                  Install in IDEs →
+                </Button>
+                <Link
+                  href="cursor://anysphere.cursor-deeplink/mcp/install?name=roundtable-ai&config=eyJ0eXBlIjoic3RkaW8iLCJjb21tYW5kIjoidXZ4IiwiYXJncyI6WyJyb3VuZHRhYmxlLWFpQGxhdGVzdCJdLCJlbnYiOnsiQ0xJX01DUF9TVUJBR0VOVFMiOiJjb2RleCxjbGF1ZGUsY3Vyc29yLGdlbWluaSJ9fQo="
+                  className="inline-block"
+                >
+                  <img src="https://cursor.com/deeplink/mcp-install-light.svg" alt="Install MCP Server" className="h-10" />
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -686,7 +694,14 @@ roundtable-ai --agents codex,claude`}
                     <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
                     2. Cursor
                   </h4>
-                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">.cursor/mcp.json</code></p>
+                  <div className="mb-4 flex justify-center">
+                    <Link
+                      href="cursor://anysphere.cursor-deeplink/mcp/install?name=roundtable-ai&config=eyJ0eXBlIjoic3RkaW8iLCJjb21tYW5kIjoidXZ4IiwiYXJncyI6WyJyb3VuZHRhYmxlLWFpQGxhdGVzdCJdLCJlbnYiOnsiQ0xJX01DUF9TVUJBR0VOVFMiOiJjb2RleCxjbGF1ZGUsY3Vyc29yLGdlbWluaSJ9fQo="
+                    >
+                      <img src="https://cursor.com/deeplink/mcp-install-light.svg" alt="Install MCP Server" className="h-10" />
+                    </Link>
+                  </div>
+                  <p className="text-sm text-gray-400 mb-3">Or manually add to <code className="bg-gray-800 px-2 py-1 rounded">.cursor/mcp.json</code>:</p>
                   <div className="bg-gray-800 rounded relative">
                     <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
 {`{
@@ -902,7 +917,14 @@ env = { "CLI_MCP_SUBAGENTS" = "codex,claude,cursor,gemini" }`}
                     <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
                     2. Cursor
                   </h4>
-                  <p className="text-sm text-gray-400 mb-3">File: <code className="bg-gray-800 px-2 py-1 rounded">.cursor/mcp.json</code></p>
+                  <div className="mb-4 flex justify-center">
+                    <Link
+                      href="cursor://anysphere.cursor-deeplink/mcp/install?name=roundtable-ai&config=eyJ0eXBlIjoic3RkaW8iLCJjb21tYW5kIjoidXZ4IiwiYXJncyI6WyJyb3VuZHRhYmxlLWFpQGxhdGVzdCJdLCJlbnYiOnsiQ0xJX01DUF9TVUJBR0VOVFMiOiJjb2RleCxjbGF1ZGUsY3Vyc29yLGdlbWluaSJ9fQo="
+                    >
+                      <img src="https://cursor.com/deeplink/mcp-install-light.svg" alt="Install MCP Server" className="h-10" />
+                    </Link>
+                  </div>
+                  <p className="text-sm text-gray-400 mb-3">Or manually add to <code className="bg-gray-800 px-2 py-1 rounded">.cursor/mcp.json</code>:</p>
                   <div className="bg-gray-800 rounded relative">
                     <SyntaxHighlighter language="json" style={vscDarkPlus} customStyle={{ background: 'transparent', padding: '1rem' }}>
 {`{
