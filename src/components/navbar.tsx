@@ -22,7 +22,7 @@ export default function Navbar() {
 
   const menuItems = [
     'TinyAgent',
-    'Juno CLI',
+    'juno-code',
     'Documentation',
     'Pricing',
     'About',
@@ -73,8 +73,8 @@ export default function Navbar() {
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="/juno-cli">
-            Juno CLI
+          <Link color="foreground" href="/juno-code">
+            juno-code
           </Link>
         </NavbarItem>
         <NavbarItem>
@@ -133,7 +133,7 @@ export default function Navbar() {
         {menuItems.map((item, index) => {
           let href = `/${item.toLowerCase().replace(' ', '-')}`;
           if (item === 'TinyAgent') href = '/tinyagent';
-          if (item === 'Juno CLI') href = '/juno-cli';
+          if (item === 'juno-code') href = '/juno-code';
           
           return (
             <NavbarMenuItem key={`${item}-${index}`}>
