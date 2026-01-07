@@ -24,8 +24,11 @@ export default function JunoCodePage() {
   const initCode = `# Initialize in your project
 juno-code init --task "Your task description" --subagent claude`;
 
-  const basicUsageCode = `# Start execution - uses .juno_task/prompt.md (optimized Ralph prompt)
+  const basicUsageCode = `# Start execution - uses .juno_task/init.md (initial task definition)
 juno-code start -b shell -s claude -i 5 -v
+
+# Default execution - uses .juno_task/prompt.md (optimized Ralph prompt)
+juno-code -b shell -s claude -i 5 -v
 
 # Or with a custom prompt
 juno-code -b shell -s claude -i 5 -p "Fix the login bug"
@@ -334,7 +337,8 @@ juno-code feedback --interactive`;
               )}
               <p className="text-sm text-gray-600 mt-4">
                 <strong>Key insight:</strong> Running <code className="bg-gray-200 px-1 rounded">juno-code start</code> without <code className="bg-gray-200 px-1 rounded">-p</code> uses
-                <code className="bg-gray-200 px-1 rounded">.juno_task/prompt.md</code>—a production-ready prompt template that implements the Ralph method with guard rails.
+                <code className="bg-gray-200 px-1 rounded">.juno_task/init.md</code> (your initial task definition). Running <code className="bg-gray-200 px-1 rounded">juno-code</code> (without <code className="bg-gray-200 px-1 rounded">start</code> and without <code className="bg-gray-200 px-1 rounded">-p</code>) uses
+                <code className="bg-gray-200 px-1 rounded">.juno_task/prompt.md</code>—the production-ready prompt template that implements the Ralph method with guard rails.
               </p>
             </CardBody>
           </Card>
@@ -707,7 +711,7 @@ juno-code feedback --interactive`;
                 </tr>
                 <tr>
                   <td className="px-6 py-3"><code>-p, --prompt &lt;text&gt;</code></td>
-                  <td className="px-6 py-3 font-sans">Prompt text (if omitted with <code>start</code>, uses prompt.md)</td>
+                  <td className="px-6 py-3 font-sans">Prompt text (<code>start</code> uses init.md, main command uses prompt.md)</td>
                 </tr>
                 <tr className="bg-gray-50">
                   <td className="px-6 py-3"><code>-v, --verbose</code></td>
